@@ -1,4 +1,5 @@
 import { DataTypes, Model } from "sequelize";
+import { generateUuidV7 } from "../../utils/uuid.js";
 import type {
   Sequelize,
   InferAttributes,
@@ -26,7 +27,7 @@ export function initModel(sequelize: Sequelize): typeof Permission {
     {
       id: {
         type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+        defaultValue: () => generateUuidV7(),
         primaryKey: true,
       },
       name: {

@@ -4,18 +4,23 @@ An opinionated, production-ready backend starter kit for teams that want a clean
 
 This repository is designed to be a **robust foundation**, providing essential infrastructure and core modules so you can focus on building your domain logic instead of repeating boilerplate.
 
+---
+
 ## 🚀 Key Features
 
 - **Express 5 + TypeScript Strict**: Predictable application code with the latest framework features.
 - **Feature-Based Modular Architecture**: Clean separation of concerns under `src/modules/*`.
+- **Native UUIDv7 Primary Keys**: Ultra-performant, chronological primary keys generated at runtime using Node.js's native `crypto` module (**Node 22+ required**). No third-party UUID packages!
 - **Sequelize ORM**: Centralized model management with automatic association loading.
 - **Zod Validation**: Type-safe request payloads and query contracts.
 - **JWT Auth + RBAC**: Secure authentication and fine-grained Role-Based Access Control.
 - **Built-in Audit Logging**: Automatic tracking of sensitive operations and resource changes.
 - **Advanced Caching**: Redis-backed cache layer for performance and scalability.
 - **Background Jobs**: BullMQ integration for reliable asynchronous processing.
-- **API Documentation**: Automated Swagger/OpenAPI documentation.
+- **API Documentation**: Automated Swagger/OpenAPI documentation with a dynamic per-module spec-selector dropdown menu.
 - **Productivity Tools**: CLI CRUD generator to bootstrap new modules in seconds.
+
+---
 
 ## 📁 Project Structure
 
@@ -40,13 +45,15 @@ src/
 │   ├── migrations/       # Sequelize database migrations
 │   ├── models/           # Master index for Sequelize models & associations
 │   └── seeders/          # Database seeding scripts
-├── docs/                 # OpenAPI/Swagger definition files
+├── docs/                 # OpenAPI/Swagger specs and schema definitions
 ├── modules/              # Feature modules (Domain logic)
 ├── routes/               # Global route registration index
 ├── scripts/              # Internal utility scripts (CRUD Generator)
 ├── types/                # Project-wide TypeScript type declarations
-└── utils/                # Small, pure helper functions (Pagination, Response)
+└── utils/                # Small, pure helper functions (Pagination, Response, UUID)
 ```
+
+---
 
 ## 🏗️ Layered Architecture
 
@@ -74,23 +81,27 @@ src/modules/<feature>/
 | **Controller** | Acts as an adapter, parsing requests and sending responses. No business logic here. |
 | **Service** | Orchestrates business logic, handles transactions, audit logs, and cache management. |
 | **Repository** | Isolated database operations using the Sequelize model. |
-| **Model** | Defines the data structure and database constraints. |
-| **Schema** | Uses Zod to enforce strict input validation. |
+| **Model** | Defines the data structure and database constraints. Generates native UUIDv7 IDs. |
+| **Schema** | Uses Zod to enforce strict input validation (Zod v4). |
 | **DTO/Mapper** | Ensures the API contract is decoupled from the database schema. |
 | **Policy** | Contains reusable authorization logic (e.g., `canUpdateThisResource`). |
 
+---
+
 ## 🛠️ Tech Stack
 
-- **Runtime**: Node.js 20+
+- **Runtime**: **Node.js 22+ (Required)** for native UUIDv7 support (`crypto.randomUUID({ version: 7 })`).
 - **Framework**: Express 5
 - **Language**: TypeScript (Strict Mode)
 - **Database**: MySQL (via `mysql2` driver)
 - **ORM**: Sequelize
 - **Caching**: Redis
 - **Queue**: BullMQ
-- **Validation**: Zod
+- **Validation**: Zod (Zod v4 with native `toJSONSchema()` support)
 - **Logging**: Pino
-- **Documentation**: Swagger UI
+- **Documentation**: Swagger UI with dynamic multiple specifications dropdown explorer
+
+---
 
 ## 🏁 Getting Started
 
@@ -107,21 +118,24 @@ src/modules/<feature>/
    # Edit .env with your local MySQL and Redis credentials
    ```
 
-3. **Run Development Server**:
+3. **Run Zod to Swagger Schema Synchronization**:
+   ```bash
+   npm run api-docs
+   ```
+
+4. **Run Development Server**:
    ```bash
    npm run dev
    ```
 
 ### Docker Setup
 ```bash
-   cp .env.example .env
-   ```
-
-```bash
-   docker compose up --build
-   ```
-
+cp .env.example .env
+docker compose up --build
+```
 This will spin up the application, MySQL 8, and Redis 7 automatically.
+
+---
 
 ## ⚡ Productivity: Modules & CRUD Generator
 
@@ -136,15 +150,15 @@ npm run make:crud <feature-name>
 ```
 
 The CLI generator automatically creates a complete, type-safe feature structure:
-1. **Model** (`<feature>.model.ts`): Configured with paranoid soft-deletion and standard hooks.
+1. **Model** (`<feature>.model.ts`): Configured with paranoid soft-deletion and **native UUIDv7** auto-generation.
 2. **Schema** (`<feature>.schema.ts`): Zod schemas for validating client payloads.
 3. **DTOs** (`dto/*.ts`): Strict request/response types.
 4. **Repository** (`<feature>.repository.ts`): Isolated data access interface.
 5. **Service** (`<feature>.service.ts`): Orchestrates transactions, cache invalidation, and audit logging.
 6. **Controller** (`<feature>.controller.ts`): Handles HTTP routing using generic Express `Request` types without typecasting.
-7. **Routes** (`<feature>.routes.ts`): Direct route mapping using arrow functions (no `.bind()`).
+7. **Routes** (`<feature>.routes.ts`): Direct route mapping using arrow functions (no `.bind()`) referencing Zod specs cleanly using Swagger `$ref`.
 8. **Policy** (`policies/<feature>.policy.ts`): Fine-grained resource-level ownership controls.
-9. **Query** (`queries/<feature>.query.ts`): Allowlist-driven query builder settings (safely preventing index-misses).
+9. **Query** (`queries/<feature>.query.ts`): Allowlist-driven query builder settings.
 10. **Mapper** (`mappers/<feature>.mapper.ts`): Decouples database entities from HTTP response contracts.
 11. **Migration & Seeder**: Generates standard DB schemas and RBAC permissions.
 
@@ -176,6 +190,8 @@ When expanding the starter, follow these strict guidelines to maintain codebase 
   * Write raw SQL queries using `sequelize.query(...)` rather than forcing Sequelize's ORM helper functions.
   * Ensure the output is mapped back to a predictable structure inside `<feature>.mapper.ts` to maintain a stable API contract.
 
+---
+
 ## 🚢 Deployment
 
 1. **Build the project**:
@@ -187,45 +203,51 @@ When expanding the starter, follow these strict guidelines to maintain codebase 
    npm start
    ```
 
+---
+
 ## 📜 API Documentation & OpenAPI Swagger
 
-The project features fully automated API documentation using **Swagger / OpenAPI 3.0**. 
+The project features a state-of-the-art API documentation pipeline powered by **Swagger / OpenAPI 3.0**.
 
 ### 1. How to View
-* **Swagger UI Interactive Interface**: Access `http://localhost:3000/docs` in your browser when the server is running.
-* **JSON Definition**: Access `http://localhost:3000/docs.json` to export the raw OpenAPI specification.
+* **Swagger UI Interactive Interface**: Access `http://localhost:3000/docs` in your browser.
+* **JSON Definitions**: Access `http://localhost:3000/docs/specs/all.json` for the unified spec or `/docs/specs/<module-name>.json` for individual specs.
 
-### 2. How to Add Docs Automatically
-The documentation engine (`src/docs/swagger.ts`) automatically scans all routes files under feature modules: `src/modules/**/*.routes.ts`. 
+### 2. Auto-Sync Zod Schemas
+This project utilizes **Zod v4's native `.toJSONSchema()`** feature to automatically compile all your Zod schemas directly into Swagger component schemas, including validation rules (like `minLength`, `maxLength`, required fields, formats, regex patterns) with **zero external converter libraries**!
 
-To document a new route, simply write standard **YAML OpenAPI annotations** directly inside a JSDoc block in your route file:
+To synchronize your schemas, run:
+```bash
+npm run api-docs
+```
+This compiles the schemas into `src/docs/schemas.json`, stripping redundant suffixes to produce clean, professional DTO names (e.g., `CreateUser` instead of `CreateUserSchema`).
 
+### 3. Modular Specification Explorer (Dropdown Menu)
+Instead of displaying all modules in a single root list, Swagger UI automatically detects your modular feature folders under `src/modules/` and presents them in a collapsible, **isolated dropdown selector** in the top bar.
+
+You can choose to view `All Modules` (combined view) or select an isolated view (e.g. `User Module`), which displays only that module's endpoints and its relevant Zod schemas.
+
+To document a route, write standard **YAML annotations** and reference the clean auto-synced components using `$ref`:
 ```typescript
 /**
  * @openapi
- * /products/{id}:
- *   get:
+ * /products:
+ *   post:
  *     tags: [Product]
- *     summary: Retrieve a single product by UUID
+ *     summary: Create product
  *     security:
  *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *           format: uuid
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/CreateProduct' # <-- Auto-synced natively!
  *     responses:
- *       200:
- *         description: Successfully fetched product details
- *       404:
- *         description: Product not found
+ *       201:
+ *         description: Successfully created product
  */
-router.get('/:id', authenticate, controller.getById);
 ```
-
-As soon as you restart the development server (`npm run dev`), the new endpoint, parameters, authentication scopes, and response schemas will instantly appear in the **Swagger UI** under the `/docs` page!
 
 ---
 

@@ -217,6 +217,7 @@ function genModel(name: string): string {
   const pascal = pascalCase(name);
   const table = pluralize(name.replace(/-/g, "_"));
   return `import { DataTypes, Model } from 'sequelize';
+import { generateUuidV7 } from '../../utils/uuid.js';
 import type { Sequelize, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
 
 export class ${pascal} extends Model<InferAttributes<${pascal}>, InferCreationAttributes<${pascal}>> {
@@ -231,7 +232,7 @@ export function initModel(sequelize: Sequelize): typeof ${pascal} {
     {
       id: {
         type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+        defaultValue: () => generateUuidV7(),
         primaryKey: true,
       },
       createdAt: DataTypes.DATE,
@@ -822,7 +823,7 @@ router.get(
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             $ref: '#/components/schemas/Create${pascal}'
  *     responses:
  *       201:
  *         description: Created
@@ -853,7 +854,7 @@ router.post(
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             $ref: '#/components/schemas/Update${pascal}'
  *     responses:
  *       200:
  *         description: Updated
