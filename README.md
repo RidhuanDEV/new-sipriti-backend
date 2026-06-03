@@ -15,8 +15,7 @@ This repository is designed to be a **robust foundation**, providing essential i
 - **Zod Validation**: Type-safe request payloads and query contracts.
 - **JWT Auth + RBAC**: Secure authentication and fine-grained Role-Based Access Control.
 - **Built-in Audit Logging**: Automatic tracking of sensitive operations and resource changes.
-- **Advanced Caching**: Redis-backed cache layer for performance and scalability.
-- **Background Jobs**: BullMQ integration for reliable asynchronous processing.
+- **In-Memory Caching**: Type-safe in-memory cache layer for performance and simplicity.
 - **API Documentation**: Automated Swagger/OpenAPI documentation with a dynamic per-module spec-selector dropdown menu.
 - **Productivity Tools**: CLI CRUD generator to bootstrap new modules in seconds.
 
@@ -28,18 +27,17 @@ This repository is designed to be a **robust foundation**, providing essential i
 src/
 ├── app.ts                # App entry point (Express configuration)
 ├── server.ts             # Server entry point (Port listening & shutdown)
-├── config/               # Global configurations (Database, Redis, Environment)
+├── config/               # Global configurations (Database, Environment)
 ├── constants/            # Cross-cutting string literals (Audit, Permissions, Modules)
 ├── core/                 # Shared infrastructure (The "Engine")
 │   ├── audit/            # Centralized audit logging logic
 │   ├── auth/             # JWT & RBAC middleware/services
-│   ├── cache/            # Redis caching service
+│   ├── cache/            # In-memory caching service
 │   ├── database/         # Shared DB utilities (Query builder, etc.)
 │   ├── errors/           # Custom HTTP error handlers
 │   ├── http/             # Request context and HTTP utilities
 │   ├── logger/           # Structured logging (Pino/Winston)
 │   ├── middleware/       # Global middlewares (Rate limit, Validation, Errors)
-│   ├── queue/            # Background job processing (BullMQ)
 │   └── validation/       # Zod-specific utilities and error mapping
 ├── database/             # Persistent data layer
 │   ├── migrations/       # Sequelize database migrations
@@ -95,8 +93,7 @@ src/modules/<feature>/
 - **Language**: TypeScript (Strict Mode)
 - **Database**: MySQL (via `mysql2` driver)
 - **ORM**: Sequelize
-- **Caching**: Redis
-- **Queue**: BullMQ
+- **Caching**: In-Memory Map
 - **Validation**: Zod (Zod v4 with native `toJSONSchema()` support)
 - **Logging**: Pino
 - **Documentation**: Swagger UI with dynamic multiple specifications dropdown explorer
@@ -115,7 +112,7 @@ src/modules/<feature>/
 2. **Configure Environment**:
    ```bash
    cp .env.example .env
-   # Edit .env with your local MySQL and Redis credentials
+   # Edit .env with your local MySQL credentials
    ```
 
 3. **Run Zod to Swagger Schema Synchronization**:
@@ -133,7 +130,7 @@ src/modules/<feature>/
 cp .env.example .env
 docker compose up --build
 ```
-This will spin up the application, MySQL 8, and Redis 7 automatically.
+This will spin up the application and MySQL 8 automatically.
 
 ---
 
@@ -181,7 +178,7 @@ When expanding the starter, follow these strict guidelines to maintain codebase 
 * **Solution**:
   * Keep the **Controller clean**. The controller must only invoke the primary module's service.
   * **Orchestrate inside the Service**: The primary service (e.g., `UserService`) should import the secondary services/repositories and execute them inside its transaction.
-  * **Asynchronous Offloading**: For non-blocking operations like sending emails or notifying external APIs, offload them to background jobs (using `src/core/queue/`) after the transaction successfully commits.
+  * **Asynchronous Offloading**: For non-blocking operations like sending emails or notifying external APIs, offload them to asynchronous execution (using local promises or events) after the transaction successfully commits.
 
 ### 3. Edge Case: Custom Complex DB Queries
 * **Problem**: A query needs complex aggregations or multi-table joins that are difficult or slow to model in Sequelize.

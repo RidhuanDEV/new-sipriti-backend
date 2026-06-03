@@ -1,9 +1,7 @@
 import { app } from "./app.js";
 import { env } from "./config/env.js";
 import { sequelize } from "./config/database.js";
-import { redis } from "./config/redis.js";
 import { loadModels } from "./database/models/index.js";
-import { closeQueues } from "./core/queue/queue.service.js";
 import { logger } from "./core/logger/logger.js";
 
 // Global process exception and unhandled rejection event boundaries
@@ -31,9 +29,7 @@ async function bootstrap(): Promise<void> {
     logger.info({ signal }, "Graceful shutdown initiated");
 
     server.close(async () => {
-      await closeQueues();
       await sequelize.close();
-      redis.disconnect();
       logger.info("Server shut down");
       process.exit(0);
     });

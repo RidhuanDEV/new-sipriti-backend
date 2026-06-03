@@ -8,11 +8,9 @@ services:
       - .env
     environment:
       - DATABASE_URL=mysql://root:password@mysql:3306/myapp
-      - REDIS_URL=redis://redis:6379
       - IS_DOCKER=true
     depends_on:
       - mysql
-      - redis
     restart: unless-stopped
 
   mysql:
@@ -25,10 +23,3 @@ services:
     volumes:
       - ./.docker/mysql_data:/var/lib/mysql
 
-  redis:
-    image: redis:7.4-alpine
-    container_name: myapp_redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - ./.docker/redis_data:/data

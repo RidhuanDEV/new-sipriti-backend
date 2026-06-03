@@ -21,7 +21,7 @@ export async function authenticate(
   try {
     const payload = verifyToken(token);
 
-    // Solve "Ghost User" vulnerability by checking active session status via Redis Cache first.
+    // Solve "Ghost User" vulnerability by checking active session status via Cache first.
     const cacheKey = `user:active:${payload.id}`;
     let isUserActive = await cacheService.get<boolean>(cacheKey);
 
