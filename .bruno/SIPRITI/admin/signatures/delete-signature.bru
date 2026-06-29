@@ -1,0 +1,44 @@
+meta {
+  name: Delete Signature
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{host}}/api/admin/signatures/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-signature-uuid-here
+}
+
+docs {
+  # DELETE /api/admin/signatures/:id
+
+  Menghapus (soft delete) tanda tangan. Data tidak benar-benar dihapus dari database — bisa dipulihkan dengan endpoint restore. Memerlukan permission `delete_signature`.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID tanda tangan yang ingin dihapus |
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Tanda tangan berhasil dihapus",
+    "data": null
+  }
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 403 | Tidak memiliki permission delete_signature |
+  | 404 | Tanda tangan tidak ditemukan |
+}

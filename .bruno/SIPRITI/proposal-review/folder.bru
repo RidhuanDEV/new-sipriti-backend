@@ -1,0 +1,20 @@
+meta {
+  name: proposal-review
+}
+
+docs {
+  # Proposal Review API
+
+  ## Endpoints
+
+  | Method | Path | Name | Description |
+  |--------|------|------|-------------|
+  | GET | /api/proposal-review/stats/:type | stats-type | Statistik review per tipe |
+  | GET | /api/proposal-review/:type | get-by-type | List usulan per tipe |
+  | GET | /api/proposal-review/:type/:id | get-by-id | Detail usulan untuk review |
+  | POST | /api/proposal-review/:type/:id/approve | type-id-approve | Approve usulan |
+  | POST | /api/proposal-review/:type/:id/reject | type-id-reject | Reject usulan |
+  | GET | /api/proposal-review/user/revisi | user-revisi | List usulan revisi user |
+  | GET | /api/proposal-review/user/approved | user-approved | List usulan approved user |
+  | POST | /api/proposal-review/user/:id/resubmit | user-id-resubmit | Resubmit usulan revisi |
+}

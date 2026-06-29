@@ -5,35 +5,25 @@ import type { AuditActionType } from "../../constants/audit.constants.js";
 import type { ModuleName } from "../../constants/modules.constants.js";
 
 export interface PersistAuditOptions {
-  /** Use a value from AuditAction, e.g. AuditAction.CREATE. */
   action: AuditActionType;
-  /** Use a value from module constants, e.g. USER_MODULE. */
   module: ModuleName;
-  /** Primary key of the affected record */
+  entityType?: string;
   entityId: string;
-  /** ID of the user who triggered the action */
   userId: string;
-  /** Snapshot of the record before the change (omit for CREATE) */
+  userName?: string | null;
+  description?: string;
   before?: unknown;
-  /** Payload after the change (omit for DELETE) */
   after?: unknown;
-  /** X-Request-Id for cross-referencing with access logs */
+  ipAddress?: string | null;
+  userAgent?: string | null;
+  httpMethod?: string | null;
+  endpoint?: string | null;
   requestId?: string | undefined;
-  /**
-   * Sequelize transaction to join.
-   * Pass the same transaction as the main mutation so that the audit
-   * record is rolled back if the data write fails.
-   */
   trx?: Transaction;
+  throwOnError?: boolean;
 }
 
 export class AuditService {
-  /**
-   * Activity log — writes to the logger only.
-   *
-   * Use for events that do NOT need a persistent audit trail:
-   * login, view, export, bulk reads, etc.
-   */
   log(
     action: AuditActionType,
     module: ModuleName,
@@ -54,33 +44,73 @@ export class AuditService {
     );
   }
 
-  /**
-   * Persistent audit trail — writes to the `audit_logs` table.
-   *
-   * Use for CREATE, UPDATE, and DELETE operations.
-   * Always pass `trx` so the audit row is written inside the same
-   * database transaction as the data mutation — this guarantees that
-   * a rollback removes both the data change and its audit record.
-   */
   async persist(options: PersistAuditOptions): Promise<void> {
-    const { action, module, entityId, userId, before, after, requestId, trx } =
-      options;
-
-    await auditLogRepository.create(
-      {
-        action,
-        module,
-        entityId,
-        userId,
-        before,
-        after,
-        requestId: requestId ?? null,
-      },
+    const {
+      action,
+      module,
+      entityType,
+      entityId,
+      userId,
+      userName,
+      description,
+      before,
+      after,
+      ipAddress,
+      userAgent,
+      httpMethod,
+      endpoint,
+      requestId,
       trx,
-    );
+    } = options;
+    // When called inside a transaction, re-throw by default so the transaction
+    // rolls back if the audit INSERT fails (no silent partial commit).
+    const throwOnError = options.throwOnError ?? trx !== undefined;
 
-    // Mirror to logger for real-time observability alongside the DB write.
-    this.log(action, module, userId, { entityId, before, after });
+    try {
+      await auditLogRepository.create(
+        {
+          action,
+          module,
+          entityId,
+          userId,
+          before,
+          after,
+          requestId: requestId ?? null,
+          ...(entityType === undefined ? {} : { entityType }),
+          ...(userName === undefined ? {} : { userName }),
+          ...(description === undefined ? {} : { description }),
+          ...(ipAddress === undefined ? {} : { ipAddress }),
+          ...(userAgent === undefined ? {} : { userAgent }),
+          ...(httpMethod === undefined ? {} : { httpMethod }),
+          ...(endpoint === undefined ? {} : { endpoint }),
+        },
+        trx,
+      );
+
+      this.log(action, module, userId, { entityId, before, after });
+    } catch (err) {
+      logger.warn(
+        {
+          err,
+          audit: {
+            action,
+            module,
+            entityId,
+            userId,
+            requestId: requestId ?? null,
+          },
+        },
+        "Audit persist failed",
+      );
+
+      if (throwOnError) {
+        throw err;
+      }
+    }
+  }
+
+  persistNonBlocking(options: Omit<PersistAuditOptions, "throwOnError">): void {
+    void this.persist({ ...options, throwOnError: false });
   }
 }
 

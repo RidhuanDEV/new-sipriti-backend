@@ -1,0 +1,99 @@
+meta {
+  name: create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{host}}/api/berita
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  judul: Judul Berita Baru
+  isi_berita: Isi konten berita di sini
+  kategori: Umum
+  photo: @file(./sample-photo.jpg)
+  file: @file(./sample-file.pdf)
+}
+
+docs {
+  # Create Berita
+  
+  ## API Endpoint
+  `POST /api/berita`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## DTO (Request Body - multipart/form-data)
+  
+  ```typescript
+  interface CreateBeritaDTO {
+    judul: string;       // Required - Judul berita
+    isi_berita: string;  // Required - Konten HTML
+    kategori?: string;   // Optional - Default: "Umum"
+    photo?: File;        // Optional - Foto berita
+    file?: File;         // Optional - File lampiran
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | judul | string | ✅ | Tidak boleh kosong |
+  | isi_berita | string | ✅ | Tidak boleh kosong |
+  | kategori | string | ❌ | Pendanaan/Workshop/Panduan/Umum |
+  | photo | File | ❌ | Image files (jpg, png, etc) |
+  | file | File | ❌ | Any file (pdf, doc, etc) |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201 Created)
+  ```json
+  {
+    "success": true,
+    "message": "Berita berhasil dibuat",
+    "data": {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "judul": "Judul Berita Baru",
+      "isi_berita": "<p>Konten berita...</p>",
+      "kategori": "Umum",
+      "photo_url": "/uploads/berita/photo123.jpg",
+      "file_url": "/uploads/berita/file123.pdf",
+      "createdAt": "2025-01-08T10:00:00.000Z",
+      "updatedAt": "2025-01-08T10:00:00.000Z"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Code | Message |
+  |--------|------|---------|  
+  | 400 | BAD_REQUEST | Judul wajib diisi |
+  | 400 | BAD_REQUEST | Isi Berita wajib diisi |
+  | 400 | BAD_REQUEST | Judul tidak boleh kosong |
+  | 400 | BAD_REQUEST | Isi berita tidak boleh kosong |
+  | 400 | BAD_REQUEST | Kategori tidak valid |
+  | 401 | UNAUTHORIZED | Token tidak valid |
+  | 403 | FORBIDDEN | Akses ditolak (bukan admin) |
+  
+  ### Error Example
+  ```json
+  {
+    "success": false,
+    "message": "Judul wajib diisi"
+  }
+  ```
+}

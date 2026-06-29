@@ -1,0 +1,22 @@
+meta {
+  name: create
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{host}}/api/penghargaan-riset/
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+
+body:json {
+  {
+    "penghargaan_description": "Penghargaan Inovasi Teknologi 2025"
+  }
+}

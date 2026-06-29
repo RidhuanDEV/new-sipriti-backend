@@ -13,10 +13,8 @@ import { USER_MODULE } from "../../constants/modules.constants.js";
 import type { CreateUserDto } from "./dto/create-user.dto.js";
 import type { UpdateUserDto } from "./dto/update-user.dto.js";
 import type { SearchUserDto } from "./dto/search-user.dto.js";
-import type {
-  JwtUserPayload,
-  PaginationMeta,
-} from "../../types/index.js";
+import type { PaginationMeta } from "../../types/index.js";
+import type { AuthenticatedUserContext } from "../../types/auth.js";
 import type {
   UserResponseDto,
   UserResponseProjection,
@@ -24,15 +22,19 @@ import type {
 
 const repository = new UserRepository();
 const CACHE_PREFIX = USER_MODULE;
+type UserListResult = {
+  data: UserResponseProjection[];
+  meta: PaginationMeta;
+};
 
 export class UserService {
   async findAll(
     query: SearchUserDto,
-  ): Promise<{ data: UserResponseProjection[]; meta: PaginationMeta }> {
+  ): Promise<UserListResult> {
     const cacheKey = `${CACHE_PREFIX}:list:${JSON.stringify(query)}`;
-    const cached = await cacheService.get<any>(cacheKey);
+    const cached = await cacheService.get<UserListResult>(cacheKey);
     if (cached) {
-      return cached as { data: UserResponseProjection[]; meta: PaginationMeta };
+      return cached;
     }
 
     const findOptions = buildFindOptions(query, userQueryConfig);
@@ -63,7 +65,7 @@ export class UserService {
 
   async create(
     data: CreateUserDto,
-    user: JwtUserPayload,
+    user: AuthenticatedUserContext,
     requestId?: string,
   ): Promise<UserResponseDto> {
     userPolicy.canCreate(user);
@@ -89,7 +91,7 @@ export class UserService {
   async update(
     id: string,
     data: UpdateUserDto,
-    user: JwtUserPayload,
+    user: AuthenticatedUserContext,
     requestId?: string,
   ): Promise<UserResponseDto> {
     const existing = await repository.findById(id);
@@ -117,7 +119,11 @@ export class UserService {
     return toUserResponse(record);
   }
 
-  async delete(id: string, user: JwtUserPayload, requestId?: string): Promise<void> {
+  async delete(
+    id: string,
+    user: AuthenticatedUserContext,
+    requestId?: string,
+  ): Promise<void> {
     const existing = await repository.findById(id);
     if (!existing) throw HttpError.notFound("User not found");
     await userPolicy.canDelete(user, existing);

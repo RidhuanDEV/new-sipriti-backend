@@ -1,0 +1,32 @@
+meta {
+  name: files
+  seq: 33
+}
+
+docs {
+  # Files API
+
+  Endpoints untuk mengakses file yang tersimpan di server. Mendukung akses via ID database maupun path langsung.
+
+  **Base URL:** `/api/files`
+
+  ---
+
+  ## Endpoints
+
+  | Method | Endpoint | Description | Auth |
+  |--------|----------|-------------|------|
+  | GET | `/path/:subdir/:filename` | Akses file via path | Optional |
+  | GET | `/:id` | Akses file via ID database | Optional |
+
+  ---
+
+  ## Catatan
+
+  - Autentikasi opsional — file publik dapat diakses tanpa login
+  - `:subdir` adalah subdirektori dalam folder uploads (contoh: `images`, `richtext`, `proposal-final-pdf`)
+}
+
+auth {
+  mode: inherit
+}

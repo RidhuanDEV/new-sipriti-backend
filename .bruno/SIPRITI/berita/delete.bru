@@ -1,0 +1,67 @@
+meta {
+  name: delete
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{host}}/api/berita/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{berita_id}}
+}
+
+docs {
+  # Delete Berita
+  
+  ## API Endpoint
+  `DELETE /api/berita/:id`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID berita yang akan dihapus |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berita berhasil dihapus"
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Code | Message |
+  |--------|------|---------|  
+  | 401 | UNAUTHORIZED | Token tidak valid |
+  | 403 | FORBIDDEN | Akses ditolak (bukan admin) |
+  | 404 | NOT_FOUND | Berita tidak ditemukan |
+  
+  ### Error Example
+  ```json
+  {
+    "success": false,
+    "message": "Berita tidak ditemukan"
+  }
+  ```
+}

@@ -1,0 +1,68 @@
+meta {
+  name: options
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/usulan-pengabdian/options
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  # Get Dropdown Options
+  
+  ## API Endpoint
+  `GET /api/usulan-pengabdian/options`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Request)
+  
+  No request body required.
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil options",
+    "data": {
+      "tahunAkademik": [
+        { "id": "uuid", "tahun": "2024/2025", "is_active": true }
+      ],
+      "hibahInternal": [
+        { "id": "uuid", "nama": "Hibah Pengabdian", "is_active": true }
+      ],
+      "kategoriPublikasi": [
+        { "id": "uuid", "nama": "Jurnal Nasional" }
+      ],
+      "mitraKerja": [
+        { "id": "uuid", "nama": "Desa Sukamaju" }
+      ],
+      "productRiset": [
+        { "id": "uuid", "nama": "Pelatihan" }
+      ]
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+}

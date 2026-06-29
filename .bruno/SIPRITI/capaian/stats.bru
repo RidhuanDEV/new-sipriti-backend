@@ -1,0 +1,57 @@
+meta {
+  name: stats
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/capaian/stats
+  body: none
+  auth: inherit
+}
+
+docs {
+  # Get All Stats
+  
+  ## API Endpoint
+  `GET /api/capaian/stats`
+  
+  **Auth Required:** ❌ Public
+  
+  ---
+  
+  ## DTO (Request)
+  
+  No request body required.
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil statistik",
+    "data": {
+      "total_dana_hibah": 1500000000,
+      "total_dana_hibah_formatted": "Rp1.500.000.000",
+      "total_mitra_riset": 25,
+      "total_hki": 10,
+      "total_publikasi": 150,
+      "total_hibah": 30
+    }
+  }
+  ```
+  
+  ## Data Description
+  
+  | Field | Type | Description |
+  |-------|------|-------------|
+  | total_dana_hibah | number | Total dana hibah (rupiah) |
+  | total_dana_hibah_formatted | string | Format rupiah |
+  | total_mitra_riset | number | Jumlah mitra |
+  | total_hki | number | Jumlah HKI terdaftar |
+  | total_publikasi | number | Jumlah publikasi |
+  | total_hibah | number | Jumlah hibah |
+}

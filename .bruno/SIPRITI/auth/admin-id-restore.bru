@@ -1,0 +1,11 @@
+meta {
+  name: admin-id-restore
+  type: http
+  seq: 14
+}
+
+put {
+  url: {{host}}/api/auth/admin/:id/restore
+  body: none
+  auth: inherit
+}

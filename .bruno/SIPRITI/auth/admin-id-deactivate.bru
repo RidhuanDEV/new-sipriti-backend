@@ -1,0 +1,11 @@
+meta {
+  name: admin-id-deactivate
+  type: http
+  seq: 13
+}
+
+delete {
+  url: {{host}}/api/auth/admin/:id/deactivate
+  body: none
+  auth: inherit
+}

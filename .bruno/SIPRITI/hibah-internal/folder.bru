@@ -1,0 +1,27 @@
+meta {
+  name: hibah-internal
+  seq: 7
+}
+
+docs {
+  # Hibah Internal API
+  
+  CRUD endpoints untuk manajemen hibah internal.
+  
+  ## Base URL
+  `/api/hibah-internal`
+  
+  ## Endpoints Overview
+  
+  | Method | Endpoint | Auth | Role | Description |
+  |--------|----------|------|------|-------------|
+  | GET | / | ❌ | Public | List hibah internal |
+  | GET | /:id | ❌ | Public | Get by ID |
+  | POST | / | ✅ | Admin | Create hibah |
+  | PUT | /:id | ✅ | Admin | Update hibah |
+  | DELETE | /:id | ✅ | Admin | Delete hibah |
+  
+  ## Tipe Hibah
+  - Penelitian
+  - Pengabdian
+}

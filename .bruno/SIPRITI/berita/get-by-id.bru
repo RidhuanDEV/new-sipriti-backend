@@ -1,0 +1,70 @@
+meta {
+  name: get-by-id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/berita/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: {{berita_id}}
+}
+
+docs {
+  # Get Berita By ID
+  
+  ## API Endpoint
+  `GET /api/berita/:id`
+  
+  **Auth Required:** ❌ Public
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID berita |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil detail berita",
+    "data": {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "judul": "Pengumuman Hibah Penelitian 2025",
+      "isi_berita": "<p>Konten berita lengkap...</p>",
+      "kategori": "Pendanaan",
+      "photo_url": "/uploads/berita/photo123.jpg",
+      "file_url": "/uploads/berita/file123.pdf",
+      "createdAt": "2025-01-08T10:00:00.000Z",
+      "updatedAt": "2025-01-08T10:00:00.000Z"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Code | Message |
+  |--------|------|---------|  
+  | 404 | NOT_FOUND | Berita tidak ditemukan |
+  
+  ### Error Example
+  ```json
+  {
+    "success": false,
+    "message": "Berita tidak ditemukan"
+  }
+  ```
+}

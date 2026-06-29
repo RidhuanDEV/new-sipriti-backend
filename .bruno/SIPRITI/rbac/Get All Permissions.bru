@@ -1,0 +1,74 @@
+meta {
+  name: Get All Permissions
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/rbac/permissions
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-CSRF-Token: {{csrfToken}}
+}
+
+docs {
+  # Get All Permissions
+  
+  Mengambil semua permissions yang tersedia dalam sistem.
+  Dikelompokkan berdasarkan module untuk kemudahan UI.
+  
+  ## Response
+  
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil data permissions",
+    "data": [
+      {
+        "id": "uuid",
+        "name": "view_users",
+        "description": "Melihat daftar pengguna",
+        "module": "users"
+      },
+      {
+        "id": "uuid",
+        "name": "create_users",
+        "description": "Membuat pengguna baru",
+        "module": "users"
+      },
+      {
+        "id": "uuid",
+        "name": "update_users",
+        "description": "Mengubah data pengguna",
+        "module": "users"
+      },
+      {
+        "id": "uuid",
+        "name": "delete_users",
+        "description": "Menghapus pengguna",
+        "module": "users"
+      }
+    ]
+  }
+  ```
+  
+  ## Permission Naming Convention
+  
+  Format: `{action}_{module}`
+  
+  Actions:
+  - `view_` - Melihat data
+  - `create_` - Membuat data baru
+  - `update_` - Mengubah data
+  - `delete_` - Menghapus data
+  - `manage_` - CRUD lengkap
+  - `assign_` - Assign/manage relationships
+  
+  ## Permission Required
+  
+  - `assign_roles`
+}

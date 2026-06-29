@@ -3,7 +3,9 @@ import { env } from "../../config/env.js";
 import type { JwtUserPayload } from "../../types/index.js";
 
 export function signToken(payload: JwtUserPayload): string {
-  return jwt.sign(payload, env.JWT_SECRET, { expiresIn: "24h" });
+  const expiresInSeconds = env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60;
+
+  return jwt.sign(payload, env.JWT_SECRET, { expiresIn: expiresInSeconds });
 }
 
 export function verifyToken(token: string): JwtUserPayload {
@@ -13,20 +15,20 @@ export function verifyToken(token: string): JwtUserPayload {
     decoded &&
     typeof decoded === "object" &&
     "id" in decoded &&
-    "email" in decoded &&
-    "roleId" in decoded
+    typeof decoded.id === "string"
   ) {
-    if (
-      typeof decoded.id === "string" &&
-      typeof decoded.email === "string" &&
-      typeof decoded.roleId === "string"
-    ) {
-      return {
-        id: decoded.id,
-        email: decoded.email,
-        roleId: decoded.roleId,
-      };
-    }
+    const email = "email" in decoded && typeof decoded.email === "string"
+      ? decoded.email
+      : undefined;
+    const roleId = "roleId" in decoded && typeof decoded.roleId === "string"
+      ? decoded.roleId
+      : undefined;
+
+    return {
+      id: decoded.id,
+      ...(email === undefined ? {} : { email }),
+      ...(roleId === undefined ? {} : { roleId }),
+    };
   }
   
   throw new Error("Invalid token payload structure");

@@ -1,0 +1,74 @@
+meta {
+  name: Get Monev By ID
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/admin/monev/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-monev-uuid-here
+}
+
+docs {
+  # GET /api/admin/monev/:id
+  
+  Mengambil detail lengkap record Monev.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID monev yang ingin diambil |
+  
+  ## Response Success (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Detail monev berhasil diambil",
+    "data": {
+      "id": "uuid",
+      "usulan_id": "uuid",
+      "tgl_monev": "2025-01-15",
+      "direktorat": "PRPM",
+      "status_dokumen": "Lengkap",
+      "jenis_usulan": "Penelitian",
+      "berita_acara": "/uploads/monev/berita-acara-xxx.pdf",
+      "form_penilaian": "/uploads/monev/form-penilaian-xxx.pdf",
+      "ringkasan_monev": "Pelaksanaan sesuai dengan target...",
+      "catatan": "Penelitian berjalan baik",
+      "usulan": {
+        "id": "uuid",
+        "judul": "Pengembangan Teknologi Informasi",
+        "abstrak": "Penelitian ini bertujuan...",
+        "status": "Approved",
+        "ketua": {
+          "id": "uuid",
+          "name": "Dr. Ahmad Fauzi",
+          "email": "ahmad@mail.com"
+        },
+        "skema": {
+          "id": "uuid",
+          "nama_skema": "Penelitian Dasar",
+          "tipe": "Penelitian"
+        }
+      },
+      "createdAt": "2025-01-08T00:00:00.000Z",
+      "updatedAt": "2025-01-08T00:00:00.000Z"
+    }
+  }
+  ```
+  
+  ## Response Error (404)
+  ```json
+  {
+    "success": false,
+    "message": "Monev tidak ditemukan"
+  }
+  ```
+}

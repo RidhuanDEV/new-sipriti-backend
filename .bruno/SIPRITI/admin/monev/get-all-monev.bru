@@ -1,0 +1,85 @@
+meta {
+  name: Get All Monev
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/admin/monev
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~page: 1
+  ~limit: 10
+  ~search: Pengembangan
+  ~status: Belum Lengkap
+  ~direktorat: PRPM
+  ~jenis: Penelitian
+  ~tahun: 2025
+  ~sortBy: tgl_monev
+  ~sortOrder: DESC
+}
+
+docs {
+  # GET /api/admin/monev
+  
+  Mengambil daftar semua record Monev dengan pagination dan filter.
+  
+  ## Query Parameters
+  
+  | Parameter | Type | Default | Description |
+  |-----------|------|---------|-------------|
+  | page | number | 1 | Halaman saat ini |
+  | limit | number | 10 | Jumlah item per halaman |
+  | search | string | "" | Cari berdasarkan judul usulan |
+  | status | string | "" | Filter: Belum Lengkap, Sedang Diproses, Lengkap |
+  | direktorat | string | "" | Filter: PRPM, PRODI, PKA |
+  | jenis | string | "" | Filter: Penelitian, Pengabdian, HKI |
+  | tahun | string | "" | Filter tahun pelaksanaan |
+  | sortBy | string | "tgl_monev" | Field untuk sorting |
+  | sortOrder | string | "DESC" | ASC atau DESC |
+  
+  ## Response Success (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Data monev berhasil diambil",
+    "data": [
+      {
+        "id": "uuid",
+        "no": 1,
+        "tgl_monev": "2025-01-15",
+        "ketua": "Dr. Ahmad Fauzi",
+        "judul": "Pengembangan Teknologi Informasi",
+        "jenis_usulan": "Penelitian",
+        "direktorat": "PRPM",
+        "status_dokumen": "Belum Lengkap",
+        "berita_acara": null,
+        "form_penilaian": null,
+        "ringkasan_monev": "Pelaksanaan sesuai target...",
+        "catatan": "Perlu perbaikan laporan",
+        "usulan": {
+          "id": "uuid",
+          "judul": "Pengembangan Teknologi Informasi",
+          "ketua": {
+            "name": "Dr. Ahmad Fauzi"
+          }
+        }
+      }
+    ],
+    "meta": {
+      "pagination": {
+        "currentPage": 1,
+        "totalPages": 3,
+        "totalItems": 25,
+        "itemsPerPage": 10,
+        "hasNextPage": true,
+        "hasPrevPage": false
+      }
+    }
+  }
+  ```
+}

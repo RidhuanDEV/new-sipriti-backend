@@ -1,0 +1,106 @@
+meta {
+  name: create
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{host}}/api/usulan-penelitian
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  judul: Pengembangan AI untuk Deteksi Penyakit
+  abstrak: Penelitian tentang penerapan AI untuk deteksi dini penyakit
+  tahun_akademik_id: {{tahun_akademik_id}}
+  hibah_internal_id: {{hibah_internal_id}}
+  tipe_usulan: penelitian
+  file_proposal: @file(path/to/proposal.pdf)
+  tipe_pendanaan: reguler
+}
+
+docs {
+  # Create Usulan Penelitian
+  
+  ## API Endpoint
+  `POST /api/usulan-penelitian`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Request Body - multipart/form-data)
+  
+  ```typescript
+  interface CreatePenelitianDTO {
+    // Required
+    judul: string;
+    abstrak: string;
+    tahun_akademik_id: string;  // UUID
+    
+    // Optional
+    hibah_internal_id?: string; // UUID
+    tipe_usulan?: string;       // Default: "penelitian"
+    file_proposal?: File;
+    anggota?: string;           // JSON stringified array
+    tipe_pendanaan?: string;    // "reguler" (default) or "hibah_internal"
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | judul | string | ✅ | - |
+  | abstrak | string | ✅ | - |
+  | tahun_akademik_id | UUID | ✅ | Valid ID |
+  | hibah_internal_id | UUID | ❌ | Valid ID |
+  | tipe_usulan | string | ❌ | Default: penelitian |
+  | file_proposal | File | ❌ | PDF only |
+  | anggota | JSON | ❌ | Array of member objects |
+  | tipe_pendanaan | string | ❌ | "reguler" or "hibah_internal" (default: reguler) |
+  
+  ### Anggota Structure
+  ```json
+  [
+    {
+      "user_id": "uuid",
+      "peran": "Anggota"
+    }
+  ]
+  ```
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201 Created)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil membuat usulan penelitian",
+    "data": {
+      "id": "uuid",
+      "judul": "Pengembangan AI",
+      "status": "Draft",
+      "ketua_id": "uuid"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 400 | Judul wajib diisi |
+  | 400 | Abstrak wajib diisi |
+  | 400 | Tahun akademik wajib dipilih |
+  | 401 | Token tidak valid |
+  | 404 | Tahun akademik tidak ditemukan |
+}

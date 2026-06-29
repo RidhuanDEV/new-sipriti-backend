@@ -1,0 +1,50 @@
+meta {
+  name: mark-all-read
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{host}}/api/notifications/read-all
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  # Mark All Notifications as Read
+  
+  ## API Endpoint
+  `PUT /api/notifications/read-all`
+  
+  **Auth Required:** ✅ Bearer Token
+  
+  ---
+  
+  ## DTO (Request)
+  
+  No request body required.
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Semua notifikasi berhasil ditandai sebagai dibaca"
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+}

@@ -1,0 +1,59 @@
+meta {
+  name: all
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/product-riset/all
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  # Get All Product Riset
+  
+  ## API Endpoint
+  `GET /api/product-riset/all`
+  
+  **Auth Required:** ✅  
+  **Role Required:** All authenticated users
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil semua product riset",
+    "data": [
+      {
+        "id": "uuid-1",
+        "nama_produk": "Aplikasi Mobile",
+        "createdAt": "2025-01-15T10:00:00.000Z",
+        "updatedAt": "2025-01-15T10:00:00.000Z"
+      },
+      {
+        "id": "uuid-2",
+        "nama_produk": "Prototipe Hardware",
+        "createdAt": "2025-01-15T10:00:00.000Z",
+        "updatedAt": "2025-01-15T10:00:00.000Z"
+      }
+    ]
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 401 | Token tidak valid |
+}

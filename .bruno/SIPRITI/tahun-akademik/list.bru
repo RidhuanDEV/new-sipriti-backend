@@ -1,0 +1,83 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/tahun-akademik?page=1&limit=10
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  page: 1
+  limit: 10
+}
+
+docs {
+  # List Tahun Akademik
+  
+  ## API Endpoint
+  `GET /api/tahun-akademik`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  ```typescript
+  interface ListTahunAkademikQuery {
+    page?: number;    // Default: 1
+    limit?: number;   // Default: 10
+    search?: string;  // Pencarian nama
+  }
+  ```
+  
+  | Param | Type | Required | Default |
+  |-------|------|----------|---------|
+  | page | number | ❌ | 1 |
+  | limit | number | ❌ | 10 |
+  | search | string | ❌ | - |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil daftar tahun akademik",
+    "data": [
+      {
+        "id": "uuid",
+        "nama": "2024/2025 Ganjil",
+        "tanggal_mulai": "2024-09-01",
+        "tanggal_selesai": "2025-02-28",
+        "is_active": true
+      }
+    ],
+    "meta": {
+      "page": 1,
+      "limit": 10,
+      "total": 20,
+      "totalPages": 2
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+}

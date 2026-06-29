@@ -16,7 +16,7 @@ const controller = new UserController();
 router.get(
   "/",
   authenticate,
-  requirePermission("manage_users"),
+  requirePermission("view_users"),
   validate({ query: searchUserSchema }),
   controller.getAll,
 );
@@ -24,7 +24,7 @@ router.get(
 router.get(
   "/:id",
   authenticate,
-  requirePermission("manage_users"),
+  requirePermission("view_users"),
   validate({ params: userIdSchema }),
   controller.getById,
 );
@@ -32,7 +32,7 @@ router.get(
 router.post(
   "/",
   authenticate,
-  requirePermission("manage_users"),
+  requirePermission("create_user"),
   validate({ body: createUserSchema }),
   controller.create,
 );
@@ -40,7 +40,7 @@ router.post(
 router.patch(
   "/:id",
   authenticate,
-  requirePermission("manage_users"),
+  requirePermission("edit_user"),
   validate({ params: userIdSchema, body: updateUserSchema }),
   controller.update,
 );
@@ -48,7 +48,7 @@ router.patch(
 router.delete(
   "/:id",
   authenticate,
-  requirePermission("manage_users"),
+  requirePermission("delete_user"),
   validate({ params: userIdSchema }),
   controller.delete,
 );

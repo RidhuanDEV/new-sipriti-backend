@@ -1,0 +1,71 @@
+meta {
+  name: Upsert Substansi Penelitian
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{host}}/api/proposals/:id/penelitian
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: your-proposal-uuid-here
+}
+
+body:json {
+  {
+    "latar_belakang": "<p>Latar belakang penelitian ini adalah...</p>",
+    "perumusan_masalah": "<p>Bagaimana cara meningkatkan efisiensi...?</p>",
+    "tujuan_penelitian": "<p>Penelitian ini bertujuan untuk...</p>",
+    "urgensi_penelitian": "<p>Penelitian ini mendesak karena...</p>",
+    "metode_penelitian": "<p>Penelitian ini menggunakan metode kuantitatif...</p>",
+    "tinjauan_pustaka": "<p>Berdasarkan penelitian sebelumnya...</p>"
+  }
+}
+
+docs {
+  # PUT /api/proposals/:id/penelitian
+
+  Membuat atau mengupdate (upsert) data substansi penelitian. Jika belum ada, akan dibuat; jika sudah ada, akan diupdate.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID proposal |
+
+  ## Request Body
+
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | latar_belakang | string (HTML) | ❌ | Latar belakang penelitian |
+  | perumusan_masalah | string (HTML) | ❌ | Perumusan masalah |
+  | tujuan_penelitian | string (HTML) | ❌ | Tujuan penelitian |
+  | urgensi_penelitian | string (HTML) | ❌ | Urgensi penelitian |
+  | metode_penelitian | string (HTML) | ❌ | Metode penelitian |
+  | tinjauan_pustaka | string (HTML) | ❌ | Tinjauan pustaka |
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Data penelitian berhasil disimpan",
+    "data": {
+      "id": "uuid",
+      "proposal_id": "proposal-uuid",
+      "latar_belakang": "<p>Latar belakang penelitian ini adalah...</p>",
+      "updatedAt": "2025-01-09T00:00:00.000Z"
+    }
+  }
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 403 | Tidak memiliki akses edit proposal ini |
+  | 404 | Proposal tidak ditemukan |
+}

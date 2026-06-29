@@ -1,0 +1,59 @@
+meta {
+  name: Get Luaran Proposal
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{host}}/api/proposals/:id/luaran
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-proposal-uuid-here
+}
+
+docs {
+  # GET /api/proposals/:id/luaran
+
+  Mengambil daftar target luaran/output dari sebuah proposal.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID proposal |
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Data luaran berhasil diambil",
+    "data": [
+      {
+        "id": "uuid",
+        "proposal_id": "proposal-uuid",
+        "output_id": "output-uuid",
+        "output": {
+          "id": "output-uuid",
+          "nama": "Jurnal Nasional Terakreditasi"
+        },
+        "tahun": 1,
+        "judul": "Jurnal tentang AI dalam Pendidikan",
+        "status": "Submitted",
+        "keterangan": "Target submit ke Jurnal TELEMATIKA",
+        "createdAt": "2025-01-08T00:00:00.000Z"
+      }
+    ]
+  }
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 403 | Tidak memiliki akses ke proposal ini |
+  | 404 | Proposal tidak ditemukan |
+}

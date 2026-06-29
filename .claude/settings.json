@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev)",
+      "Bash(npm run build)",
+      "Bash(npm run start)",
+      "Bash(npm run test)",
+      "Bash(npm run api-docs)",
+      "Bash(npm run make:crud*)",
+      "Bash(npm run db:migrate)",
+      "Bash(npm run db:migrate:undo)",
+      "Bash(npm run db:seed)",
+      "Bash(npm run db:seed:undo)",
+      "Bash(npm run phase6:*)",
+      "Bash(npx sequelize-cli db:migrate*)",
+      "Bash(npx sequelize-cli db:seed*)",
+      "Bash(npx tsc*)",
+      "Bash(npx tsx*)",
+      "Bash(git status)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git add*)",
+      "Bash(git stash*)",
+      "Bash(find . -name*)",
+      "Bash(find . -type*)",
+      "Bash(ls*)",
+      "Bash(cat package.json)"
+    ]
+  }
+}

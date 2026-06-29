@@ -1,0 +1,29 @@
+meta {
+  name: output
+  seq: 29
+}
+
+docs {
+  # Output API
+
+  Endpoints untuk manajemen master data Output (jenis luaran penelitian/pengabdian).
+
+  **Base URL:** `/api/outputs`
+
+  ---
+
+  ## Endpoints
+
+  | Method | Endpoint | Description | Auth | Role |
+  |--------|----------|-------------|------|------|
+  | GET | `/` | List semua output | ✅ | All |
+  | GET | `/options` | Dropdown options output | ✅ | All |
+  | POST | `/` | Tambah output baru | ✅ | create_output |
+  | GET | `/:id` | Detail output | ✅ | All |
+  | PUT | `/:id` | Update output | ✅ | edit_output |
+  | DELETE | `/:id` | Hapus output | ✅ | delete_output |
+}
+
+auth {
+  mode: inherit
+}

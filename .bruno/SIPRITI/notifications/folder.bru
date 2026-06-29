@@ -1,0 +1,33 @@
+meta {
+  name: notifications
+  seq: 13
+}
+
+docs {
+  # Notifications API
+  
+  Endpoints untuk manajemen notifikasi pengguna.
+  
+  ## Base URL
+  `/api/notifications`
+  
+  ## Endpoints Overview
+  
+  | Method | Endpoint | Auth | Description |
+  |--------|----------|------|-------------|
+  | GET | / | ✅ | List notifikasi user |
+  | GET | /unread-count | ✅ | Jumlah notifikasi belum dibaca |
+  | PUT | /:id/read | ✅ | Tandai sebagai dibaca |
+  | PUT | /read-all | ✅ | Tandai semua sebagai dibaca |
+  | PUT | /:id/accept-invite | ✅ | Terima undangan anggota |
+  | PUT | /:id/reject-invite | ✅ | Tolak undangan anggota |
+  
+  ## Notification Types
+  - `invite_anggota` - Undangan anggota proposal
+  - `invite_accepted` - Undangan diterima
+  - `invite_rejected` - Undangan ditolak
+
+  ## Catatan Kompatibilitas
+  Endpoint invite juga tersedia di namespace legacy `/api/invites/*`.
+  Untuk flow notifikasi terbaru, gunakan endpoint di `/api/notifications/*`.
+}

@@ -1,0 +1,22 @@
+meta {
+  name: update
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{host}}/api/penghargaan-riset/:id
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+
+body:json {
+  {
+    "penghargaan_description": "Penghargaan Inovasi Teknologi - Updated"
+  }
+}

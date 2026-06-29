@@ -1,0 +1,62 @@
+meta {
+  name: Get User Roles
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/rbac/users/:userId/roles
+  body: none
+  auth: none
+}
+
+params:path {
+  userId: {{userId}}
+}
+
+headers {
+  Content-Type: application/json
+  X-CSRF-Token: {{csrfToken}}
+}
+
+docs {
+  # Get User Roles
+  
+  Mengambil semua roles yang dimiliki oleh user tertentu.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | userId | UUID | ID user yang ingin dilihat roles-nya |
+  
+  ## Response
+  
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil roles user",
+    "data": {
+      "id": "uuid",
+      "username": "user123",
+      "name": "User Name",
+      "roles": [
+        {
+          "id": "uuid",
+          "name": "dosen",
+          "description": "Dosen"
+        },
+        {
+          "id": "uuid",
+          "name": "kaprodi",
+          "description": "Kepala Program Studi"
+        }
+      ]
+    }
+  }
+  ```
+  
+  ## Permission Required
+  
+  - `assign_roles` atau `manage_users`
+}

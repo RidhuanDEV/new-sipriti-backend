@@ -1,0 +1,15 @@
+meta {
+  name: skema-stats
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/admin/dashboard/skema-stats
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

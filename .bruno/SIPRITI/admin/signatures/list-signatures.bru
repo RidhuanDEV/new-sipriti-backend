@@ -1,0 +1,63 @@
+meta {
+  name: List Official Signatures
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/admin/signatures
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~page: 1
+  ~limit: 10
+  ~search: Rektor
+  ~isActive: true
+  ~withDeleted: false
+}
+
+docs {
+  # GET /api/admin/signatures
+
+  Mengambil daftar tanda tangan resmi. Memerlukan permission `view_signature`.
+
+  ## Query Parameters
+
+  | Parameter | Type | Default | Description |
+  |-----------|------|---------|-------------|
+  | page | number | 1 | Halaman saat ini |
+  | limit | number | 10 | Jumlah item per halaman |
+  | search | string | "" | Cari berdasarkan nama pejabat/jabatan |
+  | isActive | boolean | - | Filter berdasarkan status aktif |
+  | withDeleted | boolean | false | Tampilkan yang sudah dihapus juga |
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Data tanda tangan berhasil diambil",
+    "data": [
+      {
+        "id": "uuid",
+        "nama_pejabat": "Dr. Ir. Budi Santoso, M.T.",
+        "jabatan": "Rektor",
+        "isActive": true,
+        "deletedAt": null,
+        "createdAt": "2025-01-08T00:00:00.000Z",
+        "updatedAt": "2025-01-08T00:00:00.000Z"
+      }
+    ],
+    "meta": {
+      "pagination": {
+        "currentPage": 1,
+        "totalPages": 1,
+        "totalItems": 3,
+        "itemsPerPage": 10
+      }
+    }
+  }
+  ```
+}

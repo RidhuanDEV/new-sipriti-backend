@@ -1,0 +1,88 @@
+meta {
+  name: search-users
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{host}}/api/users/search?query=john
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  query: john
+}
+
+docs {
+  # Search Users
+  
+  ## API Endpoint
+  `GET /api/users/search`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  ```typescript
+  interface SearchUsersQuery {
+    query: string;  // Required - Kata kunci pencarian
+  }
+  ```
+  
+  | Param | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | query | string | ✅ | Min 2 karakter |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mencari users",
+    "data": [
+      {
+        "name": "Dr. Ahmad Fauzi",
+        "nidn": "0123456789",
+        "email": "ahmad@university.ac.id",
+        "institusi": "Institut Teknologi Indonesia",
+        "prodi": "Teknik Informatika",
+        "role": "dosen"
+      }
+    ]
+  }
+  ```
+  
+  **Note:** 
+  - Max 10 results returned
+  - User yang sedang login tidak termasuk dalam hasil
+  - Pencarian berdasarkan: name, nidn, email
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Code | Message |
+  |--------|------|---------|  
+  | 400 | BAD_REQUEST | Query minimal 2 karakter |
+  | 401 | UNAUTHORIZED | Token tidak valid |
+  | 403 | FORBIDDEN | Role tidak diizinkan |
+  
+  ### Error Example
+  ```json
+  {
+    "success": false,
+    "message": "Query minimal 2 karakter"
+  }
+  ```
+}

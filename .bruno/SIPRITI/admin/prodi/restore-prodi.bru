@@ -1,0 +1,50 @@
+meta {
+  name: Restore Prodi
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{host}}/api/admin/prodi/:id/restore
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-prodi-uuid-here
+}
+
+docs {
+  # POST /api/admin/prodi/:id/restore
+
+  Memulihkan program studi yang telah dihapus (soft-delete).
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID prodi yang ingin dipulihkan |
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Prodi berhasil dipulihkan",
+    "data": { "id": "uuid", "namaProdi": "Sistem Informasi" }
+  }
+  ```
+
+  ## Response Error (404)
+  ```json
+  { "success": false, "message": "Prodi tidak ditemukan" }
+  ```
+
+  ## Response Error (400)
+  ```json
+  { "success": false, "message": "Prodi tidak dalam status terhapus" }
+  ```
+
+  ## Permission Required
+  - `delete_prodi`
+}

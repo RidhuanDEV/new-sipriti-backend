@@ -1,0 +1,38 @@
+meta {
+  name: product-riset
+  seq: 17
+}
+
+docs {
+  # Product Riset API
+  
+  Endpoints untuk manajemen product riset (master data).
+  
+  **Base URL:** `/api/product-riset`
+  
+  ---
+  
+  ## Endpoints
+  
+  | Method | Endpoint | Description | Auth | Role |
+  |--------|----------|-------------|------|------|
+  | GET | `/` | List product riset dengan pagination | ✅ | All |
+  | GET | `/all` | List semua tanpa pagination | ✅ | All |
+  | GET | `/:id` | Detail product riset by ID | ✅ | All |
+  | POST | `/` | Buat product riset baru | ✅ | Admin |
+  | PUT | `/:id` | Update product riset | ✅ | Admin |
+  | DELETE | `/:id` | Hapus product riset | ✅ | Admin |
+  
+  ---
+  
+  ## Data Model
+  
+  ```typescript
+  interface ProductRiset {
+    id: string;        // UUID
+    nama_produk: string; // Nama product riset
+    createdAt: string; // ISO timestamp
+    updatedAt: string; // ISO timestamp
+  }
+  ```
+}

@@ -9,7 +9,7 @@ import type {
   CreatePermissionDto,
   UpdatePermissionDto,
 } from "./permission.schema.js";
-import type { JwtUserPayload } from "../../types/index.js";
+import type { AuthenticatedUserContext } from "../../types/auth.js";
 
 const repository = new PermissionRepository();
 const CACHE_PREFIX = PERMISSION_MODULE;
@@ -39,7 +39,7 @@ export class PermissionService {
 
   async create(
     dto: CreatePermissionDto,
-    user: JwtUserPayload,
+    user: AuthenticatedUserContext,
     requestId?: string,
   ) {
     const existing = await repository.findByName(dto.name);
@@ -69,7 +69,7 @@ export class PermissionService {
   async update(
     id: string,
     dto: UpdatePermissionDto,
-    user: JwtUserPayload,
+    user: AuthenticatedUserContext,
     requestId?: string,
   ) {
     const existingPermission = await repository.findById(id);
@@ -107,7 +107,11 @@ export class PermissionService {
     return permission;
   }
 
-  async delete(id: string, user: JwtUserPayload, requestId?: string) {
+  async delete(
+    id: string,
+    user: AuthenticatedUserContext,
+    requestId?: string,
+  ) {
     const existingPermission = await repository.findById(id);
     if (!existingPermission) throw HttpError.notFound("Permission not found");
 

@@ -1,0 +1,86 @@
+meta {
+  name: login
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{host}}/api/auth/login
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username": "admin",
+    "password": "@prpm_jaya#1"
+  }
+}
+
+docs {
+  # Login
+  
+  ## API Endpoint
+  `POST /api/auth/login`
+  
+  **Auth Required:** No
+  
+  ---
+  
+  ## DTO (Request Body)
+  
+  ```typescript
+  interface LoginDTO {
+    username: string;  // Required - Username atau email
+    password: string;  // Required - Password user
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | username | string | ✅ | Min 3 karakter |
+  | password | string | ✅ | Min 6 karakter |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Login berhasil",
+    "data": {
+      "user": {
+        "id": "uuid",
+        "username": "admin",
+        "name": "Super Admin"
+      }
+    }
+  }
+  ```
+  
+  **Note:** JWT diset ke cookie `jwt` (httpOnly). Authentication bisa via cookie atau bearer token.
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Code | Message |
+  |--------|------|---------|  
+  | 400 | BAD_REQUEST | Username dan password wajib diisi |
+  | 400 | BAD_REQUEST | Username atau password salah |
+  
+  ### Error Example
+  ```json
+  {
+    "success": false,
+    "message": "Username atau password salah"
+  }
+  ```
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

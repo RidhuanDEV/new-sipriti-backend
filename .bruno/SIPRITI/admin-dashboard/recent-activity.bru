@@ -1,0 +1,15 @@
+meta {
+  name: recent-activity
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{host}}/api/admin/dashboard/recent-activity
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

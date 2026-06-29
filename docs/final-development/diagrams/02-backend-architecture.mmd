@@ -1,0 +1,41 @@
+flowchart TB
+  Client["Frontend / API Consumer"]
+  Middleware["Global Middleware: Helmet, CORS, Rate Limit, Request ID, CSRF, Session, Audit"]
+  Routes["Routes per Modul"]
+  Schema["Zod v4 Schema"]
+  Controller["Controller"]
+  Service["Service dan Transaction Boundary"]
+  Policy["Policy Authorization dan Ownership"]
+  Repository["Repository"]
+  Model["Sequelize Model"]
+  Database[("MySQL")]
+  Storage["Storage Service Upload"]
+  Mapper["DTO dan Mapper Response"]
+
+  Client --> Middleware
+  Middleware --> Routes
+  Routes --> Schema
+  Schema --> Controller
+  Controller --> Service
+  Service --> Policy
+  Service --> Repository
+  Repository --> Model
+  Model --> Database
+  Service --> Storage
+  Service --> Mapper
+  Mapper --> Controller
+  Controller --> Client
+
+  subgraph CrossCutting["Cross-cutting Concern"]
+    CSRF["CSRF Protection"]
+    Auth["JWT Cookie Auth"]
+    RBAC["RBAC Permission"]
+    Log["Pino Access Log"]
+    OpenAPI["Swagger Schema Sync"]
+  end
+
+  Middleware -.-> CSRF
+  Middleware -.-> Auth
+  Policy -.-> RBAC
+  Middleware -.-> Log
+  Schema -.-> OpenAPI

@@ -1,0 +1,39 @@
+meta {
+  name: panduan
+  seq: 14
+}
+
+docs {
+  # Panduan API
+  
+  Endpoints untuk manajemen panduan/dokumen panduan.
+  
+  **Base URL:** `/api/panduan`
+  
+  ---
+  
+  ## Endpoints
+  
+  | Method | Endpoint | Description | Auth | Role |
+  |--------|----------|-------------|------|------|
+  | GET | `/` | List panduan dengan pagination | ✅ | All |
+  | GET | `/:id` | Detail panduan by ID | ✅ | All |
+  | POST | `/` | Upload panduan baru | ✅ | Admin |
+  | PUT | `/:id` | Update panduan | ✅ | Admin |
+  | DELETE | `/:id` | Hapus panduan | ✅ | Admin |
+  
+  ---
+  
+  ## Data Model
+  
+  ```typescript
+  interface Panduan {
+    id: string;          // UUID
+    judul: string;       // Judul panduan
+    isi_panduan: string; // Isi/konten panduan (HTML/text)
+    file_url: string | null; // URL file panduan (PDF)
+    createdAt: string;   // ISO timestamp
+    updatedAt: string;   // ISO timestamp
+  }
+  ```
+}

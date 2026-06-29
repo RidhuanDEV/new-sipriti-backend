@@ -1,0 +1,15 @@
+meta {
+  name: deskripsi-sectionKey
+  type: http
+  seq: 18
+}
+
+get {
+  url: {{host}}/api/capaian/deskripsi/:sectionKey
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

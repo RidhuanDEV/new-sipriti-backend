@@ -1,0 +1,41 @@
+meta {
+  name: upload
+  seq: 21
+}
+
+docs {
+  # Upload API
+  
+  Endpoints untuk upload file/gambar.
+  
+  **Base URL:** `/api/upload`
+  
+  ---
+  
+  ## Endpoints
+  
+  | Method | Endpoint | Description | Auth | Role |
+  |--------|----------|-------------|------|------|
+  | POST | `/image` | Upload single image | ✅ | All |
+  | POST | `/images` | Upload multiple images (max 10) | ✅ | All |
+  | DELETE | `/image/:filename` | Delete uploaded image | ✅ | All |
+  
+  ---
+  
+  ## Supported Formats
+  
+  - **Images:** jpg, jpeg, png, gif, webp, avif, heic, heif
+  - **Max Size (image policy):** 5MB per file
+  - **Max Count (multi-image):** 10 file
+  
+  ---
+  
+  ## Upload Directory
+  
+  Files are stored in `/uploads/images` with randomized filenames.
+
+  ## Catatan Implementasi
+  Endpoint upload image menggunakan facade:
+  - `createUploadFacade("image")`
+  - `createUploadErrorHandler({ maxFileSizeMb: 5 })`
+}

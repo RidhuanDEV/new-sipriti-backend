@@ -1,0 +1,23 @@
+meta {
+  name: hki-review
+}
+
+docs {
+  # HKI Review API
+
+  ## Endpoints
+
+  | Method | Path | Name |
+  |--------|------|------|
+  | GET | /api/hki-review/stats | stats |
+  | GET | /api/hki-review/all | all |
+  | GET | /api/hki-review/ | list |
+  | GET | /api/hki-review/:id | get-by-id |
+  | POST | /api/hki-review/:id/approve | approve |
+  | POST | /api/hki-review/:id/reject | reject |
+
+  ## Auth & Permission
+  - Authentication wajib
+  - View endpoints: `view_review_hki` atau `manage_hki`
+  - Approve/Reject endpoints: `approve_hki`
+}

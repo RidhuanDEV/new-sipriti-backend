@@ -1,0 +1,54 @@
+meta {
+  name: Update Bidang Fokus
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{host}}/api/admin/bidang-fokus/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: your-bidang-fokus-uuid-here
+}
+
+body:json {
+  {
+    "nama_bidang": "Kecerdasan Buatan Terapan"
+  }
+}
+
+docs {
+  # PUT /api/admin/bidang-fokus/:id
+  
+  Mengubah data bidang fokus.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID bidang fokus yang ingin diupdate |
+  
+  ## Request Body (Partial Update)
+  
+  | Field | Type | Description |
+  |-------|------|-------------|
+  | nama_bidang | string | Nama bidang fokus baru (1-100 karakter) |
+  
+  ## Response Success (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Bidang fokus berhasil diperbarui",
+    "data": {
+      "id": "uuid",
+      "nama_bidang": "Kecerdasan Buatan Terapan",
+      "createdAt": "2025-01-08T00:00:00.000Z",
+      "updatedAt": "2025-01-08T01:00:00.000Z"
+    }
+  }
+  ```
+}

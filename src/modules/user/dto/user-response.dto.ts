@@ -9,7 +9,7 @@ export interface RoleWithPermissionsDto {
 
 export interface UserResponseDto {
   id: string;
-  email: string;
+  email: string | null;
   roleId: string;
   role?: RoleWithPermissionsDto;
   /** ISO 8601 string — matches the actual JSON serialisation over HTTP. */

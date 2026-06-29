@@ -1,0 +1,24 @@
+meta {
+  name: mitra-kerja-riset
+  seq: 11
+}
+
+docs {
+  # Mitra Kerja Riset API
+  
+  Endpoints untuk manajemen mitra kerja riset.
+  
+  ## Base URL
+  `/api/mitra-kerja-riset`
+  
+  ## Endpoints Overview
+  
+  | Method | Endpoint | Auth | Role | Description |
+  |--------|----------|------|------|-------------|
+  | GET | / | ✅ | All | List dengan pagination |
+  | GET | /all | ✅ | All | List semua (dropdown) |
+  | GET | /:id | ✅ | All | Detail by ID |
+  | POST | / | ✅ | Admin | Buat mitra |
+  | PUT | /:id | ✅ | Admin | Update mitra |
+  | DELETE | /:id | ✅ | Admin | Hapus mitra |
+}

@@ -1,0 +1,15 @@
+meta {
+  name: user-approved
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{host}}/api/proposal-review/user/approved
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,15 @@
+meta {
+  name: validate
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{host}}/api/laporan-usulan/:id/validate
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

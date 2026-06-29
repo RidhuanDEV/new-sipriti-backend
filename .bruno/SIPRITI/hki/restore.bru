@@ -1,0 +1,24 @@
+meta {
+  name: Restore HKI
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{host}}/api/hki/:id/restore
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-hki-uuid-here
+}
+
+docs {
+  # POST /api/hki/:id/restore
+
+  Memulihkan data HKI yang telah dihapus (soft-delete).
+
+  ## Permission Required
+  - `delete_hki` atau `manage_hki`
+}

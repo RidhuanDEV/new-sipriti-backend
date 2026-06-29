@@ -37,6 +37,8 @@ export class PermissionRepository {
     if (!record) return null;
     const fields: Partial<InferAttributes<Permission>> = {};
     if (data.name !== undefined) fields.name = data.name;
+    if (data.description !== undefined) fields.description = data.description;
+    if (data.module !== undefined) fields.module = data.module;
     return record.update(fields, trx ? { transaction: trx } : undefined);
   }
 

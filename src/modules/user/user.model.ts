@@ -8,14 +8,20 @@ import type {
   NonAttribute,
 } from "sequelize";
 import type { Role } from "../roles/role.model.js";
+import type { Prodi } from "../prodi/prodi.model.js";
 
 export class User extends Model<
-  InferAttributes<User, { omit: "role" }>,
-  InferCreationAttributes<User, { omit: "role" }>
+  InferAttributes<User, { omit: "role" | "roles" | "prodiRelation" }>,
+  InferCreationAttributes<User, { omit: "role" | "roles" | "prodiRelation" }>
 > {
   declare id: CreationOptional<string>;
-  declare email: string;
+  declare name: CreationOptional<string | null>;
+  declare username: CreationOptional<string | null>;
+  declare email: CreationOptional<string | null>;
   declare password: string;
+  declare nidn: CreationOptional<string | null>;
+  declare institusi: CreationOptional<string | null>;
+  declare prodiKode: CreationOptional<string | null>;
   declare roleId: string;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -23,10 +29,12 @@ export class User extends Model<
 
   // Association (eager-loaded)
   declare role?: NonAttribute<Role>;
+  declare roles?: NonAttribute<Role[]>;
+  declare prodiRelation?: NonAttribute<Prodi | null>;
 }
 
 export interface UserCreateInput {
-  email: string;
+  email: string | null;
   password: string;
   roleId: string;
 }
@@ -39,14 +47,36 @@ export function initModel(sequelize: Sequelize): typeof User {
         defaultValue: () => generateUuidV7(),
         primaryKey: true,
       },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      username: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true,
+      },
       email: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: true,
       },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      nidn: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      institusi: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      prodiKode: {
+        type: DataTypes.STRING(20),
+        allowNull: true,
+        field: "prodi_kode",
       },
       roleId: {
         type: DataTypes.UUID,

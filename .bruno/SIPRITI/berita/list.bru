@@ -1,0 +1,85 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/berita?page=1&limit=10
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  limit: 10
+  ~kategori: Umum
+  ~q: keyword
+}
+
+docs {
+  # List Berita
+  
+  ## API Endpoint
+  `GET /api/berita`
+  
+  **Auth Required:** ❌ Public
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  ```typescript
+  interface ListBeritaQuery {
+    page?: number;     // Default: 1
+    limit?: number;    // Default: 10, Max: 200
+    kategori?: string; // Filter by kategori
+    q?: string;        // Search by judul
+  }
+  ```
+  
+  | Param | Type | Required | Default | Validation |
+  |-------|------|----------|---------|------------|
+  | page | number | ❌ | 1 | Min 1 |
+  | limit | number | ❌ | 10 | Max 200 |
+  | kategori | string | ❌ | - | Pendanaan/Workshop/Panduan/Umum |
+  | q | string | ❌ | - | Search keyword |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil daftar berita",
+    "data": [
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "judul": "Pengumuman Hibah Penelitian 2025",
+        "isi_berita": "<p>Konten berita...</p>",
+        "kategori": "Pendanaan",
+        "photo_url": "/uploads/berita/photo123.jpg",
+        "file_url": "/uploads/berita/file123.pdf",
+        "createdAt": "2025-01-08T10:00:00.000Z",
+        "updatedAt": "2025-01-08T10:00:00.000Z"
+      }
+    ],
+    "meta": {
+      "page": 1,
+      "limit": 10,
+      "total": 25,
+      "totalPages": 3
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 500 | Internal Server Error |
+}

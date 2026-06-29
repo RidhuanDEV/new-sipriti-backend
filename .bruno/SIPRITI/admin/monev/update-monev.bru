@@ -1,0 +1,79 @@
+meta {
+  name: Update Monev
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{host}}/api/admin/monev/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: your-monev-uuid-here
+}
+
+body:json {
+  {
+    "tgl_monev": "2025-01-20",
+    "direktorat": "PRODI",
+    "status_dokumen": "Sedang Diproses",
+    "ringkasan_monev": "Revisi hasil monitoring...",
+    "catatan": "Update catatan"
+  }
+}
+
+docs {
+  # PUT /api/admin/monev/:id
+  
+  Mengupdate record Monev yang sudah ada.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID monev yang akan diupdate |
+  
+  ## Request Body (Partial Update)
+  
+  Semua field bersifat opsional. Hanya field yang dikirim yang akan diupdate.
+  
+  | Field | Type | Description |
+  |-------|------|-------------|
+  | tgl_monev | DATE | Tanggal pelaksanaan monev |
+  | direktorat | string | PRPM, PRODI, atau PKA |
+  | status_dokumen | string | Belum Lengkap, Sedang Diproses, Lengkap |
+  | ringkasan_monev | text | Ringkasan hasil monev |
+  | catatan | text | Catatan tambahan |
+  
+  ## Response Success (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Jadwal monev berhasil diperbarui",
+    "data": {
+      "id": "uuid",
+      "usulan_id": "usulan-uuid",
+      "tgl_monev": "2025-01-20",
+      "direktorat": "PRODI",
+      "status_dokumen": "Sedang Diproses",
+      "jenis_usulan": "Penelitian",
+      "berita_acara": null,
+      "form_penilaian": null,
+      "ringkasan_monev": "Revisi hasil monitoring...",
+      "catatan": "Update catatan",
+      "updatedAt": "2025-01-08T00:00:00.000Z"
+    }
+  }
+  ```
+  
+  ## Response Error (404)
+  ```json
+  {
+    "success": false,
+    "message": "Monev tidak ditemukan"
+  }
+  ```
+}

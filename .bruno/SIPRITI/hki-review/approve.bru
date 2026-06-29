@@ -1,0 +1,37 @@
+meta {
+  name: approve
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{host}}/api/hki-review/:id/approve
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{hki_id}}
+}
+
+body:json {
+  {
+    "catatan": "Memenuhi kriteria administrasi"
+  }
+}
+
+docs {
+  # Approve HKI
+
+  ## API Endpoint
+  `POST /api/hki-review/:id/approve`
+
+  ## Request Body
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | catatan | string | ❌ | Catatan reviewer |
+}

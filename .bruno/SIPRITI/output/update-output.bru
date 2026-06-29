@@ -1,0 +1,65 @@
+meta {
+  name: Update Output
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{host}}/api/outputs/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: your-output-uuid-here
+}
+
+body:json {
+  {
+    "nama": "Jurnal Internasional Bereputasi (Updated)",
+    "kode": "JIB"
+  }
+}
+
+docs {
+  # PUT /api/outputs/:id
+
+  Mengupdate data output. Memerlukan permission `edit_output`.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID output yang ingin diupdate |
+
+  ## Request Body
+
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | nama | string | ❌ | Nama output/jenis luaran |
+  | kode | string | ❌ | Kode singkat output |
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Output berhasil diupdate",
+    "data": {
+      "id": "uuid",
+      "nama": "Jurnal Internasional Bereputasi (Updated)",
+      "kode": "JIB",
+      "createdAt": "2025-01-08T00:00:00.000Z",
+      "updatedAt": "2025-01-09T00:00:00.000Z"
+    }
+  }
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 400 | Validasi gagal |
+  | 403 | Tidak memiliki permission edit_output |
+  | 404 | Output tidak ditemukan |
+}

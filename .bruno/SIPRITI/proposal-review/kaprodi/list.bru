@@ -1,0 +1,35 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/proposal-review/:type?stage=kaprodi
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  stage: kaprodi
+}
+
+params:path {
+  type: penelitian
+}
+
+docs {
+  # List Proposal Kaprodi
+  
+  ## API Endpoint
+  `GET /api/proposal-review/:type?stage=kaprodi`
+  
+  Mendapatkan daftar proposal penelitian/pengabdian yang sedang berada di stage `kaprodi` dan sesuai prodi dari Kaprodi yang login.
+  
+  **Auth Required:** ✅ Bearer Token (Kaprodi / Admin)  
+  **Permission Required:** `view_proposal_kaprodi`
+}

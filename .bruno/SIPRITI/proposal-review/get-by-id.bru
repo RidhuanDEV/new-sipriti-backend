@@ -1,0 +1,31 @@
+meta {
+  name: get-by-id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/proposal-review/:type/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  type: penelitian
+  id: {{proposal_id}}
+}
+
+docs {
+  # Get Proposal Review Detail by ID
+  
+  ## API Endpoint
+  `GET /api/proposal-review/:type/:id`
+  
+  Mendapatkan detail proposal dalam antrean review.
+  
+  **Auth Required:** ✅ Bearer Token  
+}

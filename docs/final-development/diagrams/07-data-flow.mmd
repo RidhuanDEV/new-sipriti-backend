@@ -1,0 +1,26 @@
+flowchart LR
+  PublicInput["Input publikasi CMS"]
+  ProposalInput["Input proposal"]
+  UploadInput["Upload dokumen/gambar"]
+  ReviewInput["Input review/validasi"]
+  ImportInput["Workbook bulk import"]
+
+  API["Backend API"]
+  Content[("Tabel CMS dan public content")]
+  Proposal[("Tabel proposal, anggota, substansi, jadwal, luaran, RAB")]
+  Files[("uploaded_files dan storage")]
+  Workflow[("laporan, HKI, monev, signatures")]
+  Audit[("audit_logs")]
+  Output["Response JSON, PDF, XLSX, atau file publik"]
+
+  PublicInput --> API --> Content
+  ProposalInput --> API --> Proposal
+  UploadInput --> API --> Files
+  ReviewInput --> API --> Workflow
+  ImportInput --> API --> Proposal
+  API --> Audit
+  Content --> API
+  Proposal --> API
+  Files --> API
+  Workflow --> API
+  API --> Output

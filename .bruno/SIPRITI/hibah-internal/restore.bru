@@ -1,0 +1,24 @@
+meta {
+  name: Restore Hibah Internal
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{host}}/api/hibah-internal/:id/restore
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-hibah-internal-uuid-here
+}
+
+docs {
+  # POST /api/hibah-internal/:id/restore
+
+  Memulihkan hibah internal yang telah dihapus (soft-delete).
+
+  ## Permission Required
+  - `delete_hibah_internal`
+}

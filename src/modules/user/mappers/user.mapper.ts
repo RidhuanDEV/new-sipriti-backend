@@ -34,7 +34,7 @@ export function toUserResponse(model: User): UserResponseDto {
 
   return {
     id: model.id,
-    email: model.email,
+    email: model.email ?? null,
     roleId: model.roleId,
     ...(roleData !== undefined ? { role: roleData } : {}),
     createdAt: createdAt || "",

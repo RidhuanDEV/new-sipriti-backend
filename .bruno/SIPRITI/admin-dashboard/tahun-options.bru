@@ -1,0 +1,15 @@
+meta {
+  name: tahun-options
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{host}}/api/admin/dashboard/tahun-options
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

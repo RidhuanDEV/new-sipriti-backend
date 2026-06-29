@@ -1,0 +1,40 @@
+meta {
+  name: Get File by ID
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/files/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: your-file-uuid-here
+}
+
+docs {
+  # GET /api/files/:id
+
+  Mengambil file dari server berdasarkan ID database. Autentikasi opsional.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID file dalam database |
+
+  ## Response Success (200)
+
+  Stream binary file sesuai content-type file tersimpan:
+  ```
+  Content-Type: <mime-type file>
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 404 | File tidak ditemukan |
+}

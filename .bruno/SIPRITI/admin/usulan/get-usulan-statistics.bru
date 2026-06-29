@@ -1,0 +1,54 @@
+meta {
+  name: Get Usulan Statistics
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/api/admin/usulan/statistics
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~tahun: 2025
+}
+
+docs {
+  # GET /api/admin/usulan/statistics
+  
+  Mengambil statistik usulan untuk dashboard admin.
+  
+  ## Query Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | tahun | string | Filter tahun (opsional) |
+  
+  ## Response Success (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Statistik usulan berhasil diambil",
+    "data": {
+      "total": 50,
+      "byStatus": {
+        "Draft": 10,
+        "Pending": 20,
+        "Approved": 15,
+        "Declined": 5
+      },
+      "byTipe": {
+        "Penelitian": 30,
+        "Pengabdian": 20
+      }
+    }
+  }
+  ```
+  
+  ## Use Cases
+  - Dashboard cards showing total usulan
+  - Pie chart distribution by status
+  - Bar chart comparison Penelitian vs Pengabdian
+}

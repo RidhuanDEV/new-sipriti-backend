@@ -1,0 +1,77 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/mitra-kerja-riset?page=1&limit=10
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  page: 1
+  limit: 10
+}
+
+docs {
+  # List Mitra Kerja Riset
+  
+  ## API Endpoint
+  `GET /api/mitra-kerja-riset`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  | Param | Type | Required | Default |
+  |-------|------|----------|---------|
+  | page | number | ❌ | 1 |
+  | limit | number | ❌ | 10 |
+  | search | string | ❌ | - |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil daftar mitra",
+    "data": [
+      {
+        "id": "uuid",
+        "nama": "PT. Mitra Teknologi",
+        "alamat": "Jl. Teknologi No. 1",
+        "kota": "Jakarta",
+        "negara": "Indonesia",
+        "kontak": "021-12345678",
+        "email": "info@mitra.id"
+      }
+    ],
+    "meta": {
+      "page": 1,
+      "limit": 10,
+      "total": 25,
+      "totalPages": 3
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+}

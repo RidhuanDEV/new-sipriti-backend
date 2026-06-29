@@ -1,0 +1,51 @@
+flowchart LR
+  Dosen["Dosen / Peneliti"]
+  KoordPenelitian["Koordinator Penelitian"]
+  KoordPengabdian["Koordinator Pengabdian"]
+  Kaprodi["Kaprodi"]
+  Admin["Admin PRPM"]
+
+  UC_Auth(("Login & Kelola Profil"))
+  UC_Master(("Kelola Master Data & RBAC"))
+  UC_Proposal(("Buat & Submit Proposal (Penelitian & Pengabdian)"))
+  UC_Review(("Review Proposal, Laporan & Monev"))
+  UC_Monev_Lap(("Upload Laporan Kemajuan & Akhir"))
+  UC_Hibah(("Meneruskan ke Hibah Internal"))
+  UC_HKI_Dosen(("Ajukan Usulan HKI"))
+  UC_HKI_Admin(("Review Usulan HKI"))
+  UC_Excel(("Import Usulan via Excel"))
+  UC_Crawler(("Crawling Data Publik (Scholar, BIMA, RIS)"))
+  UC_Signature(("Kelola Tanda Tangan Resmi"))
+  UC_Audit(("Dashboard Terpusat & Audit Log"))
+
+  Dosen --> UC_Auth
+  Dosen --> UC_Proposal
+  Dosen --> UC_Monev_Lap
+  Dosen --> UC_HKI_Dosen
+  Dosen --> UC_Hibah
+
+  KoordPenelitian --> UC_Auth
+  KoordPenelitian --> UC_Review
+  KoordPenelitian --> UC_Hibah
+  KoordPenelitian --> UC_Excel
+  KoordPenelitian --> UC_Audit
+
+  KoordPengabdian --> UC_Auth
+  KoordPengabdian --> UC_Review
+  KoordPengabdian --> UC_Hibah
+  KoordPengabdian --> UC_Excel
+  KoordPengabdian --> UC_Audit
+
+  Kaprodi --> UC_Auth
+  Kaprodi --> UC_Signature
+  Kaprodi --> UC_Audit
+
+  Admin --> UC_Auth
+  Admin --> UC_Master
+  Admin --> UC_Review
+  Admin --> UC_Hibah
+  Admin --> UC_HKI_Admin
+  Admin --> UC_Excel
+  Admin --> UC_Crawler
+  Admin --> UC_Signature
+  Admin --> UC_Audit

@@ -1,0 +1,45 @@
+meta {
+  name: Download Import Template
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{host}}/api/admin/usulan/import/template
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "tipe": "Penelitian"
+  }
+}
+
+docs {
+  # POST /api/admin/usulan/import/template
+
+  Download template Excel untuk import bulk usulan. Isi template sesuai format, lalu upload ke endpoint import.
+
+  ## Request Body
+
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | tipe | string | ✅ | Tipe usulan: `Penelitian` atau `Pengabdian` |
+
+  ## Response Success (200)
+
+  File download binary (.xlsx):
+  ```
+  Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+  Content-Disposition: attachment; filename="template-import-usulan.xlsx"
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 400 | Validasi gagal |
+  | 401 | Tidak terautentikasi |
+  | 403 | Tidak memiliki permission manage_penelitian atau manage_pengabdian |
+}

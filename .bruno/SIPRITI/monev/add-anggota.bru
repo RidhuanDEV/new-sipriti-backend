@@ -1,0 +1,88 @@
+meta {
+  name: add-anggota
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{host}}/api/monev/:proposalId/anggota
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  proposalId: {{proposal_id}}
+}
+
+body:json {
+  {
+    "userId": "{{user_id}}",
+    "peran": "Anggota"
+  }
+}
+
+docs {
+  # Add Anggota to Proposal
+  
+  ## API Endpoint
+  `POST /api/monev/:proposalId/anggota`
+  
+  **Auth Required:** ✅  
+  **Role Required:** All authenticated users
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | proposalId | UUID | ✅ | ID proposal |
+  
+  ## DTO (Request Body)
+  
+  ```typescript
+  interface AddAnggotaDTO {
+    userId: string;  // Required - ID user
+    peran?: string;  // Optional - Peran (default: 'Anggota')
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | userId | UUID | ✅ | Tidak boleh diri sendiri |
+  | peran | string | ❌ | Default: 'Anggota' |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201)
+  ```json
+  {
+    "success": true,
+    "message": "Anggota berhasil ditambahkan",
+    "data": {
+      "id": "uuid-member",
+      "haki_proposal_id": "uuid-proposal",
+      "user_id": "uuid-user",
+      "peran": "Anggota",
+      "status_invite": "pending"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 400 | userId wajib diisi |
+  | 400 | Tidak dapat menambahkan diri sendiri |
+  | 401 | Token tidak valid |
+  | 409 | Anggota sudah diundang sebelumnya |
+}

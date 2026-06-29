@@ -1,0 +1,6 @@
+[
+  {
+    "target": "  findOptions(): Promise<BidangFokus[]> {\n    return BidangFokus.findAll({\n      attributes: [\"id\", \"namaBidang\"],\n      order: [[\"namaBidang\", \"ASC\"]],\n    });\n  }\n}",
+    "replacement": "  findOptions(): Promise<BidangFokus[]> {\n    return BidangFokus.findAll({\n      attributes: [\"id\", \"namaBidang\"],\n      order: [[\"namaBidang\", \"ASC\"]],\n    });\n  }\n\n  findByIdWithDeleted(id: string): Promise<BidangFokus | null> {\n    return BidangFokus.findOne({ where: { id }, paranoid: false });\n  }\n\n  async restore(bidangFokus: BidangFokus, transaction?: Transaction): Promise<void> {\n    await bidangFokus.restore(transaction ? { transaction } : {});\n  }\n}"
+  }
+]

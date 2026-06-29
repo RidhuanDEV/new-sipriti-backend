@@ -1,0 +1,71 @@
+meta {
+  name: me
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/api/auth/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  # Get Current User
+  
+  ## API Endpoint
+  `GET /api/auth/me`
+  
+  **Auth Required:** ✅ Bearer Token
+  
+  ---
+  
+  ## DTO (Request)
+  
+  No request body required. Uses JWT from cookie or Authorization header.
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Data user berhasil diambil",
+    "data": {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "username": "johndoe",
+      "name": "John Doe",
+      "nidn": "0123456789",
+      "email": "john@university.ac.id",
+      "institusi": "Institut Teknologi Indonesia",
+      "prodi": "Teknik Informatika",
+      "role": "dosen",
+      "role_id": "role-uuid",
+      "permissions": ["view_dashboard", "view_proposal"]
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Code | Message |
+  |--------|------|---------|  
+  | 401 | UNAUTHORIZED | Token tidak valid atau expired |
+  | 401 | UNAUTHORIZED | User tidak ditemukan |
+  
+  ### Error Example
+  ```json
+  {
+    "success": false,
+    "message": "Token tidak valid atau expired"
+  }
+  ```
+}

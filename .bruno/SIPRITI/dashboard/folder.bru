@@ -1,0 +1,25 @@
+meta {
+  name: dashboard
+  seq: 6
+}
+
+docs {
+  # Dashboard API
+  
+  Endpoints untuk dashboard user (statistik proposal).
+  
+  ## Base URL
+  `/api/dashboard`
+  
+  ## Endpoints Overview
+  
+  | Method | Endpoint | Auth | Role | Description |
+  |--------|----------|------|------|-------------|
+  | GET | /latest-statuses | ✅ | All | Status usulan terakhir |
+  | GET | /counts | ✅ | All | Jumlah proposal per kategori |
+  
+  ## Roles Allowed
+  - admin
+  - dosen
+  - mahasiswa
+}

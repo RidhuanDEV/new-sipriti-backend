@@ -1,0 +1,15 @@
+meta {
+  name: get-by-id
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{host}}/api/hki-review/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

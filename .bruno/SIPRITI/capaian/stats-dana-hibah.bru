@@ -1,0 +1,37 @@
+meta {
+  name: stats-dana-hibah
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/api/capaian/stats/dana-hibah
+  body: none
+  auth: inherit
+}
+
+docs {
+  # Get Total Dana Hibah
+  
+  ## API Endpoint
+  `GET /api/capaian/stats/dana-hibah`
+  
+  **Auth Required:** ❌ Public
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil total dana hibah",
+    "data": {
+      "total": 1500000000,
+      "formatted": "Rp1.500.000.000",
+      "count": 30
+    }
+  }
+  ```
+}

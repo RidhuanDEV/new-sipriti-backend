@@ -1,0 +1,75 @@
+meta {
+  name: create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{host}}/api/kategori-publikasi
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "nama": "Jurnal Internasional",
+    "keterangan": "Publikasi jurnal internasional terindeks"
+  }
+}
+
+docs {
+  # Create Kategori Publikasi
+  
+  ## API Endpoint
+  `POST /api/kategori-publikasi`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## DTO (Request Body)
+  
+  ```typescript
+  interface CreateKategoriDTO {
+    nama: string;        // Required
+    keterangan?: string; // Optional
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | nama | string | ✅ | - |
+  | keterangan | string | ❌ | - |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201 Created)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil membuat kategori publikasi",
+    "data": {
+      "id": "uuid",
+      "nama": "Jurnal Internasional",
+      "keterangan": "Deskripsi"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 400 | Nama wajib diisi |
+  | 401 | Token tidak valid |
+  | 403 | Akses ditolak |
+}

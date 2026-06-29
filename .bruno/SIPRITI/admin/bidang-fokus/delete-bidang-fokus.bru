@@ -1,0 +1,45 @@
+meta {
+  name: Delete Bidang Fokus
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{host}}/api/admin/bidang-fokus/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-bidang-fokus-uuid-here
+}
+
+docs {
+  # DELETE /api/admin/bidang-fokus/:id
+  
+  Menghapus bidang fokus.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID bidang fokus yang ingin dihapus |
+  
+  ## Response Success (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Bidang fokus berhasil dihapus",
+    "data": null
+  }
+  ```
+  
+  ## Response Error (404)
+  ```json
+  {
+    "success": false,
+    "message": "Bidang fokus tidak ditemukan"
+  }
+  ```
+}

@@ -1,0 +1,63 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/carousel
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~page: capaian
+  ~active_only: true
+}
+
+docs {
+  # List Carousel (Public)
+  
+  ## API Endpoint
+  `GET /api/carousel`
+  
+  **Auth Required:** ❌ Public
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  ```typescript
+  interface ListCarouselQuery {
+    page?: string;        // Filter halaman: "capaian" | "home"
+    active_only?: boolean; // Default: true
+  }
+  ```
+  
+  | Param | Type | Required | Default |
+  |-------|------|----------|---------|
+  | page | string | ❌ | "capaian" |
+  | active_only | boolean | ❌ | true |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil data carousel",
+    "data": [
+      {
+        "id": "uuid",
+        "title": "Banner Penelitian 2025",
+        "image_url": "/uploads/carousel/banner1.jpg",
+        "is_active": true,
+        "page": "capaian",
+        "order": 1
+      }
+    ]
+  }
+  ```
+}

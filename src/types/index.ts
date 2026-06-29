@@ -1,7 +1,7 @@
 export interface JwtUserPayload {
   id: string;
-  email: string;
-  roleId: string;
+  email?: string;
+  roleId?: string;
 }
 
 export interface PaginationMeta {

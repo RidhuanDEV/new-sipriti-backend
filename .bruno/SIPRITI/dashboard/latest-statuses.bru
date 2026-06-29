@@ -1,0 +1,84 @@
+meta {
+  name: latest-statuses
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/dashboard/latest-statuses
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  ~page: 1
+  ~limit: 5
+}
+
+docs {
+  # Get Latest Statuses
+  
+  ## API Endpoint
+  `GET /api/dashboard/latest-statuses`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  ```typescript
+  interface LatestStatusesQuery {
+    page?: number;  // Default: 1
+    limit?: number; // Default: 5
+  }
+  ```
+  
+  | Param | Type | Required | Default |
+  |-------|------|----------|---------|
+  | page | number | ❌ | 1 |
+  | limit | number | ❌ | 5 |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil status usulan",
+    "data": [
+      {
+        "proposal_id": "uuid",
+        "judul": "Pengembangan AI untuk Pertanian",
+        "nama_ketua": "Dr. Ahmad Fauzi",
+        "peran": "Ketua",
+        "status_usulan": "Pending",
+        "tipe_usulan": "Penelitian",
+        "updatedAt": "2025-01-08T10:00:00.000Z"
+      }
+    ],
+    "meta": {
+      "page": 1,
+      "limit": 5,
+      "total": 12,
+      "totalPages": 3
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+  | 403 | Role tidak diizinkan |
+}

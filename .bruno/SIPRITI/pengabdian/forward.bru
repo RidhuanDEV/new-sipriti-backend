@@ -1,0 +1,34 @@
+meta {
+  name: forward
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{host}}/api/pengabdian/:id/forward
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{proposal_id}}
+}
+
+body:multipart-form {
+  file_artikel: @file(path/to/artikel.pdf)
+  file_substansi: @file(path/to/substansi.pdf)
+  file_mitra: @file(path/to/mitra.pdf)
+}
+
+docs {
+  # [DEPRECATED] Forward Usulan Pengabdian
+  
+  > ⚠️ Endpoint ini tidak lagi digunakan sejak implementasi `tipe_pendanaan`.
+  > Gunakan `tipe_pendanaan: "hibah_internal"` saat create proposal sebagai pengganti.
+  
+  Endpoint: `POST /api/pengabdian/:id/forward` — sekarang mengembalikan status **410 Gone** di backend.
+}

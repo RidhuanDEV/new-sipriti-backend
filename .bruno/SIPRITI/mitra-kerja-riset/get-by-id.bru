@@ -1,0 +1,68 @@
+meta {
+  name: get-by-id
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/api/mitra-kerja-riset/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{mitra_id}}
+}
+
+docs {
+  # Get Mitra Kerja Riset by ID
+  
+  ## API Endpoint
+  `GET /api/mitra-kerja-riset/:id`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID mitra |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil mitra",
+    "data": {
+      "id": "uuid",
+      "nama": "PT. Mitra Teknologi",
+      "alamat": "Jl. Teknologi No. 1",
+      "kota": "Jakarta",
+      "negara": "Indonesia",
+      "kontak": "021-12345678",
+      "email": "info@mitra.id",
+      "createdAt": "2025-01-08T10:00:00.000Z"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+  | 404 | Mitra tidak ditemukan |
+}

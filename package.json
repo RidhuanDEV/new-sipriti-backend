@@ -7,6 +7,11 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc && tsc-alias && node -e \"const fs = require('fs'); fs.mkdirSync('dist/database/seeders', { recursive: true }); fs.writeFileSync('dist/database/seeders/package.json', JSON.stringify({ type: 'commonjs' }))\"",
     "start": "node dist/server.js",
+    "test": "tsx --test",
+    "phase6:smoke": "tsx src/scripts/phase6-smoke-matrix.ts",
+    "phase6:migration-check": "tsx src/scripts/phase6-migration-static-check.ts",
+    "phase6:copy-legacy-fixture": "tsx src/scripts/phase6-copy-legacy-fixture.ts",
+    "phase6:http-parity": "tsx src/scripts/phase6-http-parity.ts",
     "make:crud": "tsx src/scripts/generate-crud.ts",
     "api-docs": "tsx src/scripts/generate-swagger-schemas.ts",
     "db:migrate": "npm run build && npx sequelize-cli db:migrate",
@@ -29,16 +34,27 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@types/multer": "^2.1.0",
+    "@types/pdfmake": "^0.2.12",
+    "@types/sanitize-html": "^2.16.1",
     "bcrypt": "^6.0.0",
+    "cheerio": "^1.2.0",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
+    "exceljs": "^4.4.0",
     "express": "^5.2.1",
     "express-rate-limit": "^8.5.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
+    "katex": "^0.16.45",
+    "mathjax-full": "^3.2.1",
+    "multer": "^2.1.1",
     "mysql2": "^3.19.0",
+    "pdfmake": "^0.2.15",
     "pino": "^10.3.1",
+    "sanitize-html": "^2.17.4",
     "sequelize": "^6.37.8",
+    "sharp": "^0.34.5",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "zod": "^4.3.6"
@@ -62,8 +78,14 @@
     "typescript": "^5.9.3"
   },
   "overrides": {
+    "exceljs": {
+      "uuid": "^11.1.1"
+    },
     "sequelize": {
       "uuid": "^14.0.0"
     }
+  },
+  "allowScripts": {
+    "sharp@0.34.5": true
   }
 }

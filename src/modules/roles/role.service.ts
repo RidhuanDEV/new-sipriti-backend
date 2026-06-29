@@ -10,7 +10,7 @@ import type {
   UpdateRoleDto,
   AssignPermissionsDto,
 } from "./role.schema.js";
-import type { JwtUserPayload } from "../../types/index.js";
+import type { AuthenticatedUserContext } from "../../types/auth.js";
 
 const repository = new RoleRepository();
 const CACHE_PREFIX = ROLE_MODULE;
@@ -38,7 +38,11 @@ export class RoleService {
     return role;
   }
 
-  async create(dto: CreateRoleDto, user: JwtUserPayload, requestId?: string) {
+  async create(
+    dto: CreateRoleDto,
+    user: AuthenticatedUserContext,
+    requestId?: string,
+  ) {
     const existing = await repository.findByName(dto.name);
     if (existing) throw HttpError.conflict(`Role '${dto.name}' already exists`);
 
@@ -63,7 +67,7 @@ export class RoleService {
   async update(
     id: string,
     dto: UpdateRoleDto,
-    user: JwtUserPayload,
+    user: AuthenticatedUserContext,
     requestId?: string,
   ) {
     const existingRole = await repository.findById(id);
@@ -99,7 +103,11 @@ export class RoleService {
     return role;
   }
 
-  async delete(id: string, user: JwtUserPayload, requestId?: string) {
+  async delete(
+    id: string,
+    user: AuthenticatedUserContext,
+    requestId?: string,
+  ) {
     const existingRole = await repository.findById(id);
     if (!existingRole) throw HttpError.notFound("Role not found");
 
@@ -127,14 +135,14 @@ export class RoleService {
   async assignPermissions(
     id: string,
     dto: AssignPermissionsDto,
-    user: JwtUserPayload,
+    user: AuthenticatedUserContext,
     requestId?: string,
   ) {
     const existingRole = await repository.findById(id);
     if (!existingRole) throw HttpError.notFound("Role not found");
 
     const updatedRole = await sequelize.transaction(async (trx) => {
-      await repository.setPermissions(id, dto.permissionIds, trx);
+      await repository.setPermissions(id, dto.permissionIds ?? dto.permissions ?? [], trx);
       const updated = await repository.findById(id, trx);
       if (!updated) throw HttpError.notFound("Role not found");
 

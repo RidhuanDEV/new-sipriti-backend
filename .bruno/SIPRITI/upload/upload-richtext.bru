@@ -1,0 +1,49 @@
+meta {
+  name: upload-richtext
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{host}}/api/upload/richtext
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file(path/to/image.png)
+}
+
+docs {
+  # POST /api/upload/richtext
+
+  Upload gambar yang disisipkan dalam konten richtext editor (misalnya TipTap/Quill). Gambar disimpan di direktori uploads richtext dan dikaitkan siklus hidupnya dengan konten dokumen.
+
+  ## Request Body (multipart/form-data)
+
+  | Field | Type | Required | Accepted Formats |
+  |-------|------|----------|------------------|
+  | file | File | ✅ | jpg, jpeg, png, gif, webp (max 5MB) |
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Gambar richtext berhasil diupload",
+    "data": {
+      "filename": "richtext-1705312800000-abc123.png",
+      "url": "/uploads/richtext/richtext-1705312800000-abc123.png"
+    }
+  }
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 400 | File tidak ditemukan |
+  | 400 | Format file tidak didukung |
+  | 400 | Ukuran file terlalu besar. Maksimal 5MB |
+  | 401 | Tidak terautentikasi |
+}

@@ -1,0 +1,32 @@
+meta {
+  name: products
+  seq: 34
+}
+
+docs {
+  # Products API
+  
+  Endpoint demo product resource (in-memory service).
+  
+  **Base URL:** `/api/products`
+  
+  ---
+  
+  ## Endpoints
+  
+  | Method | Endpoint | Description | Auth |
+  |--------|----------|-------------|------|
+  | GET | `/` | List produk (pagination + filter) | ❌ |
+  | GET | `/:id` | Detail produk | ❌ |
+  | POST | `/` | Buat produk | ❌ |
+  | PUT | `/:id` | Update produk | ❌ |
+  | DELETE | `/:id` | Hapus produk | ❌ |
+  
+  ## Catatan
+  - Resource ini menggunakan in-memory storage (`product.service.js`).
+  - Data akan reset saat server restart.
+}
+
+auth {
+  mode: none
+}

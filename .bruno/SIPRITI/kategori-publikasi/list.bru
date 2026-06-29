@@ -1,0 +1,73 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/kategori-publikasi?page=1&limit=10
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  page: 1
+  limit: 10
+}
+
+docs {
+  # List Kategori Publikasi
+  
+  ## API Endpoint
+  `GET /api/kategori-publikasi`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  | Param | Type | Required | Default |
+  |-------|------|----------|---------|
+  | page | number | ❌ | 1 |
+  | limit | number | ❌ | 10 |
+  | search | string | ❌ | - |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil daftar kategori publikasi",
+    "data": [
+      {
+        "id": "uuid",
+        "nama": "Jurnal Internasional",
+        "keterangan": "Publikasi jurnal internasional terindeks"
+      }
+    ],
+    "meta": {
+      "page": 1,
+      "limit": 10,
+      "total": 5,
+      "totalPages": 1
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+}

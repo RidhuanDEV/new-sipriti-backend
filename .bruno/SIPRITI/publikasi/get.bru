@@ -1,0 +1,97 @@
+meta {
+  name: get
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/publikasi?page=1&limit=10
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  page: 1
+  limit: 10
+}
+
+docs {
+  # List Publikasi (Pivot)
+  
+  ## API Endpoint
+  `GET /api/publikasi`
+  
+  **Auth Required:** ✅  
+  **Role Required:** All authenticated users
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  ```typescript
+  interface ListPublikasiQuery {
+    page?: number;         // Default: 1
+    limit?: number;        // Default: 10
+    q?: string;            // Search kategori
+    tahun_mulai?: number;  // Filter tahun mulai
+    tahun_selesai?: number; // Filter tahun selesai
+  }
+  ```
+  
+  | Field | Type | Required | Default | Description |
+  |-------|------|----------|---------|-------------|
+  | page | number | ❌ | 1 | Halaman |
+  | limit | number | ❌ | 10 | Jumlah per halaman |
+  | q | string | ❌ | - | Pencarian kategori |
+  | tahun_mulai | number | ❌ | - | Filter tahun akademik mulai |
+  | tahun_selesai | number | ❌ | - | Filter tahun akademik selesai |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil data publikasi",
+    "data": {
+      "columns": [
+        { "id": "uuid-1", "label": "2023-2024", "tahunMulai": 2023, "tahunSelesai": 2024 },
+        { "id": "uuid-2", "label": "2024-2025", "tahunMulai": 2024, "tahunSelesai": 2025 }
+      ],
+      "rows": [
+        {
+          "id": "uuid-kategori",
+          "nama_kategori": "Jurnal Internasional",
+          "values": [
+            {
+              "publikasi_id": "uuid-pub",
+              "tahun_akademik_id": "uuid-1",
+              "kategori_publikasi_id": "uuid-kategori",
+              "total_publikasi": 15
+            }
+          ]
+        }
+      ]
+    },
+    "meta": {
+      "filters": { "tahun_mulai": null, "tahun_selesai": null },
+      "pagination": { "page": 1, "limit": 10, "totalRows": 5, "totalPages": 1 }
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 400 | Filter tahun tidak valid |
+  | 401 | Token tidak valid |
+}

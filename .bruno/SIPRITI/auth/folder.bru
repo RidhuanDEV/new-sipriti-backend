@@ -1,0 +1,34 @@
+meta {
+  name: auth
+  seq: 2
+}
+
+docs {
+  # Authentication API
+  
+  Endpoints untuk autentikasi dan manajemen user.
+  
+  ## Endpoints
+  
+  | Method | Endpoint | Description |
+  |--------|----------|-------------|
+  | POST | /api/auth/login | Login user |
+  | POST | /api/auth/register | Registrasi user baru |
+  | GET | /api/auth/me | Get current user profile |
+  | POST | /api/auth/logout | Logout user |
+  | PUT | /api/auth/change-password | Ganti password |
+  | GET | /api/auth/search | Cari user |
+  
+  ## Authentication Method
+  - Cookie-based JWT (`jwt` cookie)
+  - Bearer token di Authorization header
+  
+  ## Notes
+  - Masa berlaku JWT mengikuti konfigurasi server (`JWT_EXPIRES_IN`, default 7d)
+  - Logout akan menghapus cookie jwt
+  - Route alias compatibility: `/api/users/*` menggunakan handler yang sama dengan `/api/auth/*`
+}
+
+auth {
+  mode: inherit
+}

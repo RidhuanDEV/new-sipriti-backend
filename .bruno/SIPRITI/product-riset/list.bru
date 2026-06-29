@@ -1,0 +1,82 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/product-riset?page=1&limit=10
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  page: 1
+  limit: 10
+}
+
+docs {
+  # List Product Riset
+  
+  ## API Endpoint
+  `GET /api/product-riset`
+  
+  **Auth Required:** ✅  
+  **Role Required:** All authenticated users
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  ```typescript
+  interface ListProductRisetQuery {
+    page?: number;   // Default: 1
+    limit?: number;  // Default: 10, Max: 200
+    search?: string; // Pencarian nama
+  }
+  ```
+  
+  | Field | Type | Required | Default | Description |
+  |-------|------|----------|---------|-------------|
+  | page | number | ❌ | 1 | Halaman |
+  | limit | number | ❌ | 10 | Jumlah per halaman |
+  | search | string | ❌ | - | Pencarian nama produk |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil daftar product riset",
+    "data": [
+      {
+        "id": "uuid-product",
+        "nama_produk": "Aplikasi Mobile Pendidikan",
+        "createdAt": "2025-01-15T10:00:00.000Z",
+        "updatedAt": "2025-01-15T10:00:00.000Z"
+      }
+    ],
+    "meta": {
+      "page": 1,
+      "limit": 10,
+      "totalRows": 5,
+      "totalPages": 1
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 401 | Token tidak valid |
+}

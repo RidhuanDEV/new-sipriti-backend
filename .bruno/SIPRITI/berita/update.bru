@@ -1,0 +1,103 @@
+meta {
+  name: update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{host}}/api/berita/:id
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{berita_id}}
+}
+
+body:multipart-form {
+  judul: Judul Berita Updated
+  isi_berita: Isi konten berita yang sudah diupdate
+  kategori: Workshop
+  ~remove_photo: true
+  ~remove_file: true
+}
+
+docs {
+  # Update Berita
+  
+  ## API Endpoint
+  `PUT /api/berita/:id`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID berita |
+  
+  ## DTO (Request Body - multipart/form-data)
+  
+  ```typescript
+  interface UpdateBeritaDTO {
+    judul: string;        // Required
+    isi_berita: string;   // Required
+    kategori?: string;    // Optional
+    photo?: File;         // Optional - Upload foto baru
+    file?: File;          // Optional - Upload file baru
+    remove_photo?: boolean; // Optional - Hapus foto existing
+    remove_file?: boolean;  // Optional - Hapus file existing
+  }
+  ```
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | judul | string | ✅ | Judul berita |
+  | isi_berita | string | ✅ | Konten berita |
+  | kategori | string | ❌ | Pendanaan/Workshop/Panduan/Umum |
+  | photo | File | ❌ | Foto baru (mengganti existing) |
+  | file | File | ❌ | File baru (mengganti existing) |
+  | remove_photo | boolean | ❌ | Set `true` untuk hapus foto |
+  | remove_file | boolean | ❌ | Set `true` untuk hapus file |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berita berhasil diupdate",
+    "data": {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "judul": "Judul Berita Updated",
+      "isi_berita": "<p>Konten baru...</p>",
+      "kategori": "Workshop",
+      "photo_url": null,
+      "file_url": "/uploads/berita/newfile.pdf",
+      "createdAt": "2025-01-08T10:00:00.000Z",
+      "updatedAt": "2025-01-08T12:00:00.000Z"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Code | Message |
+  |--------|------|---------|  
+  | 400 | BAD_REQUEST | Judul/Isi Berita wajib diisi |
+  | 400 | BAD_REQUEST | Kategori tidak valid |
+  | 401 | UNAUTHORIZED | Token tidak valid |
+  | 403 | FORBIDDEN | Akses ditolak |
+  | 404 | NOT_FOUND | Berita tidak ditemukan |
+}

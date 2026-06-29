@@ -1,0 +1,38 @@
+meta {
+  name: signatures
+  seq: 6
+}
+
+docs {
+  # Official Signatures API
+
+  Endpoints untuk manajemen tanda tangan resmi pejabat yang digunakan pada PDF proposal final.
+
+  **Base URL:** `/api/admin/signatures`
+
+  ---
+
+  ## Endpoints
+
+  | Method | Endpoint | Description | Auth | Role |
+  |--------|----------|-------------|------|------|
+  | GET | `/` | List semua tanda tangan | ✅ | view_signature |
+  | POST | `/` | Upload tanda tangan baru | ✅ | create_signature |
+  | PATCH | `/:id` | Update data/file tanda tangan | ✅ | edit_signature |
+  | PATCH | `/:id/activate` | Aktifkan tanda tangan | ✅ | edit_signature |
+  | PATCH | `/:id/deactivate` | Nonaktifkan tanda tangan | ✅ | edit_signature |
+  | DELETE | `/:id` | Hapus (soft delete) tanda tangan | ✅ | delete_signature |
+  | POST | `/:id/restore` | Pulihkan tanda tangan yang dihapus | ✅ | delete_signature |
+  | GET | `/:id/file` | Download/view file PNG tanda tangan | ✅ | view_signature |
+
+  ---
+
+  ## Catatan
+
+  - File tanda tangan harus berformat PNG (image/png), maksimal 5MB
+  - Gunakan multipart/form-data untuk upload
+}
+
+auth {
+  mode: inherit
+}

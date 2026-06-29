@@ -1,0 +1,77 @@
+meta {
+  name: publikasi-pivot
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/capaian/publikasi-pivot
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~tahun_mulai: 2019
+  ~tahun_selesai: 2024
+  ~limit_tahun: 5
+}
+
+docs {
+  # Get Publikasi Pivot Table
+  
+  ## API Endpoint
+  `GET /api/capaian/publikasi-pivot`
+  
+  **Auth Required:** ❌ Public
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  ```typescript
+  interface PublikasiPivotQuery {
+    tahun_mulai?: number;   // Filter tahun mulai
+    tahun_selesai?: number; // Filter tahun selesai
+    limit_tahun?: number;   // Max 20
+  }
+  ```
+  
+  | Param | Type | Required | Default |
+  |-------|------|----------|---------|
+  | tahun_mulai | number | ❌ | - |
+  | tahun_selesai | number | ❌ | - |
+  | limit_tahun | number | ❌ | 5 |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil pivot publikasi",
+    "data": {
+      "header_tahun": ["2019-2020", "2020-2021", "2021-2022"],
+      "data_tabel": [
+        {
+          "kategori": "Penelitian mandiri",
+          "skor_per_tahun": {
+            "2019-2020": 25,
+            "2020-2021": 58,
+            "2021-2022": 72
+          }
+        },
+        {
+          "kategori": "Jurnal Internasional",
+          "skor_per_tahun": {
+            "2019-2020": 10,
+            "2020-2021": 15,
+            "2021-2022": 20
+          }
+        }
+      ]
+    }
+  }
+  ```
+}

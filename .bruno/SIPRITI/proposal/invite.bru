@@ -1,0 +1,88 @@
+meta {
+  name: invite
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{host}}/api/proposal/:proposalId/invite
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  proposalId: {{proposal_id}}
+}
+
+body:json {
+  {
+    "user_id": "{{invited_user_id}}",
+    "peran": "Anggota"
+  }
+}
+
+docs {
+  # Invite Member
+  
+  ## API Endpoint
+  `POST /api/proposal/:proposalId/invite`
+  
+  **Auth Required:** ✅  
+  **Role Required:** Dosen, Mahasiswa (harus Ketua proposal)
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | proposalId | UUID | ✅ | ID proposal |
+  
+  ## DTO (Request Body)
+  
+  ```typescript
+  interface InviteMemberDTO {
+    user_id: string;  // Required - ID user yang diundang
+    peran?: string;   // Optional - Peran (default: 'Anggota')
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | user_id | UUID | ✅ | Tidak boleh diri sendiri |
+  | peran | string | ❌ | Default: 'Anggota' |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201)
+  ```json
+  {
+    "success": true,
+    "message": "Undangan berhasil dikirim",
+    "data": {
+      "id": "uuid-member",
+      "haki_proposal_id": "uuid-proposal",
+      "user_id": "uuid-invited-user",
+      "peran": "Anggota",
+      "status_invite": "pending"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 400 | Tidak dapat mengundang diri sendiri |
+  | 401 | Token tidak valid |
+  | 403 | Hanya ketua yang dapat mengundang anggota |
+  | 409 | User sudah menjadi anggota proposal ini |
+}

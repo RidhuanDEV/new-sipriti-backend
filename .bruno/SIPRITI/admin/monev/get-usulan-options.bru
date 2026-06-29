@@ -1,0 +1,59 @@
+meta {
+  name: Get Usulan Options
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{host}}/api/admin/monev/options/usulan
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~tipe: Penelitian
+  ~search: teknologi
+}
+
+docs {
+  # GET /api/admin/monev/options/usulan
+  
+  Mengambil daftar usulan yang tersedia untuk pilihan dropdown saat membuat Monev.
+  
+  ## Query Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | tipe | string | Filter: Penelitian, Pengabdian |
+  | search | string | Cari berdasarkan judul |
+  
+  ## Response Success (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Data usulan berhasil diambil",
+    "data": [
+      {
+        "id": "uuid",
+        "label": "Pengembangan Teknologi Informasi - Dr. Ahmad Fauzi",
+        "judul": "Pengembangan Teknologi Informasi",
+        "ketua": "Dr. Ahmad Fauzi",
+        "tipe": "Penelitian"
+      },
+      {
+        "id": "uuid2",
+        "label": "Pemberdayaan Masyarakat Digital - Dr. Budi Santoso",
+        "judul": "Pemberdayaan Masyarakat Digital",
+        "ketua": "Dr. Budi Santoso",
+        "tipe": "Pengabdian"
+      }
+    ]
+  }
+  ```
+  
+  ## Notes
+  - Hanya menampilkan usulan dengan status "Approved"
+  - Label format: "{judul} - {nama_ketua}"
+  - Digunakan untuk dropdown saat memilih usulan di form Monev
+}

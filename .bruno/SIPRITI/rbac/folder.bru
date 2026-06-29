@@ -1,0 +1,45 @@
+meta {
+  name: rbac
+  seq: 26
+}
+
+docs {
+  # RBAC API
+  
+  Endpoint untuk manajemen permission, role, dan assignment role user.
+  
+  **Base URL:** `/api/rbac`
+  
+  ---
+  
+  ## Endpoint Coverage
+  
+  ### Permissions
+  - GET `/permissions`
+  - POST `/permissions`
+  - DELETE `/permissions/:id`
+  
+  ### Roles
+  - GET `/roles`
+  - GET `/roles/:id`
+  - POST `/roles`
+  - PUT `/roles/:id`
+  - DELETE `/roles/:id`
+  - GET `/roles/:id/permissions`
+  - PUT `/roles/:id/permissions`
+  - GET `/roles/:id/users`
+  
+  ### User Roles
+  - GET `/users`
+  - GET `/users/:userId/roles`
+  - PUT `/users/:userId/roles`
+  - POST `/users/:userId/roles/:roleId`
+  - DELETE `/users/:userId/roles/:roleId`
+  
+  ## Auth
+  Semua endpoint memerlukan authentication + permission checks.
+}
+
+auth {
+  mode: inherit
+}

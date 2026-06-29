@@ -1,0 +1,62 @@
+meta {
+  name: Get All Bidang Fokus
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/admin/bidang-fokus
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~page: 1
+  ~limit: 10
+  ~search: Teknologi
+  ~sortBy: created_at
+  ~sortOrder: DESC
+}
+
+docs {
+  # GET /api/admin/bidang-fokus
+  
+  Mengambil daftar semua bidang fokus dengan pagination dan filter.
+  
+  ## Query Parameters
+  
+  | Parameter | Type | Default | Description |
+  |-----------|------|---------|-------------|
+  | page | number | 1 | Halaman saat ini |
+  | limit | number | 10 | Jumlah item per halaman |
+  | search | string | "" | Cari berdasarkan nama bidang |
+  | sortBy | string | "created_at" | Field untuk sorting |
+  | sortOrder | string | "DESC" | ASC atau DESC |
+  
+  ## Response Success (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Data bidang fokus berhasil diambil",
+    "data": [
+      {
+        "id": "uuid",
+        "nama_bidang": "Teknologi Informasi",
+        "createdAt": "2025-01-08T00:00:00.000Z",
+        "updatedAt": "2025-01-08T00:00:00.000Z"
+      }
+    ],
+    "meta": {
+      "pagination": {
+        "currentPage": 1,
+        "totalPages": 1,
+        "totalItems": 8,
+        "itemsPerPage": 10,
+        "hasNextPage": false,
+        "hasPrevPage": false
+      }
+    }
+  }
+  ```
+}

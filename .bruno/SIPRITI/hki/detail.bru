@@ -1,0 +1,92 @@
+meta {
+  name: detail
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/hki/detail?id={{hki_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  id: {{hki_id}}
+}
+
+docs {
+  # Get HKI Detail
+  
+  ## API Endpoint
+  `GET /api/hki/detail`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  ```typescript
+  interface GetHKIDetailQuery {
+    id: string;  // UUID - Required
+  }
+  ```
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID HKI |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil detail HKI",
+    "data": {
+      "id": "uuid",
+      "judul": "Aplikasi AI untuk Pertanian",
+      "jenis_hki": "Hak Cipta",
+      "sub_jenis_ciptaan": "Program Komputer",
+      "nomor_permohonan": "P00202400001",
+      "tanggal_permohonan": "2024-01-15",
+      "status_hki": "Dalam Proses",
+      "inventor": "Dr. Ahmad Fauzi",
+      "pemegang_hak": "Universitas Indonesia",
+      "deskripsi": "Deskripsi HKI",
+      "file_sertifikat": "/uploads/proposals/sertifikat.pdf",
+      "file_dokumen_pendukung": "/uploads/proposals/dokumen.pdf",
+      "file_surat_pernyataan": null,
+      "file_bukti_pengalihan": null,
+      "status": "Pending",
+      "createdAt": "2025-01-08T10:00:00.000Z",
+      "updatedAt": "2025-01-08T10:00:00.000Z",
+      "user": {
+        "id": "uuid",
+        "name": "Dr. Ahmad Fauzi",
+        "email": "ahmad@univ.ac.id",
+        "nidn": "1234567890",
+        "institusi": "Universitas Indonesia",
+        "prodi": "Teknik Informatika"
+      }
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 400 | ID HKI wajib diisi |
+  | 401 | Token tidak valid |
+  | 404 | Data HKI tidak ditemukan |
+}

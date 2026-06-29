@@ -1,0 +1,33 @@
+meta {
+  name: bulk-import
+  seq: 28
+}
+
+docs {
+  # Bulk Import API
+
+  Endpoints untuk import data usulan secara massal menggunakan file Excel (.xlsx).
+
+  **Base URL:** `/api/admin/usulan/import`
+
+  ---
+
+  ## Endpoints
+
+  | Method | Endpoint | Description | Auth | Role |
+  |--------|----------|-------------|------|------|
+  | POST | `/template` | Download template Excel untuk import | ✅ | manage_penelitian, manage_pengabdian |
+  | POST | `/` | Upload & import file Excel usulan | ✅ | manage_penelitian, manage_pengabdian |
+
+  ---
+
+  ## Catatan
+
+  - Format file yang didukung: `.xlsx` (Excel 2007+)
+  - Ukuran maksimal file: 5MB
+  - Hanya bisa diakses oleh admin dengan permission `manage_penelitian` atau `manage_pengabdian`
+}
+
+auth {
+  mode: inherit
+}

@@ -1,0 +1,88 @@
+meta {
+  name: get-by-id
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{host}}/api/usulan-pengabdian/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{pengabdian_id}}
+}
+
+docs {
+  # Get Usulan Pengabdian by ID
+  
+  ## API Endpoint
+  `GET /api/usulan-pengabdian/:id`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID usulan pengabdian |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil detail usulan",
+    "data": {
+      "id": "uuid",
+      "judul": "Program Pelatihan",
+      "abstrak": "Deskripsi pengabdian...",
+      "status": "Draft",
+      "tipe_usulan": "pengabdian",
+      "file_proposal": "/uploads/proposals/file.pdf",
+      "createdAt": "2025-01-08T10:00:00.000Z",
+      "ketua": {
+        "id": "uuid",
+        "name": "Dr. Ahmad",
+        "email": "ahmad@univ.ac.id"
+      },
+      "anggota": [
+        {
+          "id": "uuid",
+          "user_id": "uuid",
+          "peran": "Anggota",
+          "user": { "name": "Dr. Budi" }
+        }
+      ],
+      "tahunAkademik": {
+        "id": "uuid",
+        "tahun": "2024/2025"
+      },
+      "hibahInternal": {
+        "id": "uuid",
+        "nama": "Hibah Dikti"
+      }
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+  | 404 | Usulan tidak ditemukan |
+}

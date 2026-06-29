@@ -1,0 +1,46 @@
+meta {
+  name: proposal
+  seq: 18
+}
+
+docs {
+  # Proposal API
+  
+  Endpoints untuk manajemen proposal (HakiProposal) - create, invite, respond, review.
+  
+  **Base URL:** `/api/proposal`
+  
+  ---
+  
+  ## Endpoints
+  
+  | Method | Endpoint | Description | Auth | Role |
+  |--------|----------|-------------|------|------|
+  | POST | `/` | Buat proposal baru | ✅ | Dosen, Mahasiswa |
+  | POST | `/:proposalId/invite` | Undang anggota | ✅ | Dosen, Mahasiswa (Ketua) |
+  | POST | `/:proposalId/respond` | Respon undangan | ✅ | Dosen, Mahasiswa |
+  | POST | `/:proposalId/review` | Admin review proposal | ✅ | Admin |
+  
+  ---
+  
+  ## Data Model
+  
+  ```typescript
+  interface HakiProposal {
+    id: string;           // UUID
+    judul: string;        // Judul proposal
+    file_url: string | null; // URL file proposal
+    status_usulan: string; // Status review
+    createdAt: string;    // ISO timestamp
+    updatedAt: string;    // ISO timestamp
+  }
+  
+  interface MemberProposal {
+    id: string;
+    haki_proposal_id: string;
+    user_id: string;
+    peran: 'Ketua' | 'Anggota';
+    status_invite: 'pending' | 'Accepted' | 'Rejected';
+  }
+  ```
+}

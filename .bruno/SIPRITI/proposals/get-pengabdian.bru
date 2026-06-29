@@ -1,0 +1,54 @@
+meta {
+  name: Get Substansi Pengabdian
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/api/proposals/:id/pengabdian
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-proposal-uuid-here
+}
+
+docs {
+  # GET /api/proposals/:id/pengabdian
+
+  Mengambil data substansi pengabdian masyarakat dari sebuah proposal.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID proposal |
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Data pengabdian berhasil diambil",
+    "data": {
+      "id": "uuid",
+      "proposal_id": "proposal-uuid",
+      "analisis_situasi": "<p>Kondisi masyarakat mitra saat ini...</p>",
+      "permasalahan_mitra": "<p>Permasalahan yang dihadapi mitra...</p>",
+      "solusi_yang_ditawarkan": "<p>Solusi yang akan diberikan...</p>",
+      "target_luaran": "<p>Luaran yang diharapkan...</p>",
+      "metode_pelaksanaan": "<p>Metode pelaksanaan kegiatan...</p>",
+      "createdAt": "2025-01-08T00:00:00.000Z",
+      "updatedAt": "2025-01-08T00:00:00.000Z"
+    }
+  }
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 403 | Tidak memiliki akses ke proposal ini |
+  | 404 | Proposal tidak ditemukan |
+}

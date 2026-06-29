@@ -1,0 +1,49 @@
+meta {
+  name: Get All Roles
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/rbac/roles
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-CSRF-Token: {{csrfToken}}
+}
+
+docs {
+  # Get All Roles
+  
+  Mengambil semua roles yang tersedia dalam sistem RBAC.
+  
+  ## Response
+  
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil data roles",
+    "data": [
+      {
+        "id": "uuid",
+        "name": "admin",
+        "description": "Administrator dengan akses penuh",
+        "permissions": [
+          {
+            "id": "uuid",
+            "name": "manage_users",
+            "description": "Mengelola data pengguna"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+  
+  ## Permission Required
+  
+  - `assign_roles` atau `manage_users`
+}

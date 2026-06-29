@@ -1,0 +1,22 @@
+meta {
+  name: create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{host}}/api/laporan-usulan/
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+
+body:multipart-form {
+  haki_proposal_id: 550e8400-e29b-41d4-a716-446655440000
+  jenis_laporan: laporan_kemajuan
+  file_laporan: @file(./sample-laporan.pdf)
+}

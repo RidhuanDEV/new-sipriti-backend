@@ -1,0 +1,85 @@
+meta {
+  name: review
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{host}}/api/proposal/:proposalId/review
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  proposalId: {{proposal_id}}
+}
+
+body:json {
+  {
+    "status_usulan": "Disetujui"
+  }
+}
+
+docs {
+  # Admin Review Proposal
+  
+  ## API Endpoint
+  `POST /api/proposal/:proposalId/review`
+  
+  **Auth Required:** ✅  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | proposalId | UUID | ✅ | ID proposal |
+  
+  ## DTO (Request Body)
+  
+  ```typescript
+  interface ReviewProposalDTO {
+    status_usulan: string; // Required - Status review
+  }
+  ```
+  
+  | Field | Type | Required | Values |
+  |-------|------|----------|--------|
+  | status_usulan | string | ✅ | Disetujui, Ditolak, Revisi, dll |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Review berhasil disimpan",
+    "data": {
+      "id": "uuid-proposal",
+      "judul": "Proposal Penelitian AI",
+      "file_url": "/uploads/proposals/proposal.pdf",
+      "status_usulan": "Disetujui",
+      "createdAt": "2025-01-15T10:00:00.000Z",
+      "updatedAt": "2025-01-16T10:00:00.000Z"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 401 | Token tidak valid |
+  | 403 | Akses ditolak |
+  | 404 | Proposal tidak ditemukan |
+}

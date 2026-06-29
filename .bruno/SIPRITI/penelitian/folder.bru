@@ -1,0 +1,39 @@
+meta {
+  name: penelitian
+  seq: 19
+}
+
+docs {
+  # Penelitian (Usulan Penelitian) API
+  
+  Endpoints untuk manajemen usulan penelitian.
+  
+  ## Base URL
+  `/api/penelitian`
+
+  ## Alias URL (Compatibility)
+  `/api/usulan-penelitian`
+  
+  ## Endpoints Overview
+  
+  | Method | Endpoint | Auth | Role | Description |
+  |--------|----------|------|------|-------------|
+  | GET | /landing | ❌ | Public | Konten landing penelitian |
+  | GET | / | ✅ | All | List usulan penelitian user |
+  | GET | /options | ✅ | All | Dropdown options untuk form |
+  | GET | /detail | ✅ | All | Detail usulan penelitian |
+  | GET | /by-prodi | ✅ | Koordinator | List usulan berdasarkan prodi |
+  | POST | / | ✅ | Dosen/Mahasiswa | Buat usulan penelitian |
+  | PUT | /:id | ✅ | Dosen/Mahasiswa | Update usulan (Draft only) |
+  | POST | /:id/submit | ✅ | Dosen/Mahasiswa | Submit usulan |
+  | POST | /:id/forward | ✅ | Koordinator | Forward usulan + lampiran |
+  | DELETE | /:id | ✅ | Dosen/Mahasiswa | Hapus usulan (Draft only) |
+  | POST | /search | ✅ | All | Cari usulan penelitian |
+  
+  ## Status Usulan
+  - `Draft` - Belum disubmit
+  - `Pending` - Menunggu review
+  - `Disetujui` - Approved
+  - `Ditolak` - Rejected
+  - `Revisi` - Perlu revisi
+}

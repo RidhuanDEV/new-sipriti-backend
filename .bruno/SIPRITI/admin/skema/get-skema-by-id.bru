@@ -1,0 +1,53 @@
+meta {
+  name: Get Skema By ID
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/admin/skema/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-skema-uuid-here
+}
+
+docs {
+  # GET /api/admin/skema/:id
+  
+  Mengambil detail skema berdasarkan ID.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID skema yang ingin diambil |
+  
+  ## Response Success (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Detail skema berhasil diambil",
+    "data": {
+      "id": "uuid",
+      "nama_skema": "Penelitian Dasar",
+      "tipe": "Penelitian",
+      "deskripsi": "Skema penelitian untuk pengembangan ilmu dasar",
+      "is_active": true,
+      "createdAt": "2025-01-08T00:00:00.000Z",
+      "updatedAt": "2025-01-08T00:00:00.000Z"
+    }
+  }
+  ```
+  
+  ## Response Error (404)
+  ```json
+  {
+    "success": false,
+    "message": "Skema tidak ditemukan"
+  }
+  ```
+}

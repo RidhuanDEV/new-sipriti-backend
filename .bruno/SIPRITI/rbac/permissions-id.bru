@@ -1,0 +1,11 @@
+meta {
+  name: permissions-id
+  type: http
+  seq: 10
+}
+
+delete {
+  url: {{host}}/api/rbac/permissions/:id
+  body: none
+  auth: inherit
+}

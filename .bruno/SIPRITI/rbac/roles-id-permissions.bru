@@ -1,0 +1,11 @@
+meta {
+  name: roles-id-permissions
+  type: http
+  seq: 16
+}
+
+put {
+  url: {{host}}/api/rbac/roles/:id/permissions
+  body: none
+  auth: inherit
+}

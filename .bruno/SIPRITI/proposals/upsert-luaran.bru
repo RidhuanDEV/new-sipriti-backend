@@ -1,0 +1,86 @@
+meta {
+  name: Bulk Upsert Luaran Proposal
+  type: http
+  seq: 8
+}
+
+put {
+  url: {{host}}/api/proposals/:id/luaran
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: your-proposal-uuid-here
+}
+
+body:json {
+  {
+    "luaran": [
+      {
+        "output_id": "output-uuid-1",
+        "tahun": 1,
+        "judul": "Jurnal tentang AI dalam Pendidikan",
+        "status": "Submitted",
+        "keterangan": "Target submit ke Jurnal TELEMATIKA"
+      },
+      {
+        "output_id": "output-uuid-2",
+        "tahun": 2,
+        "judul": "Prosiding Seminar Nasional",
+        "status": "Draft",
+        "keterangan": "Akan dipresentasikan di SEMNAS ITI 2026"
+      }
+    ]
+  }
+}
+
+docs {
+  # PUT /api/proposals/:id/luaran
+
+  Bulk upsert target luaran proposal. Data lama akan digantikan sepenuhnya dengan data baru.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID proposal |
+
+  ## Request Body
+
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | luaran | array | ✅ | Array target luaran |
+  | luaran[].output_id | UUID | ✅ | ID jenis output (dari master output) |
+  | luaran[].tahun | number | ✅ | Tahun target luaran (1, 2, dst.) |
+  | luaran[].judul | string | ❌ | Judul luaran yang ditargetkan |
+  | luaran[].status | string | ❌ | Status: Draft, Submitted, Accepted, Published |
+  | luaran[].keterangan | string | ❌ | Keterangan tambahan |
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Luaran berhasil disimpan",
+    "data": [
+      {
+        "id": "uuid",
+        "proposal_id": "proposal-uuid",
+        "output_id": "output-uuid-1",
+        "tahun": 1,
+        "judul": "Jurnal tentang AI dalam Pendidikan",
+        "status": "Submitted"
+      }
+    ]
+  }
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 400 | Validasi gagal |
+  | 403 | Tidak memiliki akses edit proposal ini |
+  | 404 | Proposal tidak ditemukan |
+}

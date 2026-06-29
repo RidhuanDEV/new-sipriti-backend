@@ -1,0 +1,51 @@
+meta {
+  name: create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{host}}/api/products
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Laptop A",
+    "price": 12500000,
+    "category": "elektronik",
+    "description": "Produk demo"
+  }
+}
+
+docs {
+  # Create Product
+  
+  ## API Endpoint
+  `POST /api/products`
+  
+  ---
+  
+  ## Request Body
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | name | string | ✅ | min 3 karakter |
+  | price | number | ✅ | > 0 |
+  | category | enum | ✅ | elektronik \| pakaian \| makanan |
+  | description | string | ❌ | optional |
+  
+  ---
+  
+  ### Success (201)
+  ```json
+  {
+    "success": true,
+    "message": "Produk berhasil dibuat",
+    "data": {
+      "id": "uuid"
+    }
+  }
+  ```
+}

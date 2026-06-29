@@ -1,0 +1,29 @@
+meta {
+  name: publicpage
+  seq: 31
+}
+
+docs {
+  # Public Page API
+
+  Endpoints publik (tidak memerlukan autentikasi) untuk menampilkan konten pada halaman publik website SIPRITI.
+
+  **Base URL:** `/api/publicpage`
+
+  ---
+
+  ## Endpoints
+
+  | Method | Endpoint | Description | Auth |
+  |--------|----------|-------------|------|
+  | GET | `/berita` | List berita publik | ❌ |
+  | GET | `/berita/:slug` | Detail berita publik | ❌ |
+  | GET | `/pengumuman` | List pengumuman publik | ❌ |
+  | GET | `/pengumuman/:slug` | Detail pengumuman publik | ❌ |
+  | GET | `/panduan` | List panduan publik | ❌ |
+  | GET | `/panduan/:id` | Detail panduan publik | ❌ |
+}
+
+auth {
+  mode: inherit
+}

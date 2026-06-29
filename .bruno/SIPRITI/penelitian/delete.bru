@@ -1,0 +1,63 @@
+meta {
+  name: delete
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{host}}/api/usulan-penelitian/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{proposal_id}}
+}
+
+docs {
+  # Delete Usulan Penelitian
+  
+  ## API Endpoint
+  `DELETE /api/usulan-penelitian/:id`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** dosen, mahasiswa  
+  **Condition:** Status masih `Draft`
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID usulan penelitian |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil menghapus usulan penelitian"
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 400 | Hanya usulan Draft yang dapat dihapus |
+  | 401 | Token tidak valid |
+  | 403 | Anda tidak memiliki akses |
+  | 404 | Usulan tidak ditemukan |
+  
+  **Note:** File proposal akan ikut terhapus dari server.
+}

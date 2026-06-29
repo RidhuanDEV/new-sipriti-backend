@@ -1,0 +1,86 @@
+meta {
+  name: Create Monev
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{host}}/api/admin/monev
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "usulan_id": "your-usulan-uuid-here",
+    "tgl_monev": "2025-01-15",
+    "direktorat": "PRPM",
+    "status_dokumen": "Belum Lengkap",
+    "ringkasan_monev": "Hasil monitoring awal menunjukkan progress yang baik...",
+    "catatan": "Perlu dilengkapi dokumen pendukung"
+  }
+}
+
+docs {
+  # POST /api/admin/monev
+  
+  Membuat record Monev baru.
+  
+  ## Request Body
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | usulan_id | UUID | Yes | ID usulan yang dimonev |
+  | tgl_monev | DATE | Yes | Tanggal pelaksanaan monev (YYYY-MM-DD) |
+  | direktorat | string | Yes | PRPM, PRODI, atau PKA |
+  | status_dokumen | string | No | Default: "Belum Lengkap" |
+  | ringkasan_monev | text | No | Ringkasan hasil monev |
+  | catatan | text | No | Catatan tambahan |
+  
+  ## direktorat Values
+  - `PRPM` - Pusat Riset dan Pengabdian Masyarakat
+  - `PRODI` - Program Studi
+  - `PKA` - Penjaminan Kualitas Akademik
+  
+  ## status_dokumen Values
+  - `Belum Lengkap` - Dokumen belum dilengkapi
+  - `Sedang Diproses` - Dokumen sedang diverifikasi
+  - `Lengkap` - Semua dokumen lengkap
+  
+  ## Response Success (201)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Jadwal monev berhasil dibuat",
+    "data": {
+      "id": "new-uuid",
+      "usulan_id": "usulan-uuid",
+      "tgl_monev": "2025-01-15",
+      "direktorat": "PRPM",
+      "status_dokumen": "Belum Lengkap",
+      "jenis_usulan": "Penelitian",
+      "ringkasan_monev": "Hasil monitoring awal...",
+      "catatan": "Perlu dilengkapi...",
+      "createdAt": "2025-01-08T00:00:00.000Z",
+      "updatedAt": "2025-01-08T00:00:00.000Z"
+    }
+  }
+  ```
+  
+  ## Response Error (400)
+  ```json
+  {
+    "success": false,
+    "message": "Validasi gagal: usulan_id wajib diisi"
+  }
+  ```
+  
+  ## Response Error (404)
+  ```json
+  {
+    "success": false,
+    "message": "Usulan tidak ditemukan"
+  }
+  ```
+}

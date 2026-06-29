@@ -1,0 +1,43 @@
+meta {
+  name: Generate Final PDF (Admin)
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/proposal-final-pdf/admin/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-proposal-uuid-here
+}
+
+docs {
+  # GET /api/proposal-final-pdf/admin/:id
+
+  Generate dan stream PDF final proposal untuk Admin. Tidak memerlukan pengecekan kepemilikan (admin bisa generate PDF proposal siapa saja), namun memerlukan role admin.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID proposal yang ingin di-generate PDF-nya |
+
+  ## Response Success (200)
+
+  Stream binary PDF:
+  ```
+  Content-Type: application/pdf
+  Content-Disposition: inline; filename="proposal-final-<judul>.pdf"
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 401 | Tidak terautentikasi |
+  | 403 | Bukan admin |
+  | 404 | Proposal tidak ditemukan |
+}

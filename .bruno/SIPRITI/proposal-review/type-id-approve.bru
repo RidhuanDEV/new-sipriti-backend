@@ -1,0 +1,46 @@
+meta {
+  name: type-id-approve
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{host}}/api/proposal-review/:type/:id/approve
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "catatan": "Catatan persetujuan proposal"
+  }
+}
+
+params:path {
+  type: penelitian
+  id: {{proposal_id}}
+}
+
+docs {
+  # Approve Proposal
+  
+  ## API Endpoint
+  `POST /api/proposal-review/:type/:id/approve`
+  
+  **Auth Required:** ✅ Bearer Token  
+  
+  Permission yang diperlukan bervariasi berdasarkan `current_stage` proposal:
+  
+  | Stage | Permission Required |
+  |-------|---------------------|
+  | koordinator | approve_proposal_koordinator |
+  | kaprodi | approve_proposal_kaprodi |
+  | reviewer | approve_proposal_reviewer |
+  | admin | approve_proposal_admin |
+  
+  Backend akan menolak dengan 403 Forbidden jika permission user tidak cocok dengan stage saat ini.
+}

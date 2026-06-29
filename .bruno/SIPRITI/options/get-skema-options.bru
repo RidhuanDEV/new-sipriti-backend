@@ -1,0 +1,64 @@
+meta {
+  name: Get Skema Options
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/options/skema
+  body: none
+  auth: none
+}
+
+params:query {
+  ~search: Penelitian
+  ~tipe: Penelitian
+}
+
+docs {
+  # GET /api/options/skema
+  
+  Mengambil daftar Skema untuk dropdown options.
+  
+  ## Query Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | search | string | Cari berdasarkan nama skema |
+  | tipe | string | Filter: Penelitian, Pengabdian, HKI |
+  
+  ## Authentication
+  Tidak memerlukan authentication.
+  
+  ## Response Success (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Options skema berhasil diambil",
+    "data": [
+      {
+        "id": "uuid",
+        "nama_skema": "Penelitian Dasar",
+        "tipe": "Penelitian",
+        "label": "Penelitian Dasar"
+      },
+      {
+        "id": "uuid2",
+        "nama_skema": "Penelitian Terapan",
+        "tipe": "Penelitian",
+        "label": "Penelitian Terapan"
+      }
+    ]
+  }
+  ```
+  
+  ## Notes
+  - Hanya menampilkan skema yang aktif (is_active = true)
+  - Diurutkan berdasarkan tipe, lalu nama_skema
+  
+  ## Use Cases
+  - Dropdown skema di form usulan penelitian
+  - Dropdown skema di form usulan pengabdian
+  - Filter skema di halaman admin
+}

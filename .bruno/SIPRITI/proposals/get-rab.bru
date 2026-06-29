@@ -1,0 +1,68 @@
+meta {
+  name: Get RAB Proposal
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{host}}/api/proposals/:id/rab
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-proposal-uuid-here
+}
+
+docs {
+  # GET /api/proposals/:id/rab
+
+  Mengambil Rencana Anggaran Biaya (RAB) dari sebuah proposal.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID proposal |
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Data RAB berhasil diambil",
+    "data": [
+      {
+        "id": "uuid",
+        "proposal_id": "proposal-uuid",
+        "komponen": "Peralatan dan Mesin",
+        "item": "Laptop",
+        "volume": 1,
+        "satuan": "unit",
+        "harga_satuan": 15000000,
+        "total": 15000000,
+        "justifikasi": "Untuk pengolahan data penelitian"
+      },
+      {
+        "id": "uuid",
+        "proposal_id": "proposal-uuid",
+        "komponen": "Bahan Habis Pakai",
+        "item": "Kertas A4",
+        "volume": 10,
+        "satuan": "rim",
+        "harga_satuan": 50000,
+        "total": 500000,
+        "justifikasi": "Untuk mencetak laporan"
+      }
+    ],
+    "totalDana": 15500000
+  }
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 403 | Tidak memiliki akses ke proposal ini |
+  | 404 | Proposal tidak ditemukan |
+}

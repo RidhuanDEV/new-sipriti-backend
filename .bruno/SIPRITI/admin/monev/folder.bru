@@ -1,0 +1,39 @@
+meta {
+  name: monev
+  seq: 5
+}
+
+docs {
+  # Admin - Monev Internal API
+  
+  Endpoint untuk mengelola Monitoring & Evaluasi Internal usulan.
+  
+  ## Fitur
+  - CRUD Monev records
+  - Upload dokumen berita acara dan form penilaian
+  - Tracking status dokumen
+  
+  ## Struktur Data
+  
+  | Field | Type | Description |
+  |-------|------|-------------|
+  | id | UUID | ID monev |
+  | usulan_id | UUID | FK ke haki_proposals |
+  | tgl_monev | DATE | Tanggal pelaksanaan monev |
+  | direktorat | enum | PRPM, PRODI, PKA |
+  | status_dokumen | enum | Belum Lengkap, Sedang Diproses, Lengkap |
+  | jenis_usulan | string | Dari skema.tipe |
+  | berita_acara | string | Path file PDF |
+  | form_penilaian | string | Path file PDF |
+  | ringkasan_monev | text | Ringkasan hasil monev |
+  | catatan | text | Catatan tambahan |
+  
+  ## File Upload
+  - Format: PDF only
+  - Max size: 10MB per file
+  - Fields: berita_acara, form_penilaian
+}
+
+auth {
+  mode: inherit
+}

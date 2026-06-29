@@ -15,6 +15,8 @@ export class Permission extends Model<
 > {
   declare id: CreationOptional<string>;
   declare name: string;
+  declare description: CreationOptional<string | null>;
+  declare module: CreationOptional<string | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -34,6 +36,14 @@ export function initModel(sequelize: Sequelize): typeof Permission {
         type: DataTypes.STRING(128),
         allowNull: false,
         unique: true,
+      },
+      description: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      module: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,

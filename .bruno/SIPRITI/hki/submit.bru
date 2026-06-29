@@ -1,0 +1,64 @@
+meta {
+  name: submit
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{host}}/api/hki/:id/submit
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{hki_id}}
+}
+
+docs {
+  # Submit HKI
+  
+  ## API Endpoint
+  `POST /api/hki/:id/submit`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID HKI |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengajukan HKI",
+    "data": {
+      "id": "uuid",
+      "status": "Pending",
+      "submittedAt": "2025-01-08T10:00:00.000Z"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+  | 404 | Data HKI tidak ditemukan |
+  | 400 | HKI sudah disubmit sebelumnya |
+}

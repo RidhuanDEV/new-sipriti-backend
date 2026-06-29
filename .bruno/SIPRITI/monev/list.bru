@@ -1,0 +1,56 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/monev
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  # List Monev Proposals
+  
+  ## API Endpoint
+  `GET /api/monev`
+  
+  **Auth Required:** ✅  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil daftar proposal",
+    "data": [
+      {
+        "id": "uuid-proposal",
+        "judul": "Proposal Penelitian AI",
+        "file_url": "/uploads/proposals/proposal.pdf",
+        "status_usulan": "Disetujui",
+        "members": [...],
+        "substansiLuaran": [...]
+      }
+    ]
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 401 | Token tidak valid |
+  | 403 | Akses ditolak |
+}

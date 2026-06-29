@@ -15,14 +15,14 @@ const controller = new PermissionController();
 router.get(
   "/",
   authenticate,
-  requirePermission("manage_permissions"),
+  requirePermission("view_permissions"),
   controller.getAll,
 );
 
 router.get(
   "/:id",
   authenticate,
-  requirePermission("manage_permissions"),
+  requirePermission("view_permissions"),
   validate({ params: permissionIdSchema }),
   controller.getById,
 );
@@ -30,7 +30,7 @@ router.get(
 router.post(
   "/",
   authenticate,
-  requirePermission("manage_permissions"),
+  requirePermission("assign_permissions"),
   validate({ body: createPermissionSchema }),
   controller.create,
 );
@@ -38,7 +38,7 @@ router.post(
 router.patch(
   "/:id",
   authenticate,
-  requirePermission("manage_permissions"),
+  requirePermission("assign_permissions"),
   validate({ params: permissionIdSchema, body: updatePermissionSchema }),
   controller.update,
 );
@@ -46,7 +46,7 @@ router.patch(
 router.delete(
   "/:id",
   authenticate,
-  requirePermission("manage_permissions"),
+  requirePermission("assign_permissions"),
   validate({ params: permissionIdSchema }),
   controller.delete,
 );

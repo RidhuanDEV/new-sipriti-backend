@@ -1,0 +1,60 @@
+meta {
+  name: delete
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{host}}/api/tahun-akademik/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{tahun_akademik_id}}
+}
+
+docs {
+  # Delete Tahun Akademik
+  
+  ## API Endpoint
+  `DELETE /api/tahun-akademik/:id`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID tahun akademik |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil menghapus tahun akademik"
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+  | 403 | Akses ditolak |
+  | 404 | Tahun akademik tidak ditemukan |
+  | 400 | Tidak dapat menghapus tahun akademik yang sedang digunakan |
+}

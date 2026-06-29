@@ -1,0 +1,76 @@
+meta {
+  name: accept-invite
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{host}}/api/notifications/:id/accept-invite
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{member_proposal_id}}
+}
+
+body:json {
+  {
+    "type": "member_proposal"
+  }
+}
+
+docs {
+  # Accept Invite from Notification
+  
+  ## API Endpoint
+  `PUT /api/notifications/:id/accept-invite`
+  
+  **Auth Required:** ✅ Bearer Token
+  
+  ---
+  
+  ## DTO
+  
+  ### Path Parameters
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID MemberProposal |
+  
+  ### Request Body
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | type | string | ❌ | Nilai opsional, default `member_proposal` |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Undangan berhasil diterima",
+    "data": {
+      "id": "uuid",
+      "status_invite": "accepted"
+    }
+  }
+  ```
+  
+  ### Success (already accepted)
+  ```json
+  {
+    "success": true,
+    "message": "Undangan sudah diterima sebelumnya",
+    "data": {
+      "id": "uuid",
+      "status_invite": "accepted"
+    }
+  }
+  ```
+}

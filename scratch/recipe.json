@@ -1,0 +1,10 @@
+[
+  {
+    "target": "  declare createdAt: CreationOptional<Date>;\n  declare updatedAt: CreationOptional<Date>;\n\n  declare usulan?: NonAttribute<HakiProposal | null>;",
+    "replacement": "  declare createdAt: CreationOptional<Date>;\n  declare updatedAt: CreationOptional<Date>;\n  declare deletedAt: CreationOptional<Date | null>;\n\n  declare usulan?: NonAttribute<HakiProposal | null>;"
+  },
+  {
+    "target": "      createdAt: DataTypes.DATE,\n      updatedAt: DataTypes.DATE,\n    },\n    {\n      sequelize,\n      modelName: \"Monev\",\n      tableName: \"monevs\",\n      timestamps: true,\n      underscored: true,\n      indexes: [",
+    "replacement": "      createdAt: DataTypes.DATE,\n      updatedAt: DataTypes.DATE,\n      deletedAt: DataTypes.DATE,\n    },\n    {\n      sequelize,\n      modelName: \"Monev\",\n      tableName: \"monevs\",\n      timestamps: true,\n      underscored: true,\n      paranoid: true,\n      indexes: ["
+  }
+]

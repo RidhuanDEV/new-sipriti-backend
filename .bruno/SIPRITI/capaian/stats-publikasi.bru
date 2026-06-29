@@ -1,0 +1,54 @@
+meta {
+  name: stats-publikasi
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{host}}/api/capaian/stats/publikasi
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~tahun_mulai: 2019
+  ~tahun_selesai: 2024
+}
+
+docs {
+  # Get Total Publikasi
+  
+  ## API Endpoint
+  `GET /api/capaian/stats/publikasi`
+  
+  **Auth Required:** ❌ Public
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | tahun_mulai | number | ❌ | Filter tahun mulai |
+  | tahun_selesai | number | ❌ | Filter tahun selesai |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil statistik publikasi",
+    "data": {
+      "total": 150,
+      "breakdown": {
+        "Jurnal Nasional": 80,
+        "Jurnal Internasional": 40,
+        "Prosiding": 30
+      }
+    }
+  }
+  ```
+}

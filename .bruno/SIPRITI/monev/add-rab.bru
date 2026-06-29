@@ -1,0 +1,108 @@
+meta {
+  name: add-rab
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{host}}/api/monev/:proposalId/rab
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  proposalId: {{proposal_id}}
+}
+
+body:json {
+  {
+    "tahun_ke": 1,
+    "kelompok": "Bahan",
+    "komponen": "Bahan Habis Pakai",
+    "item": "Kertas, tinta, ATK",
+    "satuan": "paket",
+    "harga_satuan": 500000,
+    "volume": 5,
+    "total": 2500000
+  }
+}
+
+docs {
+  # Add RAB (Rancangan Anggaran Biaya)
+  
+  ## API Endpoint
+  `POST /api/monev/:proposalId/rab`
+  
+  **Auth Required:** ✅  
+  **Role Required:** All authenticated users
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | proposalId | UUID | ✅ | ID proposal |
+  
+  ## DTO (Request Body)
+  
+  ```typescript
+  interface AddRABDTO {
+    tahun_ke?: number;     // Tahun ke-
+    kelompok?: string;     // Kelompok anggaran
+    komponen?: string;     // Komponen anggaran
+    item?: string;         // Rincian item
+    satuan?: string;       // Satuan (paket, unit, dll)
+    harga_satuan?: number; // Harga per satuan
+    volume?: number;       // Jumlah/volume
+    total?: number;        // Total biaya
+  }
+  ```
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | tahun_ke | number | ❌ | Tahun ke- |
+  | kelompok | string | ❌ | Kelompok anggaran |
+  | komponen | string | ❌ | Komponen anggaran |
+  | item | string | ❌ | Rincian item |
+  | satuan | string | ❌ | Satuan |
+  | harga_satuan | number | ❌ | Harga per satuan |
+  | volume | number | ❌ | Jumlah/volume |
+  | total | number | ❌ | Total biaya |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201)
+  ```json
+  {
+    "success": true,
+    "message": "RAB berhasil ditambahkan",
+    "data": {
+      "id": "uuid-rab",
+      "haki_proposal_id": "uuid-proposal",
+      "tahun_ke": 1,
+      "kelompok": "Bahan",
+      "komponen": "Bahan Habis Pakai",
+      "item": "Kertas, tinta, ATK",
+      "satuan": "paket",
+      "harga_satuan": 500000,
+      "volume": 5,
+      "total": 2500000
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 401 | Token tidak valid |
+}

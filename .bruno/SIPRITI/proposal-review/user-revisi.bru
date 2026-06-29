@@ -1,0 +1,15 @@
+meta {
+  name: user-revisi
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{host}}/api/proposal-review/user/revisi
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

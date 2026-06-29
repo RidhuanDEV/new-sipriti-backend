@@ -1,0 +1,10 @@
+[
+  {
+    "target": "  declare createdAt: CreationOptional<Date>;\n  declare updatedAt: CreationOptional<Date>;\n}",
+    "replacement": "  declare createdAt: CreationOptional<Date>;\n  declare updatedAt: CreationOptional<Date>;\n  declare deletedAt: CreationOptional<Date | null>;\n}"
+  },
+  {
+    "target": "      createdAt: DataTypes.DATE,\n      updatedAt: DataTypes.DATE,\n    },\n    {\n      sequelize,\n      modelName: \"Berita\",\n      tableName: \"berita\",\n      freezeTableName: true,\n      underscored: false,\n      indexes: [",
+    "replacement": "      createdAt: DataTypes.DATE,\n      updatedAt: DataTypes.DATE,\n      deletedAt: {\n        type: DataTypes.DATE,\n        allowNull: true,\n        field: \"deleted_at\",\n      },\n    },\n    {\n      sequelize,\n      modelName: \"Berita\",\n      tableName: \"berita\",\n      freezeTableName: true,\n      underscored: false,\n      paranoid: true,\n      deletedAt: \"deleted_at\",\n      indexes: ["
+  }
+]

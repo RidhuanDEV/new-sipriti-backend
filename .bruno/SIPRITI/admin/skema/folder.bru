@@ -1,0 +1,34 @@
+meta {
+  name: skema
+  seq: 2
+}
+
+docs {
+  # Admin - Skema Usulan API
+  
+  Endpoint untuk mengelola Skema Usulan (kategori penelitian/pengabdian).
+  
+  ## Struktur Data
+  
+  | Field | Type | Description |
+  |-------|------|-------------|
+  | id | UUID | Primary key |
+  | nama_skema | string | Nama skema (unique) |
+  | tipe | enum | Penelitian, Pengabdian, HKI |
+  | deskripsi | text | Deskripsi skema (optional) |
+  | is_active | boolean | Status aktif skema |
+  | createdAt | datetime | Tanggal dibuat |
+  | updatedAt | datetime | Tanggal diupdate |
+  
+  ## Validation Rules
+  - `nama_skema` - Required, unique
+  - `tipe` - Required, enum: Penelitian, Pengabdian, HKI
+  
+  ## Notes
+  - Tidak dapat menghapus skema yang masih memiliki usulan terkait
+  - Skema yang tidak aktif tidak muncul di dropdown
+}
+
+auth {
+  mode: inherit
+}

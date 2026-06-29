@@ -1,0 +1,41 @@
+meta {
+  name: publikasi
+  seq: 22
+}
+
+docs {
+  # Publikasi API
+  
+  Endpoints untuk manajemen data publikasi (pivot table).
+  
+  **Base URL:** `/api/publikasi`
+  
+  ---
+  
+  ## Endpoints
+  
+  | Method | Endpoint | Description | Auth | Role |
+  |--------|----------|-------------|------|------|
+  | GET | `/` | List publikasi dengan pagination (pivot) | ✅ | All |
+  | POST | `/upsert` | Upsert data publikasi | ✅ | Admin |
+  
+  ---
+  
+  ## Data Model
+  
+  ```typescript
+  interface Publikasi {
+    id: string;               // UUID
+    tahunAkademikId: string;  // FK to TahunAkademik
+    kategoriPublikasiId: string; // FK to KategoriPublikasi
+    totalPublikasi: number;   // Jumlah publikasi
+    createdAt: string;        // ISO timestamp
+    updatedAt: string;        // ISO timestamp
+  }
+  ```
+  
+  ## Pivot Response Structure
+  Data dikembalikan dalam format pivot:
+  - **columns**: Daftar tahun akademik
+  - **rows**: Daftar kategori dengan nilai per tahun
+}

@@ -1,0 +1,56 @@
+meta {
+  name: Create Official Signature
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{host}}/api/admin/signatures
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file(path/to/signature.png)
+  nama_pejabat: Dr. Ir. Budi Santoso, M.T.
+  jabatan: Rektor
+}
+
+docs {
+  # POST /api/admin/signatures
+
+  Upload tanda tangan resmi pejabat baru. Memerlukan permission `create_signature`.
+
+  ## Request Body (multipart/form-data)
+
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | file | File (PNG) | ✅ | File gambar tanda tangan format PNG, maks 5MB |
+  | nama_pejabat | string | ✅ | Nama lengkap pejabat |
+  | jabatan | string | ✅ | Jabatan pejabat |
+
+  ## Response Success (201)
+
+  ```json
+  {
+    "success": true,
+    "message": "Tanda tangan berhasil dibuat",
+    "data": {
+      "id": "uuid",
+      "nama_pejabat": "Dr. Ir. Budi Santoso, M.T.",
+      "jabatan": "Rektor",
+      "isActive": false,
+      "createdAt": "2025-01-08T00:00:00.000Z",
+      "updatedAt": "2025-01-08T00:00:00.000Z"
+    }
+  }
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 400 | Hanya file PNG (image/png) yang diperbolehkan untuk signature |
+  | 400 | Ukuran file melebihi batas 5MB |
+  | 403 | Tidak memiliki permission create_signature |
+}

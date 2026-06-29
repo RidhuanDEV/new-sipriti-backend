@@ -1,0 +1,22 @@
+meta {
+  name: update
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{host}}/api/sertifikat-mutu/:id
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+
+body:json {
+  {
+    "sertifikat_description": "ISO 9001:2015 Updated"
+  }
+}

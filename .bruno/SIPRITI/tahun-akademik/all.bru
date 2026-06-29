@@ -1,0 +1,65 @@
+meta {
+  name: all
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/tahun-akademik/all
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  # Get All Tahun Akademik
+  
+  ## API Endpoint
+  `GET /api/tahun-akademik/all`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Request)
+  
+  No request body required.
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil semua tahun akademik",
+    "data": [
+      {
+        "id": "uuid",
+        "nama": "2024/2025 Ganjil",
+        "is_active": true
+      },
+      {
+        "id": "uuid",
+        "nama": "2023/2024 Genap",
+        "is_active": false
+      }
+    ]
+  }
+  ```
+  
+  **Note:** Endpoint ini tidak menggunakan pagination, cocok untuk dropdown.
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+}

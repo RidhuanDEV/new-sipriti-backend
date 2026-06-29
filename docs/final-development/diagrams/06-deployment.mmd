@@ -1,0 +1,29 @@
+flowchart TB
+  Browser["Browser Pengguna"]
+  Frontend["Frontend React"]
+  Backend["Node.js Express API"]
+  MySQL[("MySQL: new_sipriti_db")]
+  Uploads[("Uploads Directory")]
+  Docs["Swagger UI /docs"]
+  Logs["Pino Log Output"]
+
+  Browser -->|"HTTPS / HTTP lokal"| Frontend
+  Frontend -->|"REST API /api"| Backend
+  Backend -->|"mysql2 / Sequelize"| MySQL
+  Backend -->|"read / write file"| Uploads
+  Backend -->|"OpenAPI JSON"| Docs
+  Backend -->|"structured log"| Logs
+
+  subgraph Security["Keamanan Runtime"]
+    Helmet["Helmet headers"]
+    Cors["CORS allowlist"]
+    Csrf["CSRF token"]
+    Cookie["HTTP-only JWT cookie"]
+    Rate["Rate limiter"]
+  end
+
+  Backend -.-> Helmet
+  Backend -.-> Cors
+  Backend -.-> Csrf
+  Backend -.-> Cookie
+  Backend -.-> Rate

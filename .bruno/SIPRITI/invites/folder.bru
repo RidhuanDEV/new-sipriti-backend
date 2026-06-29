@@ -1,0 +1,31 @@
+meta {
+  name: invites
+  seq: 9
+}
+
+docs {
+  # Invites API
+  
+  Endpoints untuk manajemen undangan anggota proposal.
+  
+  ## Base URL
+  `/api/invites`
+  
+  ## Endpoints Overview
+  
+  | Method | Endpoint | Auth | Description |
+  |--------|----------|------|-------------|
+  | GET | /getMyInvites | ✅ | List undangan untuk user login |
+  | POST | /:id/accept | ✅ | Terima undangan (compatibility route) |
+  | POST | /:id/reject | ✅ | Tolak undangan (compatibility route) |
+  
+  ## Invite Status
+  - `pending` - Menunggu respons
+  - `accepted` - Diterima
+  - `rejected` - Ditolak
+
+  ## Catatan
+  Flow notifikasi terbaru juga menyediakan endpoint serupa di:
+  - `PUT /api/notifications/:id/accept-invite`
+  - `PUT /api/notifications/:id/reject-invite`
+}

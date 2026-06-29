@@ -1,0 +1,34 @@
+meta {
+  name: usulan
+  seq: 4
+}
+
+docs {
+  # Admin - Daftar Usulan API
+  
+  Endpoint untuk melihat rekapitulasi seluruh usulan yang masuk (Admin View).
+  
+  ## Struktur Data Response
+  
+  | Field | Type | Description |
+  |-------|------|-------------|
+  | id | UUID | ID usulan |
+  | no | number | Nomor urut |
+  | ketua | string | Nama ketua |
+  | ketua_id | UUID | ID user ketua |
+  | ketua_email | string | Email ketua |
+  | judul | string | Judul usulan |
+  | jenisUsulan | string | Nama skema |
+  | skema_id | UUID | ID skema |
+  | tahunPelaksanaan | string | Tahun pelaksanaan |
+  | status | enum | Draft, Pending, Approved, Declined |
+  | tipe_usulan | enum | Penelitian, Pengabdian |
+  
+  ## Notes
+  - Endpoint ini hanya untuk membaca data (read-only)
+  - CRUD usulan dilakukan oleh user melalui endpoint /penelitian atau /pengabdian
+}
+
+auth {
+  mode: inherit
+}

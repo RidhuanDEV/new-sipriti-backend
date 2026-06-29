@@ -1,0 +1,63 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/hibah-internal
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~page: 1
+  ~limit: 10
+}
+
+docs {
+  # List Hibah Internal
+  
+  ## API Endpoint
+  `GET /api/hibah-internal`
+  
+  **Auth Required:** ❌ Public
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  | Param | Type | Required | Default |
+  |-------|------|----------|---------|
+  | page | number | ❌ | 1 |
+  | limit | number | ❌ | 10 |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil daftar hibah internal",
+    "data": [
+      {
+        "id": "uuid",
+        "tipe_hibah": "Penelitian",
+        "judul_hibah": "Hibah Penelitian 2024",
+        "susunan_tim_hibah": ["Dr. John Doe", "Prof. Jane"],
+        "tahun_hibah": "2024",
+        "dana_hibah": 50000000,
+        "createdAt": "2025-01-08T10:00:00.000Z"
+      }
+    ],
+    "meta": {
+      "page": 1,
+      "limit": 10,
+      "total": 30,
+      "totalPages": 3
+    }
+  }
+  ```
+}

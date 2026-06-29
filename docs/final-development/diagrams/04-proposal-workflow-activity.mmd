@@ -1,0 +1,31 @@
+flowchart TD
+  Start(["Mulai"])
+  Draft["Dosen membuat draft usulan"]
+  Sections["Mengisi data umum, anggota, substansi, jadwal, luaran, dan RAB"]
+  ValidateDraft{"Data wajib lengkap?"}
+  Submit["Submit usulan"]
+  Pending["Status menjadi Pending"]
+  Review["Reviewer / PRPM melakukan pemeriksaan"]
+  Decision{"Keputusan review"}
+  Approved["Status Approved"]
+  Declined["Status Declined dan catatan revisi tersimpan"]
+  Resubmit["Ketua proposal memperbaiki dan resubmit"]
+  Laporan["Laporan usulan dibuat atau diperbarui"]
+  FinalPdf["PDF proposal final dapat dihasilkan"]
+  End(["Selesai"])
+
+  Start --> Draft
+  Draft --> Sections
+  Sections --> ValidateDraft
+  ValidateDraft -- "Tidak" --> Sections
+  ValidateDraft -- "Ya" --> Submit
+  Submit --> Pending
+  Pending --> Review
+  Review --> Decision
+  Decision -- "Approve" --> Approved
+  Decision -- "Decline" --> Declined
+  Declined --> Resubmit
+  Resubmit --> Pending
+  Approved --> Laporan
+  Laporan --> FinalPdf
+  FinalPdf --> End

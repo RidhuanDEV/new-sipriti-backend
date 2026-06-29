@@ -1,0 +1,61 @@
+meta {
+  name: delete
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{host}}/api/usulan-pengabdian/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{pengabdian_id}}
+}
+
+docs {
+  # Delete Usulan Pengabdian
+  
+  ## API Endpoint
+  `DELETE /api/usulan-pengabdian/:id`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** dosen, mahasiswa  
+  **Condition:** Status masih `Draft`
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID usulan pengabdian |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil menghapus usulan pengabdian"
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 400 | Hanya usulan Draft yang dapat dihapus |
+  | 401 | Token tidak valid |
+  | 403 | Anda tidak memiliki akses |
+  | 404 | Usulan tidak ditemukan |
+}

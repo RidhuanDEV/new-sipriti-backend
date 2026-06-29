@@ -1,0 +1,59 @@
+meta {
+  name: delete-image
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{host}}/api/upload/image/:filename
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  filename: image-1705312800000-abc123.jpg
+}
+
+docs {
+  # Delete Image
+  
+  ## API Endpoint
+  `DELETE /api/upload/image/:filename`
+  
+  **Auth Required:** ✅  
+  **Role Required:** All authenticated users
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | filename | string | ✅ | Nama file yang akan dihapus |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Gambar berhasil dihapus",
+    "data": null
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 401 | Token tidak valid |
+  | 404 | File tidak ditemukan |
+}

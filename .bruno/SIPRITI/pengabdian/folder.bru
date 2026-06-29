@@ -1,0 +1,39 @@
+meta {
+  name: pengabdian
+  seq: 15
+}
+
+docs {
+  # Pengabdian (Usulan Pengabdian) API
+  
+  Endpoints untuk manajemen usulan pengabdian kepada masyarakat.
+  
+  ## Base URL
+  `/api/pengabdian`
+
+  ## Alias URL (Compatibility)
+  `/api/usulan-pengabdian`
+  
+  ## Endpoints Overview
+  
+  | Method | Endpoint | Auth | Role | Description |
+  |--------|----------|------|------|-------------|
+  | GET | /landing | ❌ | Public | Konten landing pengabdian |
+  | GET | / | ✅ | All | List usulan pengabdian user |
+  | GET | /options | ✅ | All | Dropdown options untuk form |
+  | GET | /by-prodi | ✅ | Koordinator | List usulan berdasarkan prodi |
+  | GET | /search | ✅ | All | Cari usulan pengabdian |
+  | GET | /:id | ✅ | All | Detail usulan pengabdian |
+  | POST | / | ✅ | Dosen/Mahasiswa | Buat usulan pengabdian |
+  | PUT | /:id | ✅ | Dosen/Mahasiswa | Update usulan (Draft only) |
+  | POST | /:id/submit | ✅ | Dosen/Mahasiswa | Submit usulan |
+  | POST | /:id/forward | ✅ | Koordinator | Forward usulan + lampiran |
+  | DELETE | /:id | ✅ | Dosen/Mahasiswa | Hapus usulan (Draft only) |
+  
+  ## Status Usulan
+  - `Draft` - Belum disubmit
+  - `Pending` - Menunggu review
+  - `Disetujui` - Approved
+  - `Ditolak` - Rejected
+  - `Revisi` - Perlu revisi
+}

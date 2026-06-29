@@ -1,0 +1,15 @@
+meta {
+  name: list
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{host}}/api/auth/list
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

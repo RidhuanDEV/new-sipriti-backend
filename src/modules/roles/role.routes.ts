@@ -16,14 +16,14 @@ const controller = new RoleController();
 router.get(
   "/",
   authenticate,
-  requirePermission("manage_roles"),
+  requirePermission("view_roles"),
   controller.getAll,
 );
 
 router.get(
   "/:id",
   authenticate,
-  requirePermission("manage_roles"),
+  requirePermission("view_roles"),
   validate({ params: roleIdSchema }),
   controller.getById,
 );
@@ -31,7 +31,7 @@ router.get(
 router.post(
   "/",
   authenticate,
-  requirePermission("manage_roles"),
+  requirePermission("create_role"),
   validate({ body: createRoleSchema }),
   controller.create,
 );
@@ -39,7 +39,7 @@ router.post(
 router.patch(
   "/:id",
   authenticate,
-  requirePermission("manage_roles"),
+  requirePermission("edit_role"),
   validate({ params: roleIdSchema, body: updateRoleSchema }),
   controller.update,
 );
@@ -47,7 +47,7 @@ router.patch(
 router.delete(
   "/:id",
   authenticate,
-  requirePermission("manage_roles"),
+  requirePermission("delete_role"),
   validate({ params: roleIdSchema }),
   controller.delete,
 );
@@ -55,7 +55,7 @@ router.delete(
 router.post(
   "/:id/permissions",
   authenticate,
-  requirePermission("manage_roles"),
+  requirePermission("assign_permissions"),
   validate({ params: roleIdSchema, body: assignPermissionsSchema }),
   controller.assignPermissions,
 );

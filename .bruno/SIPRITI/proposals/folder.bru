@@ -1,0 +1,37 @@
+meta {
+  name: proposals
+  seq: 32
+}
+
+docs {
+  # Proposals (Substansi) API
+
+  Endpoints untuk mengisi substansi/konten proposal yang telah dibuat. Semua endpoint di bawah ini bersifat nested di bawah ID proposal.
+
+  **Base URL:** `/api/proposals/:id/`
+
+  ---
+
+  ## Sub-modul
+
+  | Sub-path | Description |
+  |----------|-------------|
+  | `/penelitian` | Data substansi penelitian (latar belakang, metode, dll.) |
+  | `/pengabdian` | Data substansi pengabdian masyarakat |
+  | `/jadwal` | Jadwal kegiatan penelitian/pengabdian |
+  | `/luaran` | Target luaran/output penelitian |
+  | `/rab` | Rencana Anggaran Biaya (RAB) |
+
+  ---
+
+  ## Catatan Umum
+
+  - `:id` adalah UUID proposal yang sedang diisi
+  - Semua endpoint memerlukan autentikasi
+  - GET memerlukan role: `view_proposal`, `manage_proposal`, `create_proposal`, `edit_proposal`, dll.
+  - PUT/POST memerlukan role: `manage_proposal`, `create_proposal`, `edit_proposal`, dll.
+}
+
+auth {
+  mode: inherit
+}

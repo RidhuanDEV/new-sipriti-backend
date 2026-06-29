@@ -1,0 +1,34 @@
+meta {
+  name: proposal-final-pdf
+  seq: 30
+}
+
+docs {
+  # Proposal Final PDF API
+
+  Endpoints untuk generate dan stream PDF final proposal penelitian/pengabdian.
+
+  **Base URL:** `/api/proposal-final-pdf`
+
+  ---
+
+  ## Endpoints
+
+  | Method | Endpoint | Description | Auth | Role |
+  |--------|----------|-------------|------|------|
+  | GET | `/user/:id` | Generate PDF (untuk Ketua Pengusul) | ✅ | Pemilik proposal |
+  | GET | `/admin/:id` | Generate PDF (untuk Admin) | ✅ | Admin |
+
+  ---
+
+  ## Catatan
+
+  - Response berupa stream PDF binary
+  - PDF juga disimpan ke `uploads/proposal-final-pdf/` jika env `GENERATE_PDF_STREAM_AND_SERVER=true`
+  - Endpoint `/user/:id` hanya bisa diakses oleh Ketua Pengusul proposal tersebut
+  - Endpoint `/admin/:id` memerlukan role admin
+}
+
+auth {
+  mode: inherit
+}

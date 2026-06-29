@@ -1,0 +1,81 @@
+meta {
+  name: Upload Monev Documents
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{host}}/api/admin/monev/:id/upload
+  body: multipartForm
+  auth: inherit
+}
+
+params:path {
+  id: your-monev-uuid-here
+}
+
+body:multipart-form {
+  berita_acara: @file(C:\path\to\berita-acara.pdf)
+  form_penilaian: @file(C:\path\to\form-penilaian.pdf)
+}
+
+docs {
+  # POST /api/admin/monev/:id/upload
+  
+  Upload dokumen Berita Acara dan/atau Form Penilaian untuk Monev.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID monev tujuan upload |
+  
+  ## Request Body (multipart/form-data)
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | berita_acara | File | No | PDF Berita Acara Monev |
+  | form_penilaian | File | No | PDF Form Penilaian |
+  
+  ## File Constraints
+  - **Format**: PDF only (.pdf)
+  - **Max size**: 10MB per file
+  - **Min one file**: Minimal satu file harus diupload
+  
+  ## Response Success (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Dokumen monev berhasil diupload",
+    "data": {
+      "id": "uuid",
+      "berita_acara": "/uploads/monev/berita-acara-1704700800000.pdf",
+      "form_penilaian": "/uploads/monev/form-penilaian-1704700800000.pdf",
+      "status_dokumen": "Lengkap",
+      "updatedAt": "2025-01-08T00:00:00.000Z"
+    }
+  }
+  ```
+  
+  ## Response Error (400)
+  ```json
+  {
+    "success": false,
+    "message": "Minimal satu file harus diupload"
+  }
+  ```
+  
+  ## Response Error (400 - Invalid Format)
+  ```json
+  {
+    "success": false,
+    "message": "File harus berformat PDF"
+  }
+  ```
+  
+  ## Notes
+  - Upload akan menimpa file sebelumnya jika sudah ada
+  - Status dokumen otomatis berubah ke "Lengkap" jika kedua file sudah diupload
+  - Status dokumen berubah ke "Sedang Diproses" jika hanya satu file yang diupload
+}

@@ -1,0 +1,71 @@
+meta {
+  name: counts
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/dashboard/counts
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  # Get Proposal Counts
+  
+  ## API Endpoint
+  `GET /api/dashboard/counts`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Request)
+  
+  No request body required.
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil jumlah proposal",
+    "data": {
+      "proposal_dalam_proses": 5,
+      "proposal_dalam_progress": 3,
+      "proposal_telah_selesai": 10,
+      "penelitian": 8,
+      "pengabdian": 5,
+      "kekayaan_intelektual": 5
+    }
+  }
+  ```
+  
+  ## Data Description
+  
+  | Field | Description |
+  |-------|-------------|
+  | proposal_dalam_proses | Status: Draft |
+  | proposal_dalam_progress | Status: Pending |
+  | proposal_telah_selesai | Status: Approved |
+  | penelitian | Tipe: Penelitian |
+  | pengabdian | Tipe: Pengabdian |
+  | kekayaan_intelektual | Tipe: HKI |
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+  | 403 | Role tidak diizinkan |
+}

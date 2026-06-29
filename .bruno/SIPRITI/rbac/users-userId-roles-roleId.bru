@@ -1,0 +1,11 @@
+meta {
+  name: users-userId-roles-roleId
+  type: http
+  seq: 22
+}
+
+post {
+  url: {{host}}/api/rbac/users/:userId/roles/:roleId
+  body: none
+  auth: inherit
+}

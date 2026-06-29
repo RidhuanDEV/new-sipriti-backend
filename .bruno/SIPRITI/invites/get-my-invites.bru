@@ -1,0 +1,68 @@
+meta {
+  name: get-my-invites
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/invites/getMyInvites
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  # Get My Invites
+  
+  ## API Endpoint
+  `GET /api/invites/getMyInvites`
+  
+  **Auth Required:** ✅ Bearer Token
+  
+  ---
+  
+  ## DTO (Request)
+  
+  No request body required.
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil daftar undangan",
+    "data": [
+      {
+        "id": "uuid",
+        "peran": "Anggota",
+        "status_invite": "pending",
+        "createdAt": "2025-01-08T10:00:00.000Z",
+        "proposal": {
+          "id": "uuid",
+          "judul": "Penelitian AI",
+          "tipe_usulan": "penelitian"
+        },
+        "ketua": {
+          "id": "uuid",
+          "name": "Dr. Ahmad Fauzi",
+          "email": "ahmad@univ.ac.id"
+        }
+      }
+    ]
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+}

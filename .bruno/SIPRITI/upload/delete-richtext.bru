@@ -1,0 +1,44 @@
+meta {
+  name: delete-richtext
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{host}}/api/upload/richtext/:filename
+  body: none
+  auth: inherit
+}
+
+params:path {
+  filename: richtext-1705312800000-abc123.png
+}
+
+docs {
+  # DELETE /api/upload/richtext/:filename
+
+  Menghapus gambar richtext yang sebelumnya diupload. Dipanggil ketika gambar dihapus dari konten editor.
+
+  ## Path Parameters
+
+  | Parameter | Type | Required | Description |
+  |-----------|------|----------|-------------|
+  | filename | string | ✅ | Nama file gambar yang akan dihapus |
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Gambar richtext berhasil dihapus",
+    "data": null
+  }
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 401 | Tidak terautentikasi |
+  | 404 | File tidak ditemukan |
+}

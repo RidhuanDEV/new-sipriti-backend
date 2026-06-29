@@ -1,0 +1,39 @@
+meta {
+  name: stats-mitra-riset
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{host}}/api/capaian/stats/mitra-riset
+  body: none
+  auth: inherit
+}
+
+docs {
+  # Get Total Mitra Kerja Riset
+  
+  ## API Endpoint
+  `GET /api/capaian/stats/mitra-riset`
+  
+  **Auth Required:** ❌ Public
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil total mitra riset",
+    "data": {
+      "total": 25,
+      "list": [
+        { "id": "uuid", "nama": "PT Telkom Indonesia" },
+        { "id": "uuid", "nama": "Bank Mandiri" }
+      ]
+    }
+  }
+  ```
+}

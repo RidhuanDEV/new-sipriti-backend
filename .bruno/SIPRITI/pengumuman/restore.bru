@@ -1,0 +1,24 @@
+meta {
+  name: Restore Pengumuman
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{host}}/api/pengumuman/:id/restore
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-pengumuman-uuid-here
+}
+
+docs {
+  # POST /api/pengumuman/:id/restore
+
+  Memulihkan pengumuman yang telah dihapus (soft-delete).
+
+  ## Permission Required
+  - `delete_pengumuman` atau `manage_pengumuman`
+}

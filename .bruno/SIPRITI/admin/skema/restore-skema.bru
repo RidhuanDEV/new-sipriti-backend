@@ -1,0 +1,24 @@
+meta {
+  name: Restore Skema
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{host}}/api/admin/skema/:id/restore
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-skema-uuid-here
+}
+
+docs {
+  # POST /api/admin/skema/:id/restore
+
+  Memulihkan skema yang telah dihapus (soft-delete).
+
+  ## Permission Required
+  - `delete_skema`
+}

@@ -1,0 +1,80 @@
+meta {
+  name: create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{host}}/api/hibah-internal
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "tipe_hibah": "Penelitian",
+    "judul_hibah": "Judul Hibah Baru",
+    "susunan_tim_hibah": ["Dr. John Doe", "Prof. Jane Smith"],
+    "tahun_hibah": "2024",
+    "dana_hibah": 50000000
+  }
+}
+
+docs {
+  # Create Hibah Internal
+  
+  ## API Endpoint
+  `POST /api/hibah-internal`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## DTO (Request Body)
+  
+  ```typescript
+  interface CreateHibahDTO {
+    tipe_hibah: string;          // Required
+    judul_hibah: string;         // Required
+    susunan_tim_hibah: string[]; // Required - Array nama
+    tahun_hibah: string;         // Required
+    dana_hibah: number;          // Required - Rupiah
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | tipe_hibah | string | ✅ | Penelitian/Pengabdian |
+  | judul_hibah | string | ✅ | - |
+  | susunan_tim_hibah | string[] | ✅ | Min 1 item |
+  | tahun_hibah | string | ✅ | Format: "2024" |
+  | dana_hibah | number | ✅ | > 0 |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201 Created)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil membuat hibah internal",
+    "data": { ... }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 400 | Field required |
+  | 401 | Token tidak valid |
+  | 403 | Akses ditolak |
+}

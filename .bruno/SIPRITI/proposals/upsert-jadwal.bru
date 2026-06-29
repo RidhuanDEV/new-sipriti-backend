@@ -1,0 +1,95 @@
+meta {
+  name: Bulk Upsert Jadwal Kegiatan
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{host}}/api/proposals/:id/jadwal
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: your-proposal-uuid-here
+}
+
+body:json {
+  {
+    "jadwal": [
+      {
+        "urutan": 1,
+        "kegiatan": "Studi Literatur",
+        "bulan_mulai": 1,
+        "bulan_selesai": 2
+      },
+      {
+        "urutan": 2,
+        "kegiatan": "Pengumpulan Data",
+        "bulan_mulai": 3,
+        "bulan_selesai": 5
+      },
+      {
+        "urutan": 3,
+        "kegiatan": "Analisis Data",
+        "bulan_mulai": 6,
+        "bulan_selesai": 8
+      },
+      {
+        "urutan": 4,
+        "kegiatan": "Penulisan Laporan",
+        "bulan_mulai": 9,
+        "bulan_selesai": 12
+      }
+    ]
+  }
+}
+
+docs {
+  # PUT /api/proposals/:id/jadwal
+
+  Bulk upsert jadwal kegiatan. Data lama akan digantikan sepenuhnya dengan data baru yang dikirim.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID proposal |
+
+  ## Request Body
+
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | jadwal | array | ✅ | Array jadwal kegiatan |
+  | jadwal[].urutan | number | ✅ | Urutan kegiatan |
+  | jadwal[].kegiatan | string | ✅ | Nama kegiatan |
+  | jadwal[].bulan_mulai | number | ✅ | Bulan mulai (1-12) |
+  | jadwal[].bulan_selesai | number | ✅ | Bulan selesai (1-12) |
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Jadwal berhasil disimpan",
+    "data": [
+      {
+        "id": "uuid",
+        "proposal_id": "proposal-uuid",
+        "urutan": 1,
+        "kegiatan": "Studi Literatur",
+        "bulan_mulai": 1,
+        "bulan_selesai": 2
+      }
+    ]
+  }
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 400 | Validasi gagal |
+  | 403 | Tidak memiliki akses edit proposal ini |
+  | 404 | Proposal tidak ditemukan |
+}

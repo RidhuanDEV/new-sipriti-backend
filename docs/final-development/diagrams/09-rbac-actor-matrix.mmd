@@ -1,0 +1,31 @@
+flowchart TB
+  Admin["Admin PRPM\nSemua permission operasional"]
+  Dosen["Dosen / Ketua Proposal\nmembuat, mengubah draft, mengirim, laporan pribadi"]
+  Kaprodi["Kaprodi\ntanda tangan prodi, dashboard terbatas"]
+  KP["Koordinator Penelitian\nkelola penelitian, review proposal, persetujuan, forward penelitian"]
+  KPG["Koordinator Pengabdian\nkelola pengabdian, review proposal, persetujuan, forward pengabdian"]
+  Reviewer["Reviewer\nreview_proposal, view_proposal"]
+  Operator["Operator PRPM\nimport massal, monev, dokumen pendukung"]
+
+  Auth["AuthN\nJWT HTTP-only cookie + CSRF"]
+  RBAC["AuthZ\nroles, permissions, role_permissions, user_roles"]
+  Policy["Kebijakan Sumber Daya\npemilik, ketua, anggota, prodi, tipe_usulan"]
+  Endpoint["Penjaga Endpoint\nrequirePermission / requireAnyPermission"]
+  Service["Aturan Service\nstatus alur kerja, efek samping, audit"]
+
+  Admin --> Auth
+  Dosen --> Auth
+  Kaprodi --> Auth
+  KP --> Auth
+  KPG --> Auth
+  Reviewer --> Auth
+  Operator --> Auth
+
+  Auth --> RBAC
+  RBAC --> Endpoint
+  Endpoint --> Policy
+  Policy --> Service
+
+  KP -. "Hanya penelitian + prodi sesuai" .-> Policy
+  KPG -. "Hanya pengabdian + prodi sesuai" .-> Policy
+  Admin -. "Cakupan luas melalui role admin" .-> Policy

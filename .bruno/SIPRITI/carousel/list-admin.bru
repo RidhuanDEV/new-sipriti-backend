@@ -1,0 +1,88 @@
+meta {
+  name: list-admin
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/carousel/admin
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  ~pageFilter: capaian
+  ~page: 1
+  ~limit: 100
+}
+
+docs {
+  # List Carousel (Admin)
+  
+  ## API Endpoint
+  `GET /api/carousel/admin`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  ```typescript
+  interface ListCarouselAdminQuery {
+    pageFilter?: string;  // Filter halaman: "capaian" | "home"
+    page?: number;        // Default: 1
+    limit?: number;       // Default: 100
+  }
+  ```
+  
+  | Param | Type | Required | Default |
+  |-------|------|----------|---------|
+  | pageFilter | string | ❌ | - |
+  | page | number | ❌ | 1 |
+  | limit | number | ❌ | 100 |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil data carousel",
+    "data": [
+      {
+        "id": "uuid",
+        "title": "Banner Title",
+        "image_url": "/uploads/carousel/img.jpg",
+        "is_active": true,
+        "page": "capaian",
+        "order": 1,
+        "createdAt": "2025-01-08T10:00:00.000Z",
+        "updatedAt": "2025-01-08T10:00:00.000Z"
+      }
+    ],
+    "meta": {
+      "page": 1,
+      "limit": 100,
+      "total": 5,
+      "totalPages": 1
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+  | 403 | Akses ditolak |
+}

@@ -1,0 +1,390 @@
+Project sipriti_backend_final {
+  database_type: "MySQL"
+  note: "ERD ringkas untuk backend SIPRITI PRPM. Kolom yang ditampilkan adalah kolom inti dari migration dan inventory final."
+}
+
+Table users {
+  id uuid [pk]
+  email varchar
+  password varchar [not null]
+  role_id uuid
+  name varchar
+  username varchar
+  nidn varchar
+  institusi varchar
+  prodi_kode varchar
+  created_at datetime
+  updated_at datetime
+  deleted_at datetime
+}
+
+Table roles {
+  id uuid [pk]
+  name varchar [unique, not null]
+  description varchar
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+}
+
+Table permissions {
+  id uuid [pk]
+  name varchar [unique, not null]
+  description varchar
+  module varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table role_permissions {
+  role_id uuid [pk]
+  permission_id uuid [pk]
+}
+
+Table user_roles {
+  id uuid [pk]
+  user_id uuid [not null]
+  role_id uuid [not null]
+  assigned_at datetime
+  assigned_by uuid
+}
+
+Table prodis {
+  id uuid [pk]
+  kode_prodi varchar [unique, not null]
+  nama_prodi varchar [not null]
+  jenjang varchar [not null]
+  created_at datetime
+  updated_at datetime
+}
+
+Table skemas {
+  id uuid [pk]
+  nama_skema varchar [unique, not null]
+  tipe varchar [not null]
+  deskripsi text
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+}
+
+Table bidang_fokus {
+  id uuid [pk]
+  nama_bidang varchar [unique, not null]
+  created_at datetime
+  updated_at datetime
+}
+
+Table tahun_akademik {
+  id uuid [pk]
+  tahun_mulai int [not null]
+  tahun_selesai int [not null]
+  semester varchar [not null]
+  created_at datetime
+  updated_at datetime
+}
+
+Table outputs {
+  id uuid [pk]
+  nama_output varchar [unique, not null]
+  created_at datetime
+  updated_at datetime
+}
+
+Table uploaded_files {
+  id uuid [pk]
+  owner_user_id uuid
+  entity_type varchar [not null]
+  entity_id uuid
+  visibility varchar [not null]
+  subdir varchar [not null]
+  stored_filename varchar [not null]
+  original_filename varchar
+  mime_type varchar
+  size_bytes bigint
+  sha256 varchar
+  status varchar [not null]
+  created_by uuid
+  deleted_by uuid
+  deleted_at datetime
+  created_at datetime
+  updated_at datetime
+}
+
+Table berita {
+  id uuid [pk]
+  judul varchar [not null]
+  slug varchar [unique, not null]
+  isi_berita text [not null]
+  photo_url varchar
+  file_url varchar
+  kategori varchar
+  tanggal_rilis datetime
+  createdAt datetime
+  updatedAt datetime
+}
+
+Table pengumuman {
+  id uuid [pk]
+  judul varchar [not null]
+  slug varchar [unique, not null]
+  isi_pengumuman text [not null]
+  gambar varchar
+  file_lampiran varchar
+  tanggal_rilis datetime
+  createdAt datetime
+  updatedAt datetime
+}
+
+Table panduan {
+  id uuid [pk]
+  judul varchar [not null]
+  isi_panduan text [not null]
+  thumbnail varchar
+  file_url varchar
+  createdAt datetime
+  updatedAt datetime
+}
+
+Table haki_proposals {
+  id uuid [pk]
+  user_id uuid [not null]
+  judul varchar [not null]
+  prodi_pengusul varchar
+  kelompok_skema varchar
+  bidang_fokus varchar
+  sumber_dana varchar
+  jumlah_dana decimal
+  tipe_usulan varchar [not null]
+  status_usulan varchar [not null]
+  skema_id uuid
+  tahun_akademik_id uuid
+  catatan_revisi text
+  status_revisi varchar
+  file_url varchar
+  createdAt datetime
+  updatedAt datetime
+}
+
+Table memberproposals {
+  id uuid [pk]
+  haki_proposal_id uuid [not null]
+  no_identitas varchar
+  peran varchar
+  status varchar
+  bidang_tugas text
+  status_invite varchar
+  invited_by_user_id uuid
+  nama_anggota varchar
+  institusi_anggota varchar
+  prodi_anggota varchar
+  prodi_kode_anggota varchar
+  createdAt datetime
+  updatedAt datetime
+}
+
+Table tbl_penelitian_proposals {
+  id uuid [pk]
+  haki_proposal_id uuid [unique, not null]
+  ringkasan text
+  kata_kunci json
+  pendahuluan text
+  metode text
+  daftar_pustaka text
+  createdAt datetime
+  updatedAt datetime
+}
+
+Table tbl_pengabdian_proposals {
+  id uuid [pk]
+  haki_proposal_id uuid [unique, not null]
+  tingkat varchar
+  ringkasan text
+  kata_kunci json
+  pendahuluan text
+  permasalahan_dan_solusi text
+  metode text
+  gambaran_ipteks text
+  peta_lokasi_mitra_url varchar
+  daftar_pustaka text
+  createdAt datetime
+  updatedAt datetime
+}
+
+Table jadwal_proposal {
+  id uuid [pk]
+  haki_proposal_id uuid [not null]
+  nama_kegiatan varchar [not null]
+  tahun int [not null]
+  urutan int [not null]
+  createdAt datetime
+  updatedAt datetime
+}
+
+Table jadwal_bulanan {
+  id uuid [pk]
+  jadwal_id uuid [not null]
+  bulan int [not null]
+  createdAt datetime
+  updatedAt datetime
+}
+
+Table luaranproposals {
+  id uuid [pk]
+  haki_proposal_id uuid [not null]
+  luaran varchar [not null]
+  target_capaian text
+  iku_terkait varchar
+  target_iku varchar
+  createdAt datetime
+  updatedAt datetime
+}
+
+Table rabproposals {
+  id uuid [pk]
+  haki_proposal_id uuid [not null]
+  tahun_ke varchar
+  kelompok varchar
+  komponen varchar
+  item varchar
+  satuan varchar
+  biaya_satuan bigint
+  volume int
+  total_biaya bigint
+  pajak varchar
+  sumber_dana varchar
+  createdAt datetime
+  updatedAt datetime
+}
+
+Table haki_proposal_outputs {
+  id uuid [pk]
+  haki_proposal_id uuid [not null]
+  output_id uuid [not null]
+  created_at datetime
+  updated_at datetime
+}
+
+Table laporan_usulan {
+  id uuid [pk]
+  haki_proposal_id uuid [not null]
+  ketua_user_id uuid
+  jenis_laporan varchar [not null]
+  scope_tipe varchar [not null]
+  file_url varchar
+  nama_file varchar
+  status_laporan varchar [not null]
+  catatan_validator text
+  validated_by uuid
+  validated_at datetime
+  created_at datetime
+  updated_at datetime
+}
+
+Table hkis {
+  id uuid [pk]
+  user_id uuid [not null]
+  judul varchar [not null]
+  jenis_hki varchar [not null]
+  sub_jenis_ciptaan varchar
+  nomor_permohonan varchar
+  tanggal_permohonan datetime
+  status_hki varchar
+  inventor text [not null]
+  pemegang_hak varchar [not null]
+  deskripsi text
+  file_sertifikat varchar
+  file_dokumen_pendukung varchar
+  file_surat_pernyataan varchar
+  file_bukti_pengalihan varchar
+  status varchar [not null]
+  createdAt datetime
+  updatedAt datetime
+}
+
+Table official_signatures {
+  id uuid [pk]
+  signature_key varchar [not null]
+  role_code varchar
+  kode_prodi varchar
+  signer_name varchar [not null]
+  signer_nidn varchar
+  stored_filename varchar [not null]
+  mime_type varchar [not null]
+  file_size int [not null]
+  sha256 varchar [not null]
+  is_active boolean
+  uploaded_by uuid
+  updated_by uuid
+  created_at datetime
+  updated_at datetime
+}
+
+Table monevs {
+  id uuid [pk]
+  usulan_id uuid [not null]
+  tgl_monev date [not null]
+  direktorat varchar [not null]
+  status_dokumen varchar [not null]
+  jenis_usulan varchar [not null]
+  berita_acara varchar
+  form_penilaian varchar
+  ringkasan_monev varchar
+  catatan text
+  created_by uuid
+  updated_by uuid
+  created_at datetime
+  updated_at datetime
+}
+
+Table audit_logs {
+  id uuid [pk]
+  action varchar [not null]
+  module varchar [not null]
+  entity_type varchar
+  entity_id varchar [not null]
+  user_id varchar [not null]
+  description varchar
+  old_value text
+  new_value text
+  ip_address varchar
+  user_agent varchar
+  http_method varchar
+  endpoint varchar
+  request_id varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Ref: users.role_id > roles.id
+Ref: users.prodi_kode > prodis.kode_prodi
+Ref: role_permissions.role_id > roles.id
+Ref: role_permissions.permission_id > permissions.id
+Ref: user_roles.user_id > users.id
+Ref: user_roles.role_id > roles.id
+Ref: user_roles.assigned_by > users.id
+Ref: uploaded_files.owner_user_id > users.id
+Ref: uploaded_files.created_by > users.id
+Ref: haki_proposals.user_id > users.id
+Ref: haki_proposals.skema_id > skemas.id
+Ref: haki_proposals.tahun_akademik_id > tahun_akademik.id
+Ref: memberproposals.haki_proposal_id > haki_proposals.id
+Ref: memberproposals.invited_by_user_id > users.id
+Ref: tbl_penelitian_proposals.haki_proposal_id > haki_proposals.id
+Ref: tbl_pengabdian_proposals.haki_proposal_id > haki_proposals.id
+Ref: jadwal_proposal.haki_proposal_id > haki_proposals.id
+Ref: jadwal_bulanan.jadwal_id > jadwal_proposal.id
+Ref: luaranproposals.haki_proposal_id > haki_proposals.id
+Ref: rabproposals.haki_proposal_id > haki_proposals.id
+Ref: haki_proposal_outputs.haki_proposal_id > haki_proposals.id
+Ref: haki_proposal_outputs.output_id > outputs.id
+Ref: laporan_usulan.haki_proposal_id > haki_proposals.id
+Ref: laporan_usulan.ketua_user_id > users.id
+Ref: laporan_usulan.validated_by > users.id
+Ref: hkis.user_id > users.id
+Ref: official_signatures.uploaded_by > users.id
+Ref: official_signatures.updated_by > users.id
+Ref: official_signatures.kode_prodi > prodis.kode_prodi
+Ref: monevs.usulan_id > haki_proposals.id
+Ref: monevs.created_by > users.id
+Ref: monevs.updated_by > users.id

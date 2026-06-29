@@ -1,0 +1,66 @@
+meta {
+  name: get-by-id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/pengumuman/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{pengumuman_id}}
+}
+
+docs {
+  # Get Pengumuman by ID
+  
+  ## API Endpoint
+  `GET /api/pengumuman/:id`
+  
+  **Auth Required:** ✅  
+  **Role Required:** All authenticated users
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID pengumuman |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil detail pengumuman",
+    "data": {
+      "id": "uuid-pengumuman",
+      "judul": "Pengumuman Hibah Penelitian 2025",
+      "isi_pengumuman": "<p>Dengan ini diumumkan...</p>",
+      "file_url": "/uploads/pengumuman/doc.pdf",
+      "createdAt": "2025-01-15T10:00:00.000Z",
+      "updatedAt": "2025-01-15T10:00:00.000Z"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 401 | Token tidak valid |
+  | 404 | Pengumuman tidak ditemukan |
+}

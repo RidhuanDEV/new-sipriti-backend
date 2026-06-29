@@ -1,0 +1,82 @@
+meta {
+  name: upload-images
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{host}}/api/upload/images
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  images: @file(path/to/image1.jpg)
+  images: @file(path/to/image2.jpg)
+}
+
+docs {
+  # Upload Multiple Images
+  
+  ## API Endpoint
+  `POST /api/upload/images`
+  
+  **Auth Required:** ✅  
+  **Role Required:** All authenticated users
+  
+  ---
+  
+  ## DTO (Request Body - multipart/form-data)
+  
+  ```typescript
+  interface UploadImagesDTO {
+    images: File[]; // Required - Multiple image files (max 10)
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | images | File[] | ✅ | Max 10 files, jpg/jpeg/png/gif/webp |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "2 gambar berhasil diupload",
+    "data": [
+      {
+        "filename": "image-1705312800000-abc123.jpg",
+        "url": "/uploads/image-1705312800000-abc123.jpg",
+        "mimetype": "image/jpeg",
+        "size": 102400
+      },
+      {
+        "filename": "image-1705312800001-def456.png",
+        "url": "/uploads/image-1705312800001-def456.png",
+        "mimetype": "image/png",
+        "size": 204800
+      }
+    ]
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 400 | File tidak ditemukan |
+  | 400 | Maksimal 10 file |
+  | 400 | Format file tidak didukung |
+  | 401 | Token tidak valid |
+  | 400 | Ukuran file terlalu besar. Maksimal 5MB per file |
+}

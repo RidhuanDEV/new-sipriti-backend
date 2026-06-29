@@ -1,0 +1,7 @@
+import { PERMISSION_GROUPS } from "../../../constants/permissions.constants.js";
+
+export const pengumumanPolicy = {
+  createPermissions: [PERMISSION_GROUPS.PENGUMUMAN.CREATE, PERMISSION_GROUPS.PENGUMUMAN.MANAGE],
+  editPermissions: [PERMISSION_GROUPS.PENGUMUMAN.EDIT, PERMISSION_GROUPS.PENGUMUMAN.MANAGE],
+  deletePermissions: [PERMISSION_GROUPS.PENGUMUMAN.DELETE, PERMISSION_GROUPS.PENGUMUMAN.MANAGE],
+} as const;

@@ -1,0 +1,66 @@
+meta {
+  name: get-by-id
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/api/tahun-akademik/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{tahun_akademik_id}}
+}
+
+docs {
+  # Get Tahun Akademik by ID
+  
+  ## API Endpoint
+  `GET /api/tahun-akademik/:id`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID tahun akademik |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil tahun akademik",
+    "data": {
+      "id": "uuid",
+      "nama": "2024/2025 Ganjil",
+      "tanggal_mulai": "2024-09-01",
+      "tanggal_selesai": "2025-02-28",
+      "is_active": true,
+      "createdAt": "2025-01-08T10:00:00.000Z"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+  | 404 | Tahun akademik tidak ditemukan |
+}

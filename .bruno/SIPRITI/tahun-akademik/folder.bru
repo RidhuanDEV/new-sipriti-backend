@@ -1,0 +1,24 @@
+meta {
+  name: tahun-akademik
+  seq: 20
+}
+
+docs {
+  # Tahun Akademik API
+  
+  Endpoints untuk manajemen tahun akademik.
+  
+  ## Base URL
+  `/api/tahun-akademik`
+  
+  ## Endpoints Overview
+  
+  | Method | Endpoint | Auth | Role | Description |
+  |--------|----------|------|------|-------------|
+  | GET | / | ✅ | All | List dengan pagination |
+  | GET | /all | ✅ | All | List semua (dropdown) |
+  | GET | /:id | ✅ | All | Detail by ID |
+  | POST | / | ✅ | Admin | Buat tahun akademik |
+  | PUT | /:id | ✅ | Admin | Update tahun akademik |
+  | DELETE | /:id | ✅ | Admin | Hapus tahun akademik |
+}

@@ -1,0 +1,15 @@
+meta {
+  name: update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{host}}/api/laporan-usulan/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

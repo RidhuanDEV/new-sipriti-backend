@@ -1,0 +1,47 @@
+meta {
+  name: get-by-id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/products/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: {{product_id}}
+}
+
+docs {
+  # Get Product By ID
+  
+  ## API Endpoint
+  `GET /api/products/:id`
+  
+  ---
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil detail produk",
+    "data": {
+      "id": "uuid",
+      "name": "Laptop A",
+      "price": 12500000,
+      "category": "elektronik",
+      "description": "Produk demo"
+    }
+  }
+  ```
+  
+  ### Error (404)
+  ```json
+  {
+    "success": false,
+    "message": "Produk tidak ditemukan"
+  }
+  ```
+}

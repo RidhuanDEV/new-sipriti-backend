@@ -1,0 +1,55 @@
+meta {
+  name: Add Role to User
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/rbac/users/:userId/roles/:roleId
+  body: none
+  auth: none
+}
+
+params:path {
+  userId: {{userId}}
+  roleId: {{roleId}}
+}
+
+headers {
+  Content-Type: application/json
+  X-CSRF-Token: {{csrfToken}}
+}
+
+docs {
+  # Add Role to User
+  
+  Menambahkan satu role ke user tanpa menghapus roles yang sudah ada.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | userId | UUID | ID user |
+  | roleId | UUID | ID role yang akan ditambahkan |
+  
+  ## Response (Success)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil menambahkan role ke user",
+    "data": {
+      "id": "uuid",
+      "username": "user123",
+      "roles": [
+        { "id": "existing-role-id", "name": "dosen" },
+        { "id": "new-role-id", "name": "kaprodi" }
+      ]
+    }
+  }
+  ```
+  
+  ## Permission Required
+  
+  - `assign_roles`
+}

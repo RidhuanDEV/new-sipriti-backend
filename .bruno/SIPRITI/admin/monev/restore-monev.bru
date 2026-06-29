@@ -1,0 +1,24 @@
+meta {
+  name: Restore Monev
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{host}}/api/admin/monev/:id/restore
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-monev-uuid-here
+}
+
+docs {
+  # POST /api/admin/monev/:id/restore
+
+  Memulihkan jadwal monev yang telah dihapus (soft-delete).
+
+  ## Permission Required
+  - `delete_monev`
+}

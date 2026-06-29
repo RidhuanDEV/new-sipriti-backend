@@ -1,0 +1,50 @@
+meta {
+  name: Get Berita by Slug (Public)
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/publicpage/berita/:slug
+  body: none
+  auth: none
+}
+
+params:path {
+  slug: penelitian-inovatif-iti-raih-pendanaan-nasional
+}
+
+docs {
+  # GET /api/publicpage/berita/:slug
+
+  Mengambil detail satu berita berdasarkan slug. Tidak memerlukan autentikasi.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | slug | string | Slug URL berita |
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Detail berita berhasil diambil",
+    "data": {
+      "id": "uuid",
+      "judul": "Penelitian Inovatif ITI Raih Pendanaan Nasional",
+      "slug": "penelitian-inovatif-iti-raih-pendanaan-nasional",
+      "konten": "<p>Isi berita lengkap dalam HTML...</p>",
+      "thumbnail": "/uploads/images/berita-thumb.jpg",
+      "publishedAt": "2025-01-08T00:00:00.000Z"
+    }
+  }
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 404 | Berita tidak ditemukan |
+}

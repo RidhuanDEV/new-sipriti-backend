@@ -1,0 +1,62 @@
+meta {
+  name: Get Prodi Options
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/options/prodi
+  body: none
+  auth: none
+}
+
+params:query {
+  ~search: Teknik
+  ~jenjang: S1
+}
+
+docs {
+  # GET /api/options/prodi
+  
+  Mengambil daftar Program Studi untuk dropdown options.
+  
+  ## Query Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | search | string | Cari berdasarkan nama prodi |
+  | jenjang | string | Filter: D3, S1, S2, S3 |
+  
+  ## Authentication
+  Tidak memerlukan authentication.
+  
+  ## Response Success (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Options prodi berhasil diambil",
+    "data": [
+      {
+        "id": "uuid",
+        "kode_prodi": "55201",
+        "nama_prodi": "Teknik Informatika",
+        "jenjang": "S1",
+        "label": "Teknik Informatika (S1)"
+      },
+      {
+        "id": "uuid2",
+        "kode_prodi": "55301",
+        "nama_prodi": "Teknik Elektro",
+        "jenjang": "S1",
+        "label": "Teknik Elektro (S1)"
+      }
+    ]
+  }
+  ```
+  
+  ## Use Cases
+  - Dropdown prodi di form registrasi
+  - Filter prodi di tabel dosen
+  - Select prodi di form profil user
+}

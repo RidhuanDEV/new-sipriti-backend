@@ -1,0 +1,96 @@
+meta {
+  name: update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{host}}/api/hki/:id
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{hki_id}}
+}
+
+body:multipart-form {
+  judul: Judul HKI Updated
+  jenis_hki: Hak Cipta
+  inventor: Dr. John Doe
+  pemegang_hak: ITI
+}
+
+docs {
+  # Update HKI
+  
+  ## API Endpoint
+  `PUT /api/hki/:id`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Request)
+  
+  ### Path Parameters
+  | Param | Type | Required |
+  |-------|------|----------|
+  | id | UUID | ✅ |
+  
+  ### Body (multipart/form-data)
+  ```typescript
+  interface UpdateHKIDTO {
+    judul: string;         // Required
+    jenis_hki: string;     // Required
+    inventor: string;      // Required
+    pemegang_hak: string;  // Required
+    sub_jenis_ciptaan?: string;
+    nomor_permohonan?: string;
+    tanggal_permohonan?: string;
+    status_hki?: string;
+    deskripsi?: string;
+    sertifikatFile?: File;
+    dokumenFile?: File;
+    remove_sertifikatFile?: boolean;
+    remove_dokumenFile?: boolean;
+  }
+  ```
+  
+  | Field | Type | Required |
+  |-------|------|----------|
+  | judul | string | ✅ |
+  | jenis_hki | string | ✅ |
+  | inventor | string | ✅ |
+  | pemegang_hak | string | ✅ |
+  | remove_sertifikatFile | boolean | ❌ |
+  | remove_dokumenFile | boolean | ❌ |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengupdate data HKI",
+    "data": { ... }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 400 | Field required |
+  | 401 | Token tidak valid |
+  | 404 | Data HKI tidak ditemukan |
+}

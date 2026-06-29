@@ -1,0 +1,92 @@
+meta {
+  name: upsert
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{host}}/api/publikasi/upsert
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "tahun_akademik_id": "{{tahun_akademik_id}}",
+    "kategori_publikasi_id": "{{kategori_publikasi_id}}",
+    "total_publikasi": 10
+  }
+}
+
+docs {
+  # Upsert Publikasi
+  
+  ## API Endpoint
+  `POST /api/publikasi/upsert`
+  
+  **Auth Required:** ✅  
+  **Role Required:** Admin
+  
+  > Membuat data baru jika belum ada, atau update jika sudah ada
+  
+  ---
+  
+  ## DTO (Request Body)
+  
+  ```typescript
+  interface UpsertPublikasiDTO {
+    tahun_akademik_id: string;    // Required - UUID
+    kategori_publikasi_id: string; // Required - UUID
+    total_publikasi: number;      // Required - Jumlah publikasi
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | tahun_akademik_id | UUID | ✅ | Harus valid |
+  | kategori_publikasi_id | UUID | ✅ | Harus valid |
+  | total_publikasi | number | ✅ | >= 0 |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Data berhasil diperbarui",
+    "data": {
+      "id": "uuid-publikasi",
+      "tahun": {
+        "id": "uuid-tahun",
+        "label": "2024-2025"
+      },
+      "kategori": {
+        "id": "uuid-kategori",
+        "nama": "Jurnal Internasional"
+      },
+      "total": 10
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 400 | Tahun Akademik wajib diisi |
+  | 400 | Kategori Publikasi wajib diisi |
+  | 400 | Total Publikasi wajib diisi |
+  | 400 | Total publikasi tidak boleh negatif |
+  | 401 | Token tidak valid |
+  | 403 | Akses ditolak |
+  | 404 | Tahun akademik tidak ditemukan |
+  | 404 | Kategori publikasi tidak ditemukan |
+}

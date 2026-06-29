@@ -1,0 +1,15 @@
+meta {
+  name: user-id-resubmit
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{host}}/api/proposal-review/user/:id/resubmit
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

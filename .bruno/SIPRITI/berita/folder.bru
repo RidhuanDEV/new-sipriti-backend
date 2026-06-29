@@ -1,0 +1,29 @@
+meta {
+  name: berita
+  seq: 3
+}
+
+docs {
+  # Berita API
+  
+  CRUD endpoints untuk manajemen berita/artikel.
+  
+  ## Base URL
+  `/api/berita`
+  
+  ## Endpoints Overview
+  
+  | Method | Endpoint | Auth | Role | Description |
+  |--------|----------|------|------|-------------|
+  | GET | / | ❌ | Public | List berita dengan pagination |
+  | GET | /:id | ❌ | Public | Detail berita |
+  | POST | / | ✅ | Admin | Buat berita baru |
+  | PUT | /:id | ✅ | Admin | Update berita |
+  | DELETE | /:id | ✅ | Admin | Hapus berita |
+  
+  ## Kategori Valid
+  - `Pendanaan`
+  - `Workshop`
+  - `Panduan`
+  - `Umum` (default)
+}

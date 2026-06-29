@@ -1,7 +1,256 @@
 {
+  "AdminDashboardQuery": {
+    "type": "object",
+    "properties": {
+      "tahun": {
+        "type": "string"
+      },
+      "tipe": {
+        "type": "string",
+        "enum": [
+          "Penelitian",
+          "Pengabdian",
+          "HKI"
+        ]
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 100
+      }
+    },
+    "required": [
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "AuditLogIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "AuditLogQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 20,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 100
+      },
+      "action": {
+        "type": "string"
+      },
+      "entity_type": {
+        "type": "string"
+      },
+      "start_date": {
+        "type": "string"
+      },
+      "end_date": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "AdminUpdateUser": {
+    "type": "object",
+    "properties": {
+      "username": {
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 16,
+        "pattern": "^[a-zA-Z0-9_]+$"
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100
+      },
+      "email": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "email",
+            "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+          },
+          {
+            "type": "string",
+            "const": ""
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "password": {
+        "anyOf": [
+          {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 72
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "role_id": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        }
+      },
+      "prodi_kode": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "nidn": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "institusi": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "is_active": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "ChangePassword": {
+    "type": "object",
+    "properties": {
+      "oldPassword": {
+        "type": "string",
+        "minLength": 1
+      },
+      "old_password": {
+        "type": "string",
+        "minLength": 1
+      },
+      "currentPassword": {
+        "type": "string",
+        "minLength": 1
+      },
+      "newPassword": {
+        "type": "string",
+        "minLength": 8,
+        "maxLength": 72
+      },
+      "confirmNewPassword": {
+        "type": "string",
+        "minLength": 1
+      },
+      "confirmPassword": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "newPassword"
+    ],
+    "additionalProperties": false
+  },
+  "ListUsersQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 100
+      },
+      "search": {
+        "default": "",
+        "type": "string",
+        "maxLength": 100
+      },
+      "role": {
+        "default": "",
+        "type": "string",
+        "maxLength": 64
+      },
+      "prodi": {
+        "default": "",
+        "type": "string",
+        "maxLength": 64
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "all",
+          "active",
+          "inactive"
+        ]
+      },
+      "is_active": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "page",
+      "limit",
+      "search",
+      "role",
+      "prodi"
+    ],
+    "additionalProperties": false
+  },
   "Login": {
     "type": "object",
     "properties": {
+      "username": {
+        "type": "string",
+        "minLength": 1
+      },
       "email": {
         "type": "string",
         "format": "email",
@@ -13,7 +262,6 @@
       }
     },
     "required": [
-      "email",
       "password"
     ],
     "additionalProperties": false
@@ -21,19 +269,4033 @@
   "Register": {
     "type": "object",
     "properties": {
-      "email": {
+      "username": {
         "type": "string",
-        "format": "email",
-        "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+        "minLength": 4,
+        "maxLength": 16,
+        "pattern": "^[a-zA-Z0-9_]+$"
       },
       "password": {
         "type": "string",
-        "minLength": 6
+        "minLength": 8,
+        "maxLength": 72
+      },
+      "confirmPassword": {
+        "type": "string",
+        "minLength": 1
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100
+      },
+      "role_id": {
+        "minItems": 1,
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "email": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "email",
+            "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+          },
+          {
+            "type": "string",
+            "const": ""
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "nidn": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "prodi_kode": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "institusi": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
       }
     },
     "required": [
-      "email",
-      "password"
+      "username",
+      "password",
+      "confirmPassword",
+      "name",
+      "role_id"
+    ],
+    "additionalProperties": false
+  },
+  "SearchUsersQuery": {
+    "type": "object",
+    "properties": {
+      "q": {
+        "type": "string",
+        "maxLength": 100
+      },
+      "query": {
+        "type": "string",
+        "maxLength": 100
+      },
+      "exclude_proposal_id": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "UpdateProfile": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100
+      },
+      "email": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "email",
+            "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+          },
+          {
+            "type": "string",
+            "const": ""
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "nidn": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "prodi_kode": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "institusi": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "nomor_telepon": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "BeritaIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "BeritaKategori": {
+    "type": "string",
+    "enum": [
+      "Pendanaan",
+      "Workshop",
+      "Panduan",
+      "Umum"
+    ]
+  },
+  "CreateBerita": {
+    "type": "object",
+    "properties": {
+      "judul": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 200
+      },
+      "isi_berita": {
+        "type": "string",
+        "minLength": 10
+      },
+      "kategori": {
+        "default": "Umum",
+        "type": "string",
+        "enum": [
+          "Pendanaan",
+          "Workshop",
+          "Panduan",
+          "Umum"
+        ]
+      }
+    },
+    "required": [
+      "judul",
+      "isi_berita",
+      "kategori"
+    ],
+    "additionalProperties": false
+  },
+  "ListBeritaQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      },
+      "q": {
+        "type": "string"
+      },
+      "search": {
+        "type": "string"
+      },
+      "sortBy": {
+        "type": "string"
+      },
+      "sortOrder": {
+        "default": "DESC",
+        "type": "string",
+        "enum": [
+          "ASC",
+          "DESC",
+          "asc",
+          "desc"
+        ]
+      },
+      "kategori": {
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "Pendanaan",
+              "Workshop",
+              "Panduan",
+              "Umum"
+            ]
+          },
+          {
+            "type": "string",
+            "const": "Semua"
+          }
+        ]
+      }
+    },
+    "required": [
+      "page",
+      "limit",
+      "sortOrder"
+    ],
+    "additionalProperties": false
+  },
+  "UpdateBerita": {
+    "type": "object",
+    "properties": {
+      "judul": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 200
+      },
+      "isi_berita": {
+        "type": "string",
+        "minLength": 10
+      },
+      "kategori": {
+        "type": "string",
+        "enum": [
+          "Pendanaan",
+          "Workshop",
+          "Panduan",
+          "Umum"
+        ]
+      },
+      "remove_photo": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "0",
+              "1",
+              "true",
+              "false"
+            ]
+          }
+        ]
+      },
+      "remove_file": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "0",
+              "1",
+              "true",
+              "false"
+            ]
+          }
+        ]
+      }
+    },
+    "required": [
+      "judul",
+      "isi_berita"
+    ],
+    "additionalProperties": false
+  },
+  "BidangFokusIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "CreateBidangFokus": {
+    "type": "object",
+    "properties": {
+      "nama_bidang": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100
+      }
+    },
+    "required": [
+      "nama_bidang"
+    ],
+    "additionalProperties": false
+  },
+  "ListBidangFokusQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      },
+      "search": {
+        "default": "",
+        "type": "string"
+      },
+      "sortBy": {
+        "default": "created_at",
+        "type": "string",
+        "enum": [
+          "created_at",
+          "updated_at",
+          "nama_bidang"
+        ]
+      },
+      "sortOrder": {
+        "default": "DESC",
+        "type": "string",
+        "enum": [
+          "ASC",
+          "DESC",
+          "asc",
+          "desc"
+        ]
+      }
+    },
+    "required": [
+      "page",
+      "limit",
+      "search",
+      "sortBy",
+      "sortOrder"
+    ],
+    "additionalProperties": false
+  },
+  "UpdateBidangFokus": {
+    "type": "object",
+    "properties": {
+      "nama_bidang": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100
+      }
+    },
+    "additionalProperties": false
+  },
+  "DownloadTemplateBody": {
+    "type": "object",
+    "properties": {
+      "anggota": {
+        "minItems": 1,
+        "maxItems": 200,
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "noIdentitas": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            },
+            "peran": {
+              "type": "string",
+              "enum": [
+                "Ketua",
+                "Anggota"
+              ]
+            }
+          },
+          "required": [
+            "noIdentitas",
+            "peran"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "anggota"
+    ],
+    "additionalProperties": false
+  },
+  "TemplateAnggotaItem": {
+    "type": "object",
+    "properties": {
+      "noIdentitas": {
+        "anyOf": [
+          {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          {
+            "type": "number"
+          }
+        ]
+      },
+      "peran": {
+        "type": "string",
+        "enum": [
+          "Ketua",
+          "Anggota"
+        ]
+      }
+    },
+    "required": [
+      "noIdentitas",
+      "peran"
+    ],
+    "additionalProperties": false
+  },
+  "BatchUpsertDeskripsi": {
+    "type": "object",
+    "properties": {
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "section_key": {
+              "type": "string",
+              "enum": [
+                "tentang_prpm",
+                "publikasi_ilmiah",
+                "hki_paten",
+                "pengalaman_riset",
+                "penghargaan_riset",
+                "produk_riset",
+                "sertifikasi_mutu"
+              ]
+            },
+            "content": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "deskripsi": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "section_key"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "sections": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "section_key": {
+              "type": "string",
+              "enum": [
+                "tentang_prpm",
+                "publikasi_ilmiah",
+                "hki_paten",
+                "pengalaman_riset",
+                "penghargaan_riset",
+                "produk_riset",
+                "sertifikasi_mutu"
+              ]
+            },
+            "content": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "deskripsi": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "section_key"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "CapaianRangeQuery": {
+    "type": "object",
+    "properties": {
+      "tahun_mulai": {
+        "type": "integer",
+        "minimum": -9007199254740991,
+        "maximum": 9007199254740991
+      },
+      "tahun_selesai": {
+        "type": "integer",
+        "minimum": -9007199254740991,
+        "maximum": 9007199254740991
+      },
+      "limit_tahun": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 20
+      }
+    },
+    "additionalProperties": false
+  },
+  "SectionKeyParam": {
+    "type": "object",
+    "properties": {
+      "sectionKey": {
+        "type": "string",
+        "enum": [
+          "tentang_prpm",
+          "publikasi_ilmiah",
+          "hki_paten",
+          "pengalaman_riset",
+          "penghargaan_riset",
+          "produk_riset",
+          "sertifikasi_mutu"
+        ]
+      }
+    },
+    "required": [
+      "sectionKey"
+    ],
+    "additionalProperties": false
+  },
+  "SectionKey": {
+    "type": "string",
+    "enum": [
+      "tentang_prpm",
+      "publikasi_ilmiah",
+      "hki_paten",
+      "pengalaman_riset",
+      "penghargaan_riset",
+      "produk_riset",
+      "sertifikasi_mutu"
+    ]
+  },
+  "UpsertDeskripsi": {
+    "type": "object",
+    "properties": {
+      "content": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "deskripsi": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "CarouselIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "CarouselPage": {
+    "type": "string",
+    "enum": [
+      "capaian",
+      "dashboard",
+      "landing"
+    ]
+  },
+  "CreateCarousel": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string"
+      },
+      "is_active": {
+        "default": true,
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "0",
+              "1",
+              "true",
+              "false"
+            ]
+          }
+        ]
+      },
+      "page": {
+        "default": "capaian",
+        "type": "string",
+        "enum": [
+          "capaian",
+          "dashboard",
+          "landing"
+        ]
+      },
+      "image_url": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "is_active",
+      "page"
+    ],
+    "additionalProperties": false
+  },
+  "ListCarouselAdminQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 100,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      },
+      "pageFilter": {
+        "type": "string",
+        "enum": [
+          "capaian",
+          "dashboard",
+          "landing"
+        ]
+      },
+      "search": {
+        "type": "string"
+      },
+      "q": {
+        "type": "string"
+      },
+      "sortBy": {
+        "type": "string"
+      },
+      "sortOrder": {
+        "default": "DESC",
+        "type": "string",
+        "enum": [
+          "ASC",
+          "DESC",
+          "asc",
+          "desc"
+        ]
+      }
+    },
+    "required": [
+      "page",
+      "limit",
+      "sortOrder"
+    ],
+    "additionalProperties": false
+  },
+  "ListCarouselQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "type": "string",
+        "enum": [
+          "capaian",
+          "dashboard",
+          "landing"
+        ]
+      },
+      "active_only": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "boolean"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "UpdateCarousel": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string"
+      },
+      "is_active": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "0",
+              "1",
+              "true",
+              "false"
+            ]
+          }
+        ]
+      },
+      "page": {
+        "type": "string",
+        "enum": [
+          "capaian",
+          "dashboard",
+          "landing"
+        ]
+      },
+      "image_url": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "DashboardPaginationQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 5,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 100
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "FileDownloadQuery": {
+    "type": "object",
+    "properties": {
+      "download": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "FileIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "FilePathParam": {
+    "type": "object",
+    "properties": {
+      "subdir": {
+        "type": "string",
+        "minLength": 1
+      },
+      "filename": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "subdir",
+      "filename"
+    ],
+    "additionalProperties": false
+  },
+  "CreateHibahInternal": {
+    "type": "object",
+    "properties": {
+      "tipe_hibah": {
+        "type": "string",
+        "minLength": 1
+      },
+      "judul_hibah": {
+        "type": "string",
+        "minLength": 1
+      },
+      "susunan_tim_hibah": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ]
+      },
+      "tahun_hibah": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          }
+        ]
+      },
+      "dana_hibah": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "pengalaman_riset_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "required": [
+      "tipe_hibah",
+      "judul_hibah",
+      "susunan_tim_hibah",
+      "tahun_hibah",
+      "dana_hibah"
+    ],
+    "additionalProperties": false
+  },
+  "HibahInternalIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "ListHibahInternalQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      },
+      "search": {
+        "type": "string"
+      },
+      "q": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "UpdateHibahInternal": {
+    "type": "object",
+    "properties": {
+      "tipe_hibah": {
+        "type": "string",
+        "minLength": 1
+      },
+      "judul_hibah": {
+        "type": "string",
+        "minLength": 1
+      },
+      "susunan_tim_hibah": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ]
+      },
+      "tahun_hibah": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          }
+        ]
+      },
+      "dana_hibah": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "pengalaman_riset_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "ApproveHki": {
+    "type": "object",
+    "properties": {
+      "catatan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateHki": {
+    "type": "object",
+    "properties": {
+      "judul": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 300
+      },
+      "jenis_hki": {
+        "type": "string",
+        "enum": [
+          "Paten",
+          "Merek",
+          "Hak Cipta",
+          "Desain Industri",
+          "Rahasia Dagang"
+        ]
+      },
+      "sub_jenis_ciptaan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "nomor_permohonan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "tanggal_permohonan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "status_hki": {
+        "type": "string",
+        "enum": [
+          "Draft",
+          "Pending",
+          "Approved",
+          "Declined",
+          "Registered"
+        ]
+      },
+      "inventor": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 500
+      },
+      "pemegang_hak": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 500
+      },
+      "deskripsi": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "sertifikatFileId": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "dokumenFileId": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "remove_sertifikatFile": {
+        "type": "boolean"
+      },
+      "remove_dokumenFile": {
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "judul",
+      "jenis_hki",
+      "inventor",
+      "pemegang_hak"
+    ],
+    "additionalProperties": false
+  },
+  "HkiDetailQuery": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "HkiIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "HkiReviewQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 100
+      },
+      "status": {
+        "type": "string"
+      },
+      "search": {
+        "type": "string"
+      },
+      "prodi": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "JenisHki": {
+    "type": "string",
+    "enum": [
+      "Paten",
+      "Merek",
+      "Hak Cipta",
+      "Desain Industri",
+      "Rahasia Dagang"
+    ]
+  },
+  "ListHkiQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 100
+      },
+      "status": {
+        "type": "string"
+      },
+      "jenis_hki": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "RejectHki": {
+    "type": "object",
+    "properties": {
+      "catatan": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "catatan"
+    ],
+    "additionalProperties": false
+  },
+  "StatusHki": {
+    "type": "string",
+    "enum": [
+      "Draft",
+      "Pending",
+      "Approved",
+      "Declined",
+      "Registered"
+    ]
+  },
+  "UpdateHki": {
+    "type": "object",
+    "properties": {
+      "judul": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 300
+      },
+      "jenis_hki": {
+        "type": "string",
+        "enum": [
+          "Paten",
+          "Merek",
+          "Hak Cipta",
+          "Desain Industri",
+          "Rahasia Dagang"
+        ]
+      },
+      "sub_jenis_ciptaan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "nomor_permohonan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "tanggal_permohonan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "status_hki": {
+        "type": "string",
+        "enum": [
+          "Draft",
+          "Pending",
+          "Approved",
+          "Declined",
+          "Registered"
+        ]
+      },
+      "inventor": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 500
+      },
+      "pemegang_hak": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 500
+      },
+      "deskripsi": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "sertifikatFileId": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "dokumenFileId": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "remove_sertifikatFile": {
+        "type": "boolean"
+      },
+      "remove_dokumenFile": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "JadwalBody": {
+    "anyOf": [
+      {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "nama_kegiatan": {
+              "type": "string",
+              "minLength": 1
+            },
+            "tahun": {
+              "default": 1,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "bulan_aktif": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 12
+              }
+            },
+            "urutan": {
+              "default": 1,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "tahun",
+            "urutan"
+          ],
+          "additionalProperties": false
+        }
+      },
+      {
+        "type": "object",
+        "properties": {
+          "items": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "nama_kegiatan": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "tahun": {
+                  "default": 1,
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "bulan_aktif": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 12
+                  }
+                },
+                "urutan": {
+                  "default": 1,
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "tahun",
+                "urutan"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      }
+    ]
+  },
+  "JadwalItem": {
+    "type": "object",
+    "properties": {
+      "nama_kegiatan": {
+        "type": "string",
+        "minLength": 1
+      },
+      "tahun": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "bulan_aktif": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        }
+      },
+      "urutan": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      }
+    },
+    "required": [
+      "tahun",
+      "urutan"
+    ],
+    "additionalProperties": false
+  },
+  "ProposalSectionIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "CreateKategoriPublikasi": {
+    "type": "object",
+    "properties": {
+      "nama_kategori": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "nama_kategori"
+    ],
+    "additionalProperties": false
+  },
+  "KategoriPublikasiIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "ListKategoriPublikasiQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      },
+      "q": {
+        "type": "string"
+      },
+      "search": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "UpdateKategoriPublikasi": {
+    "type": "object",
+    "properties": {
+      "nama_kategori": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateLandingSlider": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "btn_text": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "btn_link": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "btn_color": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "order_index": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ]
+      }
+    },
+    "required": [
+      "title"
+    ],
+    "additionalProperties": false
+  },
+  "LandingSliderIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "LandingSliderStatus": {
+    "type": "string",
+    "enum": [
+      "active",
+      "inactive"
+    ]
+  },
+  "ListLandingSliderAdminQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 50,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ]
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "UpdateLandingSlider": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "btn_text": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "btn_link": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "btn_color": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "order_index": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateLaporanBody": {
+    "type": "object",
+    "properties": {
+      "haki_proposal_id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      },
+      "jenis_laporan": {
+        "type": "string",
+        "enum": [
+          "laporan_kemajuan",
+          "laporan_akhir"
+        ]
+      },
+      "file_url": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 500
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "nama_file": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 255
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "required": [
+      "haki_proposal_id",
+      "jenis_laporan"
+    ],
+    "additionalProperties": false
+  },
+  "CreateLaporanQuery": {
+    "type": "object",
+    "properties": {
+      "jenis_laporan": {
+        "type": "string",
+        "enum": [
+          "laporan_kemajuan",
+          "laporan_akhir"
+        ]
+      }
+    },
+    "required": [
+      "jenis_laporan"
+    ],
+    "additionalProperties": false
+  },
+  "JenisLaporan": {
+    "type": "string",
+    "enum": [
+      "laporan_kemajuan",
+      "laporan_akhir"
+    ]
+  },
+  "LaporanListQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 20,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 100
+      },
+      "proposal_id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      },
+      "haki_proposal_id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      },
+      "jenis_laporan": {
+        "type": "string",
+        "enum": [
+          "laporan_kemajuan",
+          "laporan_akhir"
+        ]
+      },
+      "status_laporan": {
+        "type": "string",
+        "enum": [
+          "Lengkapi Dokumen",
+          "Pending",
+          "Revisi",
+          "Sesuai"
+        ]
+      },
+      "tipe_usulan": {
+        "type": "string",
+        "enum": [
+          "Penelitian",
+          "Pengabdian"
+        ]
+      },
+      "tahun_akademik_id": {
+        "type": "string"
+      },
+      "prodi_pengusul": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "StatusValidasiLaporan": {
+    "type": "string",
+    "enum": [
+      "Sesuai",
+      "Revisi"
+    ]
+  },
+  "UpdateLaporanBody": {
+    "type": "object",
+    "properties": {
+      "file_url": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 500
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "nama_file": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 255
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "UpdateLaporanParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "ValidateLaporanBody": {
+    "type": "object",
+    "properties": {
+      "status_laporan": {
+        "type": "string",
+        "enum": [
+          "Sesuai",
+          "Revisi"
+        ]
+      },
+      "catatan_validator": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 5000
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "required": [
+      "status_laporan"
+    ],
+    "additionalProperties": false
+  },
+  "LuaranBody": {
+    "anyOf": [
+      {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "luaran": {
+              "type": "string",
+              "minLength": 1
+            },
+            "target_capaian": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "iku_terkait": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "target_iku": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      {
+        "type": "object",
+        "properties": {
+          "items": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "luaran": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "target_capaian": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "iku_terkait": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "target_iku": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      }
+    ]
+  },
+  "LuaranItem": {
+    "type": "object",
+    "properties": {
+      "luaran": {
+        "type": "string",
+        "minLength": 1
+      },
+      "target_capaian": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "iku_terkait": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "target_iku": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateMitraKerjaRiset": {
+    "type": "object",
+    "properties": {
+      "nama_mitra": {
+        "type": "string",
+        "minLength": 1
+      },
+      "mitra_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "required": [
+      "nama_mitra"
+    ],
+    "additionalProperties": false
+  },
+  "ListMitraKerjaRisetQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      },
+      "search": {
+        "type": "string"
+      },
+      "q": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "MitraKerjaRisetIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "UpdateMitraKerjaRiset": {
+    "type": "object",
+    "properties": {
+      "nama_mitra": {
+        "type": "string",
+        "minLength": 1
+      },
+      "mitra_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateMonevInternal": {
+    "type": "object",
+    "properties": {
+      "usulan_id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      },
+      "tgl_monev": {
+        "type": "string",
+        "minLength": 1
+      },
+      "direktorat": {
+        "type": "string",
+        "enum": [
+          "PRPM",
+          "PRODI",
+          "PKA"
+        ]
+      },
+      "jenis_usulan": {
+        "type": "string",
+        "enum": [
+          "Penelitian",
+          "Pengabdian"
+        ]
+      },
+      "catatan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "required": [
+      "usulan_id",
+      "tgl_monev",
+      "direktorat",
+      "jenis_usulan"
+    ],
+    "additionalProperties": false
+  },
+  "MonevDirektorat": {
+    "type": "string",
+    "enum": [
+      "PRPM",
+      "PRODI",
+      "PKA"
+    ]
+  },
+  "MonevDocumentStatus": {
+    "type": "string",
+    "enum": [
+      "Pending",
+      "Complete",
+      "Uploaded"
+    ]
+  },
+  "MonevInternalIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "MonevJenisUsulan": {
+    "type": "string",
+    "enum": [
+      "Penelitian",
+      "Pengabdian"
+    ]
+  },
+  "MonevListQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 100
+      },
+      "search": {
+        "type": "string"
+      },
+      "jenisUsulan": {
+        "type": "string"
+      },
+      "direktorat": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string"
+      },
+      "sortBy": {
+        "default": "tgl_monev",
+        "type": "string"
+      },
+      "sortOrder": {
+        "default": "DESC",
+        "type": "string"
+      }
+    },
+    "required": [
+      "page",
+      "limit",
+      "sortBy",
+      "sortOrder"
+    ],
+    "additionalProperties": false
+  },
+  "MonevUsulanOptionsQuery": {
+    "type": "object",
+    "properties": {
+      "tipe": {
+        "type": "string",
+        "enum": [
+          "Penelitian",
+          "Pengabdian"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "UpdateMonevInternal": {
+    "type": "object",
+    "properties": {
+      "tgl_monev": {
+        "type": "string",
+        "minLength": 1
+      },
+      "direktorat": {
+        "type": "string",
+        "enum": [
+          "PRPM",
+          "PRODI",
+          "PKA"
+        ]
+      },
+      "catatan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "status_dokumen": {
+        "type": "string",
+        "enum": [
+          "Pending",
+          "Complete",
+          "Uploaded"
+        ]
+      },
+      "berita_acara": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "form_penilaian": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "ringkasan_monev": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "AddMember": {
+    "type": "object",
+    "properties": {
+      "userId": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      },
+      "peran": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "required": [
+      "userId"
+    ],
+    "additionalProperties": false
+  },
+  "AddRAB": {
+    "type": "object",
+    "properties": {
+      "tahun_ke": {
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991
+      },
+      "kelompok": {
+        "type": "string",
+        "minLength": 1
+      },
+      "komponen": {
+        "type": "string",
+        "minLength": 1
+      },
+      "item": {
+        "type": "string",
+        "minLength": 1
+      },
+      "satuan": {
+        "type": "string",
+        "minLength": 1
+      },
+      "harga_satuan": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "biaya_satuan": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "volume": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "total": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "total_biaya": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      }
+    },
+    "required": [
+      "tahun_ke",
+      "kelompok",
+      "komponen",
+      "item",
+      "satuan",
+      "volume"
+    ],
+    "additionalProperties": false
+  },
+  "ProposalIdParam": {
+    "type": "object",
+    "properties": {
+      "proposalId": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "proposalId"
+    ],
+    "additionalProperties": false
+  },
+  "InviteActionBody": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "InviteIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "NotificationIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "NotificationListQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "read",
+          "unread"
+        ]
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "CreateOfficialSignature": {
+    "type": "object",
+    "properties": {
+      "signature_key": {
+        "default": "mengetahui",
+        "type": "string",
+        "maxLength": 100
+      },
+      "role_code": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "kode_prodi": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 20
+      },
+      "signer_name": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 255
+      },
+      "signer_nidn": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 50
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "required": [
+      "signature_key",
+      "kode_prodi",
+      "signer_name"
+    ],
+    "additionalProperties": false
+  },
+  "ListOfficialSignatureQuery": {
+    "type": "object",
+    "properties": {
+      "signature_key": {
+        "type": "string",
+        "maxLength": 100
+      },
+      "kode_prodi": {
+        "type": "string",
+        "maxLength": 20
+      },
+      "is_active": {
+        "anyOf": [
+          {
+            "type": "string",
+            "const": "true"
+          },
+          {
+            "type": "string",
+            "const": "false"
+          },
+          {
+            "type": "boolean"
+          }
+        ]
+      },
+      "isActive": {
+        "anyOf": [
+          {
+            "type": "string",
+            "const": "true"
+          },
+          {
+            "type": "string",
+            "const": "false"
+          },
+          {
+            "type": "boolean"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "SignatureIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "UpdateOfficialSignature": {
+    "type": "object",
+    "properties": {
+      "signature_key": {
+        "default": "mengetahui",
+        "type": "string",
+        "maxLength": 100
+      },
+      "role_code": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "kode_prodi": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 20
+      },
+      "signer_name": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 255
+      },
+      "signer_nidn": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 50
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateOutput": {
+    "type": "object",
+    "properties": {
+      "nama_output": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 255
+      }
+    },
+    "required": [
+      "nama_output"
+    ],
+    "additionalProperties": false
+  },
+  "ListOutputQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      },
+      "search": {
+        "default": "",
+        "type": "string"
+      }
+    },
+    "required": [
+      "page",
+      "limit",
+      "search"
+    ],
+    "additionalProperties": false
+  },
+  "OutputIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "UpdateOutput": {
+    "type": "object",
+    "properties": {
+      "nama_output": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 255
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreatePanduan": {
+    "type": "object",
+    "properties": {
+      "judul": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 200
+      },
+      "isi_panduan": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "required": [
+      "judul",
+      "isi_panduan"
+    ],
+    "additionalProperties": false
+  },
+  "ListPanduanQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      },
+      "q": {
+        "type": "string"
+      },
+      "search": {
+        "type": "string"
+      },
+      "sortBy": {
+        "type": "string"
+      },
+      "sortOrder": {
+        "default": "DESC",
+        "type": "string",
+        "enum": [
+          "ASC",
+          "DESC",
+          "asc",
+          "desc"
+        ]
+      }
+    },
+    "required": [
+      "page",
+      "limit",
+      "sortOrder"
+    ],
+    "additionalProperties": false
+  },
+  "PanduanIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "UpdatePanduan": {
+    "type": "object",
+    "properties": {
+      "judul": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 200
+      },
+      "isi_panduan": {
+        "type": "string",
+        "minLength": 10
+      },
+      "remove_thumbnail": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "0",
+              "1",
+              "true",
+              "false"
+            ]
+          }
+        ]
+      },
+      "remove_file": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "0",
+              "1",
+              "true",
+              "false"
+            ]
+          }
+        ]
+      }
+    },
+    "required": [
+      "judul",
+      "isi_panduan"
+    ],
+    "additionalProperties": false
+  },
+  "PenelitianProposalBody": {
+    "type": "object",
+    "properties": {
+      "ringkasan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "kata_kunci": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "pendahuluan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "metode": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "daftar_pustaka": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "AnggotaItem": {
+    "type": "object",
+    "properties": {
+      "nama": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 255
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "peran": {
+        "type": "string",
+        "enum": [
+          "Ketua",
+          "Anggota"
+        ]
+      },
+      "role": {
+        "type": "string",
+        "enum": [
+          "Dosen",
+          "Mahasiswa"
+        ]
+      },
+      "programStudi": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 255
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "programStudiKode": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 20
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "bidang_tugas": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "noIdentitas": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "institusi": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 255
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreatePengabdian": {
+    "type": "object",
+    "properties": {
+      "meta": {
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "judul": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 1000
+              },
+              "bidang_fokus": {
+                "type": "string",
+                "minLength": 1
+              },
+              "bidang": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "prodi_pengusul": {
+                "type": "string",
+                "minLength": 1
+              },
+              "skema": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sumber_dana": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "jumlah_dana": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "tahun_pelaksanaan": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "tahun_akademik_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "jenis_usulan": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "keterlibatan_lain": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 5000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "output_penelitian": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 100
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "output_ids": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "tipe_usulan": {
+                "type": "string",
+                "enum": [
+                  "Penelitian",
+                  "Pengabdian"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "string"
+          }
+        ]
+      },
+      "anggota": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "nama": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "peran": {
+                  "type": "string",
+                  "enum": [
+                    "Ketua",
+                    "Anggota"
+                  ]
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "Dosen",
+                    "Mahasiswa"
+                  ]
+                },
+                "programStudi": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "programStudiKode": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 20
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "bidang_tugas": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "noIdentitas": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "institusi": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          {
+            "type": "string"
+          }
+        ]
+      },
+      "importOptions": {
+        "type": "object",
+        "properties": {
+          "allowCreatorOutsideTeam": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "meta",
+      "anggota"
+    ],
+    "additionalProperties": false
+  },
+  "IdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "PengabdianIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "ProposalByProdiQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 50,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100
+      },
+      "search": {
+        "type": "string",
+        "maxLength": 200
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "Draft",
+          "Pending",
+          "Approved",
+          "Declined"
+        ]
+      },
+      "tipe": {
+        "type": "string",
+        "enum": [
+          "Penelitian",
+          "Pengabdian"
+        ]
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "ProposalListQuery": {
+    "type": "object",
+    "properties": {
+      "tahun_akademik_id": {
+        "type": "string"
+      },
+      "tipe": {
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "umum",
+              "hibah_internal"
+            ]
+          },
+          {
+            "type": "string",
+            "const": "All"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "ProposalSearchBody": {
+    "type": "object",
+    "properties": {
+      "search": {
+        "type": "string",
+        "maxLength": 200
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "Draft",
+          "Pending",
+          "Approved",
+          "Declined"
+        ]
+      },
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 100,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "PublicLandingQuery": {
+    "type": "object",
+    "properties": {
+      "q": {
+        "type": "string",
+        "maxLength": 200
+      },
+      "bidang_fokus": {
+        "type": "string",
+        "maxLength": 255
+      },
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "UpdatePengabdian": {
+    "type": "object",
+    "properties": {
+      "meta": {
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "judul": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 1000
+              },
+              "bidang_fokus": {
+                "type": "string",
+                "minLength": 1
+              },
+              "bidang": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "prodi_pengusul": {
+                "type": "string",
+                "minLength": 1
+              },
+              "skema": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sumber_dana": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "jumlah_dana": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "tahun_pelaksanaan": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "tahun_akademik_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "jenis_usulan": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "keterlibatan_lain": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 5000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "output_penelitian": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 100
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "output_ids": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "tipe_usulan": {
+                "type": "string",
+                "enum": [
+                  "Penelitian",
+                  "Pengabdian"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "string"
+          }
+        ]
+      },
+      "anggota": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "nama": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "peran": {
+                  "type": "string",
+                  "enum": [
+                    "Ketua",
+                    "Anggota"
+                  ]
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "Dosen",
+                    "Mahasiswa"
+                  ]
+                },
+                "programStudi": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "programStudiKode": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 20
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "bidang_tugas": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "noIdentitas": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "institusi": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          {
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "PengabdianProposalBody": {
+    "type": "object",
+    "properties": {
+      "tingkat": {
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "Lokal",
+              "Nasional",
+              "Internasional"
+            ]
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "ringkasan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "kata_kunci": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "pendahuluan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "permasalahan_dan_solusi": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "metode": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "gambaran_ipteks": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "peta_lokasi_mitra_url": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "daftar_pustaka": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreatePenghargaanRiset": {
+    "type": "object",
+    "properties": {
+      "penghargaan_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "penghargaan_image": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "ListPenghargaanRisetQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "PenghargaanRisetIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "UpdatePenghargaanRiset": {
+    "type": "object",
+    "properties": {
+      "penghargaan_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "penghargaan_image": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreatePengumuman": {
+    "type": "object",
+    "properties": {
+      "judul": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 200
+      },
+      "isi_pengumuman": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "required": [
+      "judul",
+      "isi_pengumuman"
+    ],
+    "additionalProperties": false
+  },
+  "ListPengumumanQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      },
+      "q": {
+        "type": "string"
+      },
+      "search": {
+        "type": "string"
+      },
+      "sortBy": {
+        "type": "string"
+      },
+      "sortOrder": {
+        "default": "DESC",
+        "type": "string",
+        "enum": [
+          "ASC",
+          "DESC",
+          "asc",
+          "desc"
+        ]
+      }
+    },
+    "required": [
+      "page",
+      "limit",
+      "sortOrder"
+    ],
+    "additionalProperties": false
+  },
+  "PengumumanIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "UpdatePengumuman": {
+    "type": "object",
+    "properties": {
+      "judul": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 200
+      },
+      "isi_pengumuman": {
+        "type": "string",
+        "minLength": 10
+      },
+      "remove_gambar": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "0",
+              "1",
+              "true",
+              "false"
+            ]
+          }
+        ]
+      },
+      "remove_file_lampiran": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "0",
+              "1",
+              "true",
+              "false"
+            ]
+          }
+        ]
+      }
+    },
+    "required": [
+      "judul",
+      "isi_pengumuman"
     ],
     "additionalProperties": false
   },
@@ -44,6 +4306,28 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 128
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 255
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "module": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 50
+          },
+          {
+            "type": "null"
+          }
+        ]
       }
     },
     "required": [
@@ -72,6 +4356,1633 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 128
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 255
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "module": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 50
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateProdi": {
+    "type": "object",
+    "properties": {
+      "kode_prodi": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 20
+      },
+      "nama_prodi": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 255
+      },
+      "jenjang": {
+        "type": "string",
+        "enum": [
+          "D3",
+          "S1",
+          "S2",
+          "S3"
+        ]
+      }
+    },
+    "required": [
+      "kode_prodi",
+      "nama_prodi",
+      "jenjang"
+    ],
+    "additionalProperties": false
+  },
+  "JenjangProdi": {
+    "type": "string",
+    "enum": [
+      "D3",
+      "S1",
+      "S2",
+      "S3"
+    ]
+  },
+  "ListProdiQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      },
+      "search": {
+        "default": "",
+        "type": "string"
+      },
+      "jenjang": {
+        "default": "",
+        "type": "string"
+      },
+      "sortBy": {
+        "default": "created_at",
+        "type": "string",
+        "enum": [
+          "created_at",
+          "updated_at",
+          "kode_prodi",
+          "nama_prodi",
+          "jenjang"
+        ]
+      },
+      "sortOrder": {
+        "default": "DESC",
+        "type": "string",
+        "enum": [
+          "ASC",
+          "DESC",
+          "asc",
+          "desc"
+        ]
+      }
+    },
+    "required": [
+      "page",
+      "limit",
+      "search",
+      "jenjang",
+      "sortBy",
+      "sortOrder"
+    ],
+    "additionalProperties": false
+  },
+  "ProdiIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "UpdateProdi": {
+    "type": "object",
+    "properties": {
+      "kode_prodi": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 20
+      },
+      "nama_prodi": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 255
+      },
+      "jenjang": {
+        "type": "string",
+        "enum": [
+          "D3",
+          "S1",
+          "S2",
+          "S3"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateProduct": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "minLength": 3
+      },
+      "price": {
+        "type": "number",
+        "minimum": 0
+      },
+      "category": {
+        "type": "string",
+        "enum": [
+          "elektronik",
+          "pakaian",
+          "makanan"
+        ]
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "required": [
+      "name",
+      "price",
+      "category"
+    ],
+    "additionalProperties": false
+  },
+  "ListProductsQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      },
+      "search": {
+        "type": "string"
+      },
+      "q": {
+        "type": "string"
+      },
+      "category": {
+        "type": "string",
+        "enum": [
+          "elektronik",
+          "pakaian",
+          "makanan"
+        ]
+      },
+      "minPrice": {
+        "type": "number",
+        "minimum": 0
+      },
+      "maxPrice": {
+        "type": "number",
+        "minimum": 0
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "ProductCategory": {
+    "type": "string",
+    "enum": [
+      "elektronik",
+      "pakaian",
+      "makanan"
+    ]
+  },
+  "ProductIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "UpdateProduct": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "minLength": 3
+      },
+      "price": {
+        "type": "number",
+        "minimum": 0
+      },
+      "category": {
+        "type": "string",
+        "enum": [
+          "elektronik",
+          "pakaian",
+          "makanan"
+        ]
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateProductRiset": {
+    "type": "object",
+    "properties": {
+      "nama_produk": {
+        "type": "string",
+        "minLength": 1
+      },
+      "produk_riset_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "required": [
+      "nama_produk"
+    ],
+    "additionalProperties": false
+  },
+  "ListProductRisetQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      },
+      "search": {
+        "type": "string"
+      },
+      "q": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "ProductRisetIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "UpdateProductRiset": {
+    "type": "object",
+    "properties": {
+      "nama_produk": {
+        "type": "string",
+        "minLength": 1
+      },
+      "produk_riset_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "AdminReview": {
+    "type": "object",
+    "properties": {
+      "status_usulan": {
+        "type": "string",
+        "enum": [
+          "Draft",
+          "Pending",
+          "Approved",
+          "Declined"
+        ]
+      }
+    },
+    "required": [
+      "status_usulan"
+    ],
+    "additionalProperties": false
+  },
+  "CreateWorkflowProposal": {
+    "type": "object",
+    "properties": {
+      "meta": {
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "judul": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 1000
+              },
+              "bidang_fokus": {
+                "type": "string",
+                "minLength": 1
+              },
+              "bidang": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "prodi_pengusul": {
+                "type": "string",
+                "minLength": 1
+              },
+              "skema": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sumber_dana": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "jumlah_dana": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "tahun_pelaksanaan": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "tahun_akademik_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "jenis_usulan": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "keterlibatan_lain": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 5000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "output_penelitian": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 100
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "output_ids": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "tipe_usulan": {
+                "type": "string",
+                "enum": [
+                  "Penelitian",
+                  "Pengabdian"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "string"
+          }
+        ]
+      },
+      "anggota": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "nama": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "peran": {
+                  "type": "string",
+                  "enum": [
+                    "Ketua",
+                    "Anggota"
+                  ]
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "Dosen",
+                    "Mahasiswa"
+                  ]
+                },
+                "programStudi": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "programStudiKode": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 20
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "bidang_tugas": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "noIdentitas": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "institusi": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          {
+            "type": "string"
+          }
+        ]
+      },
+      "importOptions": {
+        "type": "object",
+        "properties": {
+          "allowCreatorOutsideTeam": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "meta",
+      "anggota"
+    ],
+    "additionalProperties": false
+  },
+  "InviteMember": {
+    "type": "object",
+    "properties": {
+      "no_identitas": {
+        "type": "string",
+        "minLength": 1
+      },
+      "peran": {
+        "default": "Anggota",
+        "type": "string",
+        "enum": [
+          "Ketua",
+          "Anggota"
+        ]
+      }
+    },
+    "required": [
+      "no_identitas",
+      "peran"
+    ],
+    "additionalProperties": false
+  },
+  "ProposalCreateMultipart": {
+    "type": "object",
+    "properties": {
+      "judul": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "judul"
+    ],
+    "additionalProperties": false
+  },
+  "ProposalDetailQuery": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "ProposalMeta": {
+    "type": "object",
+    "properties": {
+      "judul": {
+        "type": "string",
+        "minLength": 10,
+        "maxLength": 1000
+      },
+      "bidang_fokus": {
+        "type": "string",
+        "minLength": 1
+      },
+      "bidang": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "prodi_pengusul": {
+        "type": "string",
+        "minLength": 1
+      },
+      "skema": {
+        "type": "string",
+        "minLength": 1
+      },
+      "sumber_dana": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "jumlah_dana": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          }
+        ]
+      },
+      "tahun_pelaksanaan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "tahun_akademik_id": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "jenis_usulan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "keterlibatan_lain": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 5000
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "output_penelitian": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "output_ids": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "tipe_usulan": {
+        "type": "string",
+        "enum": [
+          "Penelitian",
+          "Pengabdian"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespondInvite": {
+    "type": "object",
+    "properties": {
+      "status_invite": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "accepted",
+          "rejected"
+        ]
+      }
+    },
+    "required": [
+      "status_invite"
+    ],
+    "additionalProperties": false
+  },
+  "UpdateWorkflowProposal": {
+    "type": "object",
+    "properties": {
+      "meta": {
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "judul": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 1000
+              },
+              "bidang_fokus": {
+                "type": "string",
+                "minLength": 1
+              },
+              "bidang": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "prodi_pengusul": {
+                "type": "string",
+                "minLength": 1
+              },
+              "skema": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sumber_dana": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "jumlah_dana": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "tahun_pelaksanaan": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "tahun_akademik_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "jenis_usulan": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "keterlibatan_lain": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 5000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "output_penelitian": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 100
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "output_ids": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "tipe_usulan": {
+                "type": "string",
+                "enum": [
+                  "Penelitian",
+                  "Pengabdian"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "string"
+          }
+        ]
+      },
+      "anggota": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "nama": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "peran": {
+                  "type": "string",
+                  "enum": [
+                    "Ketua",
+                    "Anggota"
+                  ]
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "Dosen",
+                    "Mahasiswa"
+                  ]
+                },
+                "programStudi": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "programStudiKode": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 20
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "bidang_tugas": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "noIdentitas": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "institusi": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          {
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "UuidIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "FinalProposalPdfParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "ApproveProposal": {
+    "type": "object",
+    "properties": {
+      "catatan": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 5000
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "RejectProposal": {
+    "type": "object",
+    "properties": {
+      "catatan": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "catatan"
+    ],
+    "additionalProperties": false
+  },
+  "ReviewIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "ReviewListQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 20,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 100
+      },
+      "search": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "pending",
+          "approved",
+          "declined",
+          "all"
+        ]
+      },
+      "prodi": {
+        "type": "string"
+      },
+      "tahun_akademik_id": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "penelitian",
+          "pengabdian",
+          "all"
+        ]
+      },
+      "tipe": {
+        "type": "string",
+        "enum": [
+          "Penelitian",
+          "Pengabdian"
+        ]
+      },
+      "tipe_usulan": {
+        "type": "string",
+        "enum": [
+          "Penelitian",
+          "Pengabdian"
+        ]
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "ReviewTypeOnlyParam": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "penelitian",
+          "pengabdian",
+          "hki",
+          "all"
+        ]
+      }
+    },
+    "required": [
+      "type"
+    ],
+    "additionalProperties": false
+  },
+  "ReviewTypeParam": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "penelitian",
+          "pengabdian",
+          "hki",
+          "all"
+        ]
+      },
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "type",
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "ReviewType": {
+    "type": "string",
+    "enum": [
+      "penelitian",
+      "pengabdian",
+      "hki",
+      "all"
+    ]
+  },
+  "PublicPageIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "PublicPageListQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 50
+      },
+      "kategori": {
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "Pendanaan",
+              "Workshop",
+              "Panduan",
+              "Umum"
+            ]
+          },
+          {
+            "type": "string",
+            "const": "Semua"
+          }
+        ]
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "PublicPageSlugParam": {
+    "type": "object",
+    "properties": {
+      "slug": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "slug"
+    ],
+    "additionalProperties": false
+  },
+  "ListPublikasiQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 5000
+      },
+      "q": {
+        "type": "string"
+      },
+      "search": {
+        "type": "string"
+      },
+      "tahun_mulai": {
+        "type": "integer",
+        "minimum": -9007199254740991,
+        "maximum": 9007199254740991
+      },
+      "tahun_selesai": {
+        "type": "integer",
+        "minimum": -9007199254740991,
+        "maximum": 9007199254740991
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "UpsertPublikasi": {
+    "type": "object",
+    "properties": {
+      "tahun_akademik_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "kategori_publikasi_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "total_publikasi": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      }
+    },
+    "required": [
+      "tahun_akademik_id",
+      "kategori_publikasi_id",
+      "total_publikasi"
+    ],
+    "additionalProperties": false
+  },
+  "RabBody": {
+    "anyOf": [
+      {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "tahun_ke": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            },
+            "kelompok": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "komponen": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "item": {
+              "type": "string"
+            },
+            "satuan": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "biaya_satuan": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            },
+            "volume": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            },
+            "pajak": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      {
+        "type": "object",
+        "properties": {
+          "items": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "tahun_ke": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                },
+                "kelompok": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "komponen": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "item": {
+                  "type": "string"
+                },
+                "satuan": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "biaya_satuan": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                },
+                "volume": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                },
+                "pajak": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      }
+    ]
+  },
+  "RabItem": {
+    "type": "object",
+    "properties": {
+      "tahun_ke": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          }
+        ]
+      },
+      "kelompok": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "komponen": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "item": {
+        "type": "string"
+      },
+      "satuan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "biaya_satuan": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          }
+        ]
+      },
+      "volume": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          }
+        ]
+      },
+      "pajak": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          }
+        ]
       }
     },
     "additionalProperties": false
@@ -80,7 +5991,33 @@
     "type": "object",
     "properties": {
       "permissionIds": {
-        "minItems": 1,
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        }
+      },
+      "permissions": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "AssignUserRoles": {
+    "type": "object",
+    "properties": {
+      "userId": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      },
+      "role_id": {
         "type": "array",
         "items": {
           "type": "string",
@@ -90,7 +6027,7 @@
       }
     },
     "required": [
-      "permissionIds"
+      "role_id"
     ],
     "additionalProperties": false
   },
@@ -101,11 +6038,639 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 64
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 255
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "is_active": {
+        "type": "boolean"
       }
     },
     "required": [
       "name"
     ],
+    "additionalProperties": false
+  },
+  "ListUsersWithRolesQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 20,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 200
+      },
+      "search": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "PermissionIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "PermissionListQuery": {
+    "type": "object",
+    "properties": {
+      "module": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RoleIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "RoleListQuery": {
+    "type": "object",
+    "properties": {
+      "includePermissions": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "UpdateRole": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 255
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "is_active": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "UserRoleDetailParam": {
+    "type": "object",
+    "properties": {
+      "userId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "roleId": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "userId",
+      "roleId"
+    ],
+    "additionalProperties": false
+  },
+  "UserRoleParam": {
+    "type": "object",
+    "properties": {
+      "userId": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "userId"
+    ],
+    "additionalProperties": false
+  },
+  "CreateResearch": {
+    "type": "object",
+    "properties": {
+      "meta": {
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "judul": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 1000
+              },
+              "bidang_fokus": {
+                "type": "string",
+                "minLength": 1
+              },
+              "bidang": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "prodi_pengusul": {
+                "type": "string",
+                "minLength": 1
+              },
+              "skema": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sumber_dana": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "jumlah_dana": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "tahun_pelaksanaan": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "tahun_akademik_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "jenis_usulan": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "keterlibatan_lain": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 5000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "output_penelitian": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 100
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "output_ids": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "tipe_usulan": {
+                "type": "string",
+                "enum": [
+                  "Penelitian",
+                  "Pengabdian"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "string"
+          }
+        ]
+      },
+      "anggota": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "nama": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "peran": {
+                  "type": "string",
+                  "enum": [
+                    "Ketua",
+                    "Anggota"
+                  ]
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "Dosen",
+                    "Mahasiswa"
+                  ]
+                },
+                "programStudi": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "programStudiKode": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 20
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "bidang_tugas": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "noIdentitas": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "institusi": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          {
+            "type": "string"
+          }
+        ]
+      },
+      "importOptions": {
+        "type": "object",
+        "properties": {
+          "allowCreatorOutsideTeam": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "meta",
+      "anggota"
+    ],
+    "additionalProperties": false
+  },
+  "ResearchIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "UpdateResearch": {
+    "type": "object",
+    "properties": {
+      "meta": {
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "judul": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 1000
+              },
+              "bidang_fokus": {
+                "type": "string",
+                "minLength": 1
+              },
+              "bidang": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "prodi_pengusul": {
+                "type": "string",
+                "minLength": 1
+              },
+              "skema": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sumber_dana": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "jumlah_dana": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "tahun_pelaksanaan": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "tahun_akademik_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "jenis_usulan": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "keterlibatan_lain": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 5000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "output_penelitian": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 100
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "output_ids": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "tipe_usulan": {
+                "type": "string",
+                "enum": [
+                  "Penelitian",
+                  "Pengabdian"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "string"
+          }
+        ]
+      },
+      "anggota": {
+        "anyOf": [
+          {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "nama": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "peran": {
+                  "type": "string",
+                  "enum": [
+                    "Ketua",
+                    "Anggota"
+                  ]
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "Dosen",
+                    "Mahasiswa"
+                  ]
+                },
+                "programStudi": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "programStudiKode": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 20
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "bidang_tugas": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "noIdentitas": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "institusi": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          {
+            "type": "string"
+          }
+        ]
+      }
+    },
     "additionalProperties": false
   },
   "RoleId": {
@@ -122,15 +6687,368 @@
     ],
     "additionalProperties": false
   },
-  "UpdateRole": {
+  "SearchAnggotaQuery": {
     "type": "object",
     "properties": {
-      "name": {
+      "keyword": {
+        "default": "",
         "type": "string",
-        "minLength": 1,
-        "maxLength": 64
+        "maxLength": 100
       }
     },
+    "required": [
+      "keyword"
+    ],
+    "additionalProperties": false
+  },
+  "CreateSertifikatMutu": {
+    "type": "object",
+    "properties": {
+      "sertifikat_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "ListSertifikatMutuQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "SertifikatMutuIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^\\d+$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "UpdateSertifikatMutu": {
+    "type": "object",
+    "properties": {
+      "sertifikat_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateSkema": {
+    "type": "object",
+    "properties": {
+      "nama_skema": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 200
+      },
+      "tipe": {
+        "type": "string",
+        "enum": [
+          "Penelitian",
+          "Pengabdian",
+          "HKI"
+        ]
+      },
+      "deskripsi": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "required": [
+      "nama_skema",
+      "tipe"
+    ],
+    "additionalProperties": false
+  },
+  "ListSkemaQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      },
+      "search": {
+        "default": "",
+        "type": "string"
+      },
+      "tipe": {
+        "default": "",
+        "type": "string"
+      },
+      "sortBy": {
+        "default": "created_at",
+        "type": "string",
+        "enum": [
+          "created_at",
+          "updated_at",
+          "nama_skema",
+          "tipe",
+          "is_active"
+        ]
+      },
+      "sortOrder": {
+        "default": "DESC",
+        "type": "string",
+        "enum": [
+          "ASC",
+          "DESC",
+          "asc",
+          "desc"
+        ]
+      }
+    },
+    "required": [
+      "page",
+      "limit",
+      "search",
+      "tipe",
+      "sortBy",
+      "sortOrder"
+    ],
+    "additionalProperties": false
+  },
+  "SkemaIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "SkemaOptionsQuery": {
+    "type": "object",
+    "properties": {
+      "tipe": {
+        "default": "",
+        "type": "string"
+      }
+    },
+    "required": [
+      "tipe"
+    ],
+    "additionalProperties": false
+  },
+  "SkemaTipe": {
+    "type": "string",
+    "enum": [
+      "Penelitian",
+      "Pengabdian",
+      "HKI"
+    ]
+  },
+  "UpdateSkema": {
+    "type": "object",
+    "properties": {
+      "nama_skema": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 200
+      },
+      "tipe": {
+        "type": "string",
+        "enum": [
+          "Penelitian",
+          "Pengabdian",
+          "HKI"
+        ]
+      },
+      "deskripsi": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "is_active": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "0",
+              "1",
+              "true",
+              "false"
+            ]
+          }
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "CreateTahunAkademik": {
+    "type": "object",
+    "properties": {
+      "tahun_mulai": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "tahun_selesai": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "semester": {
+        "type": "string",
+        "enum": [
+          "Ganjil",
+          "Genap"
+        ]
+      }
+    },
+    "required": [
+      "tahun_mulai",
+      "tahun_selesai"
+    ],
+    "additionalProperties": false
+  },
+  "ListTahunAkademikQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 200
+      },
+      "tahun_mulai": {
+        "type": "integer",
+        "minimum": -9007199254740991,
+        "maximum": 9007199254740991
+      },
+      "tahun_selesai": {
+        "type": "integer",
+        "minimum": -9007199254740991,
+        "maximum": 9007199254740991
+      }
+    },
+    "required": [
+      "page",
+      "limit"
+    ],
+    "additionalProperties": false
+  },
+  "Semester": {
+    "type": "string",
+    "enum": [
+      "Ganjil",
+      "Genap"
+    ]
+  },
+  "TahunAkademikIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "UpdateTahunAkademik": {
+    "type": "object",
+    "properties": {
+      "tahun_mulai": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "tahun_selesai": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "semester": {
+        "type": "string",
+        "enum": [
+          "Ganjil",
+          "Genap"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "DeleteImageParam": {
+    "type": "object",
+    "properties": {
+      "filename": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "filename"
+    ],
     "additionalProperties": false
   },
   "CreateUser": {
@@ -223,6 +7141,100 @@
     },
     "required": [
       "id"
+    ],
+    "additionalProperties": false
+  },
+  "ListUsulanQuery": {
+    "type": "object",
+    "properties": {
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 9007199254740991
+      },
+      "limit": {
+        "default": 10,
+        "type": "integer",
+        "exclusiveMinimum": 0,
+        "maximum": 200
+      },
+      "search": {
+        "default": "",
+        "type": "string"
+      },
+      "tahun": {
+        "default": "",
+        "type": "string"
+      },
+      "skema": {
+        "default": "",
+        "type": "string"
+      },
+      "status": {
+        "default": "",
+        "type": "string"
+      },
+      "tipe": {
+        "default": "",
+        "type": "string"
+      },
+      "tahun_akademik_id": {
+        "default": "",
+        "type": "string"
+      },
+      "sortBy": {
+        "default": "createdAt",
+        "type": "string"
+      },
+      "sortOrder": {
+        "default": "DESC",
+        "type": "string",
+        "enum": [
+          "ASC",
+          "DESC",
+          "asc",
+          "desc"
+        ]
+      }
+    },
+    "required": [
+      "page",
+      "limit",
+      "search",
+      "tahun",
+      "skema",
+      "status",
+      "tipe",
+      "tahun_akademik_id",
+      "sortBy",
+      "sortOrder"
+    ],
+    "additionalProperties": false
+  },
+  "UsulanIdParam": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "additionalProperties": false
+  },
+  "UsulanStatisticsQuery": {
+    "type": "object",
+    "properties": {
+      "tahun": {
+        "default": "",
+        "type": "string"
+      }
+    },
+    "required": [
+      "tahun"
     ],
     "additionalProperties": false
   }

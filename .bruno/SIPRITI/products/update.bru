@@ -1,0 +1,44 @@
+meta {
+  name: update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{host}}/api/products/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: {{product_id}}
+}
+
+body:json {
+  {
+    "name": "Laptop A Pro",
+    "price": 15000000,
+    "category": "elektronik",
+    "description": "Produk demo update"
+  }
+}
+
+docs {
+  # Update Product
+  
+  ## API Endpoint
+  `PUT /api/products/:id`
+  
+  ---
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Produk berhasil diupdate",
+    "data": {
+      "id": "uuid"
+    }
+  }
+  ```
+}

@@ -1,0 +1,72 @@
+meta {
+  name: upload-image
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{host}}/api/upload/image
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  image: @file(path/to/image.jpg)
+}
+
+docs {
+  # Upload Single Image
+  
+  ## API Endpoint
+  `POST /api/upload/image`
+  
+  **Auth Required:** ✅  
+  **Role Required:** All authenticated users
+  
+  ---
+  
+  ## DTO (Request Body - multipart/form-data)
+  
+  ```typescript
+  interface UploadImageDTO {
+    image: File; // Required - Image file
+  }
+  ```
+  
+  | Field | Type | Required | Accepted Formats |
+  |-------|------|----------|------------------|
+  | image | File | ✅ | jpg, jpeg, png, gif, webp |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Gambar berhasil diupload",
+    "data": {
+      "filename": "image-1705312800000-abc123.jpg",
+      "url": "/uploads/image-1705312800000-abc123.jpg",
+      "mimetype": "image/jpeg",
+      "size": 102400
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 400 | File tidak ditemukan |
+  | 400 | Format file tidak didukung |
+  | 401 | Token tidak valid |
+  | 400 | Ukuran file terlalu besar. Maksimal 5MB per file |
+}

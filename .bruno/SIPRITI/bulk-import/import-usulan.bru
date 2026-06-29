@@ -1,0 +1,65 @@
+meta {
+  name: Import Usulan (Bulk)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{host}}/api/admin/usulan/import
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file(path/to/template-import-usulan.xlsx)
+}
+
+docs {
+  # POST /api/admin/usulan/import
+
+  Upload file Excel (.xlsx) untuk import data usulan secara massal. Gunakan template yang didownload dari endpoint `/template` sebagai panduan format data.
+
+  ## Request Body (multipart/form-data)
+
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | file | File (.xlsx) | ✅ | File Excel berisi data usulan yang akan diimport |
+
+  ## Constraints
+
+  - Format file: `.xlsx` saja
+  - Ukuran maksimal: 5MB
+  - Maksimal 1 file per request
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Import berhasil",
+    "data": {
+      "imported": 15,
+      "failed": 2,
+      "errors": [
+        {
+          "row": 4,
+          "message": "Email ketua tidak ditemukan"
+        },
+        {
+          "row": 9,
+          "message": "Skema tidak valid"
+        }
+      ]
+    }
+  }
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 400 | Format file tidak didukung. Gunakan file .xlsx |
+  | 400 | Ukuran file melebihi batas 5MB |
+  | 401 | Tidak terautentikasi |
+  | 403 | Tidak memiliki permission yang diperlukan |
+}

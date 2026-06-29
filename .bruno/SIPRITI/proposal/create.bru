@@ -1,0 +1,77 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{host}}/api/proposal
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  judul: Proposal Penelitian AI untuk Pendidikan
+  file: @file(path/to/proposal.pdf)
+}
+
+docs {
+  # Create Proposal
+  
+  ## API Endpoint
+  `POST /api/proposal`
+  
+  **Auth Required:** ✅  
+  **Role Required:** Dosen, Mahasiswa
+  
+  > User yang membuat otomatis menjadi Ketua proposal
+  
+  ---
+  
+  ## DTO (Request Body - multipart/form-data)
+  
+  ```typescript
+  interface CreateProposalDTO {
+    judul: string;  // Required - Judul proposal
+    file?: File;    // Optional - File proposal (PDF)
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | judul | string | ✅ | Judul proposal |
+  | file | File | ❌ | PDF |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201)
+  ```json
+  {
+    "success": true,
+    "message": "Proposal berhasil dibuat",
+    "data": {
+      "id": "uuid-proposal",
+      "judul": "Proposal Penelitian AI untuk Pendidikan",
+      "file_url": "/uploads/proposals/proposal.pdf",
+      "status_usulan": null,
+      "createdAt": "2025-01-15T10:00:00.000Z",
+      "updatedAt": "2025-01-15T10:00:00.000Z"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 400 | Judul wajib diisi |
+  | 401 | Token tidak valid |
+}

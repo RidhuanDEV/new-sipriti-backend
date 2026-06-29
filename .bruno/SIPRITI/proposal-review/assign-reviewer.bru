@@ -1,0 +1,26 @@
+meta {
+  name: assign-reviewer-DEPRECATED
+  type: http
+  seq: 99
+}
+
+post {
+  url: {{host}}/api/proposal-review/:id/assign-reviewer
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  # [DEPRECATED — 410 Gone] Assign Reviewer
+  
+  > ❌ Endpoint ini mengembalikan **410 Gone** sejak Phase 14.
+  > 
+  > Reviewer sekarang otomatis melihat semua proposal `hibah_internal`
+  > yang berada di `stage = reviewer` tanpa perlu assignment manual.
+  
+  Response: 410 Gone
+}

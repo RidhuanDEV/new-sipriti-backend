@@ -1,0 +1,30 @@
+meta {
+  name: bidang-fokus
+  seq: 3
+}
+
+docs {
+  # Admin - Bidang Fokus API
+  
+  Endpoint untuk mengelola data Bidang Fokus.
+  
+  ## Struktur Data
+  
+  | Field | Type | Description |
+  |-------|------|-------------|
+  | id | UUID | Primary key |
+  | nama_bidang | string | Nama bidang fokus (max 100 char) |
+  | createdAt | datetime | Tanggal dibuat |
+  | updatedAt | datetime | Tanggal diupdate |
+  
+  ## Validation Rules
+  - `nama_bidang` - Required, 1-100 karakter
+  
+  ## Notes
+  - Data bidang fokus dipakai oleh beberapa modul usulan
+  - Penghapusan data harus memperhatikan relasi yang masih aktif
+}
+
+auth {
+  mode: inherit
+}

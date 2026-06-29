@@ -1,0 +1,11 @@
+meta {
+  name: admin-id
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{host}}/api/auth/admin/:id
+  body: none
+  auth: inherit
+}

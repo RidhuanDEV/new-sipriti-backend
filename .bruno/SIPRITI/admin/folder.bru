@@ -1,0 +1,53 @@
+meta {
+  name: admin
+  seq: 25
+}
+
+docs {
+  # Admin API Documentation
+  
+  Semua endpoint Admin memerlukan:
+  1. **Authentication** - JWT Token di cookie `jwt` (didapat dari login)
+  2. **Authorization** - Permission-based RBAC (contoh: `view_prodi`, `manage_prodi`, `view_skema`, `manage_skema`, `manage_monev`)
+  
+  ## Modul yang Tersedia:
+  
+  ### 1. Program Studi (Prodi)
+  - GET /api/admin/prodi - List semua prodi
+  - GET /api/admin/prodi/:id - Detail prodi
+  - POST /api/admin/prodi - Tambah prodi baru
+  - PUT /api/admin/prodi/:id - Update prodi
+  - DELETE /api/admin/prodi/:id - Hapus prodi
+  
+  ### 2. Skema Usulan
+  - GET /api/admin/skema - List semua skema
+  - GET /api/admin/skema/:id - Detail skema
+  - POST /api/admin/skema - Tambah skema baru
+  - PUT /api/admin/skema/:id - Update skema
+  - DELETE /api/admin/skema/:id - Hapus skema
+
+  ### 3. Bidang Fokus
+  - GET /api/admin/bidang-fokus - List semua bidang fokus
+  - GET /api/admin/bidang-fokus/:id - Detail bidang fokus
+  - POST /api/admin/bidang-fokus - Tambah bidang fokus baru
+  - PUT /api/admin/bidang-fokus/:id - Update bidang fokus
+  - DELETE /api/admin/bidang-fokus/:id - Hapus bidang fokus
+  
+  ### 4. Daftar Usulan (Admin View)
+  - GET /api/admin/usulan - List semua usulan
+  - GET /api/admin/usulan/:id - Detail usulan
+  - GET /api/admin/usulan/statistics - Statistik usulan
+  
+  ### 5. Monitoring & Evaluasi (Monev)
+  - GET /api/admin/monev - List semua monev
+  - GET /api/admin/monev/:id - Detail monev
+  - POST /api/admin/monev - Buat jadwal monev
+  - PUT /api/admin/monev/:id - Update monev
+  - DELETE /api/admin/monev/:id - Hapus monev
+  - POST /api/admin/monev/:id/upload - Upload dokumen monev (PDF)
+  - GET /api/admin/monev/options/usulan - Dropdown usulan untuk form
+}
+
+auth {
+  mode: inherit
+}

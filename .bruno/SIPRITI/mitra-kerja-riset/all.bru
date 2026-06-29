@@ -1,0 +1,63 @@
+meta {
+  name: all
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/mitra-kerja-riset/all
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  # Get All Mitra Kerja Riset
+  
+  ## API Endpoint
+  `GET /api/mitra-kerja-riset/all`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Request)
+  
+  No request body required.
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil semua mitra",
+    "data": [
+      {
+        "id": "uuid",
+        "nama": "PT. Mitra Teknologi"
+      },
+      {
+        "id": "uuid",
+        "nama": "Bank Mandiri"
+      }
+    ]
+  }
+  ```
+  
+  **Note:** Endpoint ini tanpa pagination, cocok untuk dropdown.
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+}

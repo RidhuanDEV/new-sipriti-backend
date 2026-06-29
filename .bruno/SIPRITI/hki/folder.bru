@@ -1,0 +1,36 @@
+meta {
+  name: hki
+  seq: 8
+}
+
+docs {
+  # HKI (Hak Kekayaan Intelektual) API
+  
+  CRUD endpoints untuk manajemen HKI milik user.
+  
+  ## Base URL
+  `/api/hki`
+  
+  ## Endpoints Overview
+  
+  | Method | Endpoint | Auth | Role | Description |
+  |--------|----------|------|------|-------------|
+  | GET | / | ✅ | All | List HKI user |
+  | GET | /detail | ✅ | All | Detail HKI by ID |
+  | POST | / | ✅ | All | Buat HKI baru |
+  | PUT | /:id | ✅ | All | Update HKI |
+  | DELETE | /:id | ✅ | All | Hapus HKI |
+  | POST | /:id/submit | ✅ | All | Submit untuk approval |
+  
+  ## Jenis HKI
+  - Paten
+  - Hak Cipta
+  - Merek
+  - Desain Industri
+  
+  ## Status HKI
+  - Draft
+  - Pending
+  - Approved
+  - Rejected
+}

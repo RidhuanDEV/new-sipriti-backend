@@ -1,0 +1,18 @@
+meta {
+  name: audit-logs
+}
+
+docs {
+  # Audit Logs API
+
+  ## Endpoints
+
+  | Method | Path | Name |
+  |--------|------|------|
+  | GET | /api/audit-logs/ | list |
+  | GET | /api/audit-logs/:id | get-by-id |
+
+  ## Auth & Permission
+  - Authentication wajib
+  - Permission: `view_audit_log` atau `view_audit_logs`
+}

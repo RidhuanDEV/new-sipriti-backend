@@ -1,0 +1,87 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/notifications?page=1&limit=10
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  page: 1
+  limit: 10
+}
+
+docs {
+  # List Notifications
+  
+  ## API Endpoint
+  `GET /api/notifications`
+  
+  **Auth Required:** ✅ Bearer Token
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  ```typescript
+  interface ListNotificationsQuery {
+    page?: number;   // Default: 1
+    limit?: number;  // Default: 10
+    status?: string; // "read" | "unread"
+  }
+  ```
+  
+  | Param | Type | Required | Default |
+  |-------|------|----------|---------|
+  | page | number | ❌ | 1 |
+  | limit | number | ❌ | 10 |
+  | status | string | ❌ | - |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil notifikasi",
+    "data": [
+      {
+        "id": "uuid",
+        "type": "proposal_approved",
+        "title": "Proposal Disetujui",
+        "message": "Proposal 'Penelitian AI' telah disetujui",
+        "data": {
+          "proposal_id": "uuid",
+          "proposal_type": "penelitian"
+        },
+        "is_read": false,
+        "createdAt": "2025-01-08T10:00:00.000Z"
+      }
+    ],
+    "meta": {
+      "page": 1,
+      "limit": 10,
+      "total": 25,
+      "totalPages": 3
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+}

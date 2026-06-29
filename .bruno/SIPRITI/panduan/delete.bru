@@ -1,0 +1,60 @@
+meta {
+  name: delete
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{host}}/api/panduan/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{panduan_id}}
+}
+
+docs {
+  # Delete Panduan
+  
+  ## API Endpoint
+  `DELETE /api/panduan/:id`
+  
+  **Auth Required:** ✅  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID panduan |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Panduan berhasil dihapus",
+    "data": null
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 401 | Token tidak valid |
+  | 403 | Akses ditolak |
+  | 404 | Panduan tidak ditemukan |
+}

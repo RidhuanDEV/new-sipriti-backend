@@ -1,0 +1,114 @@
+meta {
+  name: create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{host}}/api/hki
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  judul: Judul HKI Baru
+  jenis_hki: Paten
+  inventor: Dr. John Doe, Prof. Jane Smith
+  pemegang_hak: Institut Teknologi Indonesia
+  ~sub_jenis_ciptaan: Artikel
+  ~nomor_permohonan: P00202400001
+  ~tanggal_permohonan: 2024-01-15
+  ~status_hki: Dalam Proses
+  ~deskripsi: Deskripsi HKI
+  ~sertifikatFile: @file(./sertifikat.pdf)
+  ~dokumenFile: @file(./dokumen.pdf)
+}
+
+docs {
+  # Create HKI
+  
+  ## API Endpoint
+  `POST /api/hki`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Request Body - multipart/form-data)
+  
+  ```typescript
+  interface CreateHKIDTO {
+    // Required fields
+    judul: string;
+    jenis_hki: string;      // Paten | Hak Cipta | Merek | Desain Industri
+    inventor: string;
+    pemegang_hak: string;
+    
+    // Optional fields
+    hkiId?: string;              // Custom UUID
+    sub_jenis_ciptaan?: string;  // Sub kategori
+    nomor_permohonan?: string;
+    tanggal_permohonan?: string; // YYYY-MM-DD
+    status_hki?: string;         // Status di lembaga HKI
+    deskripsi?: string;
+    
+    // File uploads
+    sertifikatFile?: File;
+    dokumenFile?: File;
+    suratPernyataanFile?: File;
+    buktiPengalihanFile?: File;
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | judul | string | ✅ | - |
+  | jenis_hki | string | ✅ | Valid jenis |
+  | inventor | string | ✅ | - |
+  | pemegang_hak | string | ✅ | - |
+  | sub_jenis_ciptaan | string | ❌ | - |
+  | nomor_permohonan | string | ❌ | - |
+  | tanggal_permohonan | date | ❌ | YYYY-MM-DD |
+  | status_hki | string | ❌ | - |
+  | deskripsi | string | ❌ | - |
+  | sertifikatFile | File | ❌ | PDF only |
+  | dokumenFile | File | ❌ | PDF only |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201 Created)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil membuat data HKI",
+    "data": {
+      "id": "uuid",
+      "judul": "Aplikasi AI",
+      "jenis_hki": "Hak Cipta",
+      "inventor": "Dr. Ahmad",
+      "pemegang_hak": "Universitas",
+      "status": "Pending",
+      "user": { ... }
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 400 | Judul wajib diisi |
+  | 400 | Jenis HKI wajib diisi |
+  | 400 | Inventor wajib diisi |
+  | 400 | Pemegang Hak wajib diisi |
+  | 401 | Token tidak valid |
+}

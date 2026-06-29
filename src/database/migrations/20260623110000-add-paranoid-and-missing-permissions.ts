@@ -1,0 +1,103 @@
+import type { QueryInterface } from "sequelize";
+import { DataTypes, QueryTypes } from "sequelize";
+import { PHASE7_MISSING_PERMISSION_SEEDS } from "../rbac-source.js";
+
+interface ExistsRow {
+  found: number;
+}
+
+interface IdRow {
+  id: string;
+}
+
+async function columnExists(queryInterface: QueryInterface, tableName: string, columnName: string): Promise<boolean> {
+  const rows = await queryInterface.sequelize.query<ExistsRow>(
+    "SELECT 1 AS found FROM information_schema.columns WHERE table_schema = DATABASE() AND table_name = :tableName AND column_name = :columnName LIMIT 1",
+    { type: QueryTypes.SELECT, replacements: { tableName, columnName } },
+  );
+  return rows.length > 0;
+}
+
+async function findIdByName(
+  queryInterface: QueryInterface,
+  tableName: "roles" | "permissions",
+  name: string,
+): Promise<string | null> {
+  const rows = await queryInterface.sequelize.query<IdRow>(
+    `SELECT id FROM ${tableName} WHERE name = :name LIMIT 1`,
+    { type: QueryTypes.SELECT, replacements: { name } },
+  );
+  return rows[0]?.id ?? null;
+}
+
+export async function up(queryInterface: QueryInterface): Promise<void> {
+  // Add soft-delete support to carousel table
+  if (!(await columnExists(queryInterface, "carousel", "deleted_at"))) {
+    await queryInterface.addColumn("carousel", "deleted_at", {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: null,
+    });
+  }
+
+  // Add soft-delete support to hibahinternal table
+  if (!(await columnExists(queryInterface, "hibahinternal", "deleted_at"))) {
+    await queryInterface.addColumn("hibahinternal", "deleted_at", {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: null,
+    });
+  }
+
+  // Seed new permissions and assign to admin role
+  const now = new Date();
+  const adminRoleId = await findIdByName(queryInterface, "roles", "admin");
+
+  for (const permission of PHASE7_MISSING_PERMISSION_SEEDS) {
+    const existingPermissionId = await findIdByName(queryInterface, "permissions", permission.name);
+    const permissionId = existingPermissionId ?? permission.id;
+
+    if (!existingPermissionId) {
+      await queryInterface.bulkInsert("permissions", [
+        {
+          id: permission.id,
+          name: permission.name,
+          created_at: now,
+          updated_at: now,
+        },
+      ]);
+    }
+
+    if (adminRoleId) {
+      await queryInterface.sequelize.query(
+        "INSERT IGNORE INTO role_permissions (role_id, permission_id) VALUES (:roleId, :permissionId)",
+        { replacements: { roleId: adminRoleId, permissionId } },
+      );
+    }
+  }
+}
+
+export async function down(queryInterface: QueryInterface): Promise<void> {
+  // Remove soft-delete columns
+  if (await columnExists(queryInterface, "carousel", "deleted_at")) {
+    await queryInterface.removeColumn("carousel", "deleted_at");
+  }
+  if (await columnExists(queryInterface, "hibahinternal", "deleted_at")) {
+    await queryInterface.removeColumn("hibahinternal", "deleted_at");
+  }
+
+  // Remove seeded permissions
+  for (const permission of PHASE7_MISSING_PERMISSION_SEEDS) {
+    const rows = await queryInterface.sequelize.query<IdRow>(
+      "SELECT id FROM permissions WHERE id = :permissionId LIMIT 1",
+      { type: QueryTypes.SELECT, replacements: { permissionId: permission.id } },
+    );
+    if (rows[0]?.id) {
+      await queryInterface.sequelize.query(
+        "DELETE FROM role_permissions WHERE permission_id = :permissionId",
+        { replacements: { permissionId: permission.id } },
+      );
+      await queryInterface.bulkDelete("permissions", { id: permission.id });
+    }
+  }
+}

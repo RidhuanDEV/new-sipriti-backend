@@ -1,0 +1,54 @@
+meta {
+  name: Remove Role from User
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{baseUrl}}/rbac/users/:userId/roles/:roleId
+  body: none
+  auth: none
+}
+
+params:path {
+  userId: {{userId}}
+  roleId: {{roleId}}
+}
+
+headers {
+  Content-Type: application/json
+  X-CSRF-Token: {{csrfToken}}
+}
+
+docs {
+  # Remove Role from User
+  
+  Menghapus satu role dari user.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | userId | UUID | ID user |
+  | roleId | UUID | ID role yang akan dihapus |
+  
+  ## Response (Success)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil menghapus role dari user",
+    "data": {
+      "id": "uuid",
+      "username": "user123",
+      "roles": [
+        { "id": "remaining-role-id", "name": "dosen" }
+      ]
+    }
+  }
+  ```
+  
+  ## Permission Required
+  
+  - `assign_roles`
+}

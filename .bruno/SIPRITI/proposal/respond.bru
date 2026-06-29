@@ -1,0 +1,83 @@
+meta {
+  name: respond
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{host}}/api/proposal/:proposalId/respond
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  proposalId: {{proposal_id}}
+}
+
+body:json {
+  {
+    "status_invite": "accepted"
+  }
+}
+
+docs {
+  # Respond to Invite
+  
+  ## API Endpoint
+  `POST /api/proposal/:proposalId/respond`
+  
+  **Auth Required:** ✅  
+  **Role Required:** Dosen, Mahasiswa
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | proposalId | UUID | ✅ | ID proposal |
+  
+  ## DTO (Request Body)
+  
+  ```typescript
+  interface RespondInviteDTO {
+    status_invite: 'accepted' | 'rejected'; // Required
+  }
+  ```
+  
+  | Field | Type | Required | Values |
+  |-------|------|----------|--------|
+  | status_invite | string | ✅ | 'accepted' atau 'rejected' |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Undangan berhasil direspon",
+    "data": {
+      "id": "uuid-member",
+      "haki_proposal_id": "uuid-proposal",
+      "user_id": "uuid-user",
+      "peran": "Anggota",
+      "status_invite": "accepted"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 401 | Token tidak valid |
+  | 404 | Undangan tidak ditemukan |
+}

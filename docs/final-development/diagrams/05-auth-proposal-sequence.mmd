@@ -1,0 +1,26 @@
+sequenceDiagram
+  autonumber
+  actor User as Dosen / Admin
+  participant FE as Frontend SIPRITI
+  participant API as Backend API
+  participant Auth as Auth Service
+  participant Proposal as Proposal Service
+  participant DB as MySQL
+  participant Audit as Audit Log
+
+  User->>FE: Mengirim username dan password
+  FE->>API: POST /api/auth/login
+  API->>Auth: Validasi kredensial dan status user
+  Auth->>DB: Ambil user, role, permission, prodi
+  DB-->>Auth: Data user legacy-compatible
+  Auth-->>API: User DTO dan token cookie
+  API-->>FE: 200 Login berhasil, Set-Cookie JWT, CSRF
+  API->>Audit: Catat LOGIN
+
+  User->>FE: Membuat usulan penelitian
+  FE->>API: POST /api/penelitian dengan CSRF token
+  API->>Proposal: Validasi schema dan permission
+  Proposal->>DB: Simpan haki_proposals dan relasi awal
+  Proposal-->>API: Response legacy envelope
+  API-->>FE: 200/201 data usulan
+  API->>Audit: Catat CREATE proposal

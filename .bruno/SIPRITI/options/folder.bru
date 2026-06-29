@@ -1,0 +1,28 @@
+meta {
+  name: options
+  seq: 5
+}
+
+docs {
+  # Options API
+  
+  Endpoint publik untuk mengambil data dropdown/select options.
+  
+  ## Endpoints
+  - GET /api/prodi/options - Daftar Program Studi
+  - GET /api/skema/options - Daftar Skema
+  - GET /api/bidang-fokus/options - Daftar Bidang Fokus
+  
+  ## Authentication
+  Tidak memerlukan authentication (public endpoint).
+  
+  ## Use Cases
+  - Form registrasi user (pilih prodi)
+  - Form usulan (pilih skema)
+  - Form usulan/admin (pilih bidang fokus)
+  - Filter dropdown di berbagai halaman
+}
+
+auth {
+  mode: none
+}

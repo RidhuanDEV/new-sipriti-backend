@@ -33,8 +33,13 @@ export class UserRepository {
     }
     return User.create(
       {
+        name: data.email,
+        username: data.email,
         email: data.email,
         password: data.password,
+        nidn: null,
+        institusi: null,
+        prodiKode: null,
         roleId: data.roleId,
       },
       options,

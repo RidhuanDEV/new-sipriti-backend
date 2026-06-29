@@ -1,0 +1,28 @@
+meta {
+  name: carousel
+  seq: 5
+}
+
+docs {
+  # Carousel API
+  
+  CRUD endpoints untuk manajemen carousel/banner images.
+  
+  ## Base URL
+  `/api/carousel`
+  
+  ## Endpoints Overview
+  
+  | Method | Endpoint | Auth | Role | Description |
+  |--------|----------|------|------|-------------|
+  | GET | / | ❌ | Public | List carousel aktif |
+  | GET | /admin | ✅ | Admin | List semua carousel |
+  | GET | /:id | ❌ | Public | Detail carousel |
+  | POST | / | ✅ | Admin | Buat carousel |
+  | PUT | /:id | ✅ | Admin | Update carousel |
+  | DELETE | /:id | ✅ | Admin | Hapus carousel |
+  
+  ## Page Values
+  - `capaian` - Halaman capaian
+  - `home` - Halaman utama
+}

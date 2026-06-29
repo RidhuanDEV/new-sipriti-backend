@@ -1,0 +1,15 @@
+meta {
+  name: admin
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/landing-slider/admin
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

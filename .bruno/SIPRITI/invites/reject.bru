@@ -1,0 +1,87 @@
+meta {
+  name: reject
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{host}}/api/invites/:id/reject
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{member_proposal_id}}
+}
+
+docs {
+  # Reject Invite
+  
+  ## API Endpoint
+  `POST /api/invites/:id/reject`
+  
+  **Auth Required:** ✅ Bearer Token
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID MemberProposal |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Undangan berhasil ditolak",
+    "data": {
+      "id": "uuid",
+      "status_invite": "rejected",
+      "rejectedAt": "2025-01-08T10:00:00.000Z"
+    }
+  }
+  ```
+
+  ### Success (already rejected)
+  ```json
+  {
+    "success": true,
+    "message": "Undangan sudah ditolak sebelumnya",
+    "data": {
+      "id": "uuid",
+      "status_invite": "rejected"
+    }
+  }
+  ```
+
+  ### Success (cannot reject accepted)
+  ```json
+  {
+    "success": true,
+    "message": "Tidak dapat menolak undangan yang sudah diterima",
+    "data": {
+      "id": "uuid",
+      "status_invite": "accepted"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+  | 403 | Undangan bukan untuk Anda |
+  | 404 | Undangan tidak ditemukan |
+}

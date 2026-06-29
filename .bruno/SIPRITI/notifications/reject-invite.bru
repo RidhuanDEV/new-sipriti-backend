@@ -1,0 +1,87 @@
+meta {
+  name: reject-invite
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{host}}/api/notifications/:id/reject-invite
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{member_proposal_id}}
+}
+
+body:json {
+  {
+    "type": "member_proposal"
+  }
+}
+
+docs {
+  # Reject Invite from Notification
+  
+  ## API Endpoint
+  `PUT /api/notifications/:id/reject-invite`
+  
+  **Auth Required:** ✅ Bearer Token
+  
+  ---
+  
+  ## DTO
+  
+  ### Path Parameters
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID MemberProposal |
+  
+  ### Request Body
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | type | string | ❌ | Nilai opsional, default `member_proposal` |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Undangan berhasil ditolak",
+    "data": {
+      "id": "uuid"
+    }
+  }
+  ```
+  
+  ### Success (already rejected)
+  ```json
+  {
+    "success": true,
+    "message": "Undangan sudah ditolak sebelumnya",
+    "data": {
+      "id": "uuid",
+      "status_invite": "rejected"
+    }
+  }
+  ```
+  
+  ### Success (cannot reject accepted)
+  ```json
+  {
+    "success": true,
+    "message": "Tidak dapat menolak undangan yang sudah diterima",
+    "data": {
+      "id": "uuid",
+      "status_invite": "accepted"
+    }
+  }
+  ```
+}

@@ -1,0 +1,48 @@
+meta {
+  name: Get File by Path
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/files/path/:subdir/:filename
+  body: none
+  auth: none
+}
+
+params:path {
+  subdir: images
+  filename: image-1705312800000-abc123.jpg
+}
+
+docs {
+  # GET /api/files/path/:subdir/:filename
+
+  Mengambil file dari server berdasarkan subdirektori dan nama file. Autentikasi opsional.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | subdir | string | Subdirektori uploads (contoh: `images`, `richtext`, `proposal-final-pdf`) |
+  | filename | string | Nama file yang ingin diakses |
+
+  ## Response Success (200)
+
+  Stream binary file sesuai content-type:
+  ```
+  Content-Type: image/jpeg  (atau sesuai tipe file)
+  ```
+
+  ## Contoh URL
+
+  - `/api/files/path/images/image-abc123.jpg` — gambar yang diupload
+  - `/api/files/path/richtext/richtext-abc123.png` — gambar richtext
+  - `/api/files/path/proposal-final-pdf/proposal-abc123.pdf` — PDF proposal final
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 404 | File tidak ditemukan |
+}

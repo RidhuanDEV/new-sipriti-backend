@@ -1,6 +1,21 @@
 import type { Request, Response, NextFunction } from "express";
 import { HttpError } from "../errors/http-error.js";
 import { logger } from "../logger/logger.js";
+import type { ApiFailure } from "../../types/api/common.js";
+
+function sendError(
+  res: Response,
+  statusCode: number,
+  message: string | string[],
+  error: string,
+): void {
+  const body: ApiFailure = {
+    success: false,
+    message,
+    error,
+  };
+  res.status(statusCode).json(body);
+}
 
 export function errorMiddleware(
   err: Error,
@@ -19,11 +34,27 @@ export function errorMiddleware(
       method: req.method,
     });
 
-    res.status(err.statusCode).json({
-      success: false,
-      message: err.message,
-      errors: err.errors,
-    });
+    sendError(res, err.statusCode, err.responseMessage, err.code);
+    return;
+  }
+
+  if (err.name === "JsonWebTokenError") {
+    sendError(
+      res,
+      401,
+      "Token autentikasi tidak valid. Silakan login kembali.",
+      "INVALID_TOKEN",
+    );
+    return;
+  }
+
+  if (err.name === "TokenExpiredError") {
+    sendError(
+      res,
+      401,
+      "Sesi Anda telah berakhir. Silakan login kembali.",
+      "TOKEN_EXPIRED",
+    );
     return;
   }
 
@@ -34,9 +65,10 @@ export function errorMiddleware(
     method: req.method,
   });
 
-  res.status(500).json({
-    success: false,
-    message: "Internal Server Error",
-    errors: [],
-  });
+  sendError(
+    res,
+    500,
+    "Terjadi kesalahan pada server. Silakan coba lagi.",
+    "INTERNAL_ERROR",
+  );
 }

@@ -1,0 +1,60 @@
+meta {
+  name: logout
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{host}}/api/auth/logout
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  # Logout
+  
+  ## API Endpoint
+  `POST /api/auth/logout`
+  
+  **Auth Required:** ✅ Bearer Token
+  
+  ---
+  
+  ## DTO (Request)
+  
+  No request body required.
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Logout berhasil"
+  }
+  ```
+  
+  **Side Effect:** Cookie `jwt` akan di-clear (expired)
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Code | Message |
+  |--------|------|---------|  
+  | 401 | UNAUTHORIZED | Token tidak valid atau expired |
+  
+  ### Error Example
+  ```json
+  {
+    "success": false,
+    "message": "Token tidak valid atau expired"
+  }
+  ```
+}

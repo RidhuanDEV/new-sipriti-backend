@@ -1,0 +1,86 @@
+meta {
+  name: add-dokumen
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{host}}/api/monev/:proposalId/dokumen
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  proposalId: {{proposal_id}}
+}
+
+body:multipart-form {
+  url_artikel: https://example.com/artikel
+  file: @file(path/to/dokumen.pdf)
+}
+
+docs {
+  # Add Dokumen Pendukung
+  
+  ## API Endpoint
+  `POST /api/monev/:proposalId/dokumen`
+  
+  **Auth Required:** ✅  
+  **Role Required:** All authenticated users
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | proposalId | UUID | ✅ | ID proposal |
+  
+  ## DTO (Request Body - multipart/form-data)
+  
+  ```typescript
+  interface AddDokumenDTO {
+    url_artikel?: string; // Optional - URL artikel
+    file?: File;          // Optional - File dokumen
+  }
+  ```
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | url_artikel | string | ❌ | URL artikel |
+  | file | File | ❌ | File dokumen |
+  
+  > **Note:** Minimal salah satu dari `url_artikel` atau `file` harus diisi
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201)
+  ```json
+  {
+    "success": true,
+    "message": "Dokumen pendukung berhasil ditambahkan",
+    "data": {
+      "id": "uuid-dokumen",
+      "haki_proposal_id": "uuid-proposal",
+      "url_artikel": "https://example.com/artikel",
+      "file_artikel_url": "/uploads/proposals/dokumen.pdf"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 400 | Minimal salah satu: url_artikel atau file harus diisi |
+  | 401 | Token tidak valid |
+  | 404 | Proposal tidak ditemukan |
+}

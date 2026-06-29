@@ -1,0 +1,82 @@
+meta {
+  name: create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{host}}/api/pengumuman
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  judul: Pengumuman Hibah Penelitian 2025
+  isi_pengumuman: <p>Dengan ini diumumkan bahwa pendaftaran hibah penelitian tahun 2025 telah dibuka...</p>
+  file: @file(path/to/lampiran.pdf)
+}
+
+docs {
+  # Create Pengumuman
+  
+  ## API Endpoint
+  `POST /api/pengumuman`
+  
+  **Auth Required:** ✅  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## DTO (Request Body - multipart/form-data)
+  
+  ```typescript
+  interface CreatePengumumanDTO {
+    judul: string;         // Required - Judul pengumuman
+    isi_pengumuman: string; // Required - Isi pengumuman
+    file?: File;           // Optional - File lampiran
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | judul | string | ✅ | Tidak boleh kosong |
+  | isi_pengumuman | string | ✅ | Tidak boleh kosong |
+  | file | File | ❌ | PDF/Doc |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201)
+  ```json
+  {
+    "success": true,
+    "message": "Pengumuman berhasil dibuat",
+    "data": {
+      "id": "uuid-pengumuman",
+      "judul": "Pengumuman Hibah Penelitian 2025",
+      "isi_pengumuman": "<p>Dengan ini diumumkan...</p>",
+      "file_url": "/uploads/pengumuman/lampiran.pdf",
+      "createdAt": "2025-01-15T10:00:00.000Z",
+      "updatedAt": "2025-01-15T10:00:00.000Z"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 400 | Judul wajib diisi |
+  | 400 | Isi Pengumuman wajib diisi |
+  | 400 | Judul tidak boleh kosong |
+  | 400 | Isi pengumuman tidak boleh kosong |
+  | 401 | Token tidak valid |
+  | 403 | Akses ditolak |
+}

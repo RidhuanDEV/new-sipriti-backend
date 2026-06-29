@@ -1,0 +1,46 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{host}}/api/admin/usulan-dikti
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  judul: Penelitian Hibah DIKTI Kategori A
+  bidang_fokus: Teknologi Informasi
+  skema: Hibah Bersaing
+  sumber_dana: DIKTI
+  jumlah_dana: 150000000
+  tahun_pelaksanaan: 2026
+  prodi_pengusul: TI
+  tahun_akademik_id: {{tahun_akademik_id}}
+  ketua_nidn: 1234567890
+  anggota: [{"nidn_nrp":"0987654321","peran":"Anggota","tipe":"Dosen"}]
+  file_bukti_dikti: @file(path/to/bukti.pdf)
+}
+
+docs {
+  # Create DIKTI Proposal (Admin Only)
+  
+  ## API Endpoint
+  `POST /api/admin/usulan-dikti`
+  
+  Membuat proposal Hibah DIKTI secara langsung oleh Admin.
+  
+  **Auth Required:** ✅ Bearer Token (Admin)  
+  **Permission Required:** `create_dikti_proposal`
+  
+  ---
+  
+  ## Alur Approval
+  Proposal Hibah DIKTI langsung dibuat dengan status `Approved` (`status_usulan = "Approved"`, `current_stage = "admin"`, `tipe_pendanaan = "hibah_dikti"`) karena sudah melalui verifikasi eksternal oleh DIKTI sebelum dimasukkan ke sistem oleh Admin.
+}

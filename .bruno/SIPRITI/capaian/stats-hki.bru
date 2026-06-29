@@ -1,0 +1,41 @@
+meta {
+  name: stats-hki
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{host}}/api/capaian/stats/hki
+  body: none
+  auth: inherit
+}
+
+docs {
+  # Get Total HKI
+  
+  ## API Endpoint
+  `GET /api/capaian/stats/hki`
+  
+  **Auth Required:** ❌ Public
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil statistik HKI",
+    "data": {
+      "total": 50,
+      "breakdown": {
+        "Paten": 10,
+        "Hak Cipta": 25,
+        "Merek": 10,
+        "Desain Industri": 5
+      }
+    }
+  }
+  ```
+}

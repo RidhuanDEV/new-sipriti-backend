@@ -1,0 +1,95 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/usulan-penelitian?page=1&limit=10
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  page: 1
+  limit: 10
+}
+
+docs {
+  # List Usulan Penelitian
+  
+  ## API Endpoint
+  `GET /api/usulan-penelitian`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  ```typescript
+  interface ListPenelitianQuery {
+    page?: number;           // Default: 1
+    limit?: number;          // Default: 10
+    status?: string;         // Filter status
+    tahun_akademik?: string; // Filter tahun
+  }
+  ```
+  
+  | Param | Type | Required | Default |
+  |-------|------|----------|---------|
+  | page | number | ❌ | 1 |
+  | limit | number | ❌ | 10 |
+  | status | string | ❌ | - |
+  | tahun_akademik | string | ❌ | - |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil daftar usulan penelitian",
+    "data": [
+      {
+        "id": "uuid",
+        "judul": "Pengembangan AI untuk Deteksi Penyakit",
+        "abstrak": "Penelitian tentang...",
+        "status": "Draft",
+        "tipe_usulan": "penelitian",
+        "peran": "Ketua",
+        "createdAt": "2025-01-08T10:00:00.000Z",
+        "ketua": {
+          "id": "uuid",
+          "name": "Dr. Ahmad Fauzi"
+        },
+        "tahunAkademik": {
+          "id": "uuid",
+          "tahun": "2024/2025"
+        }
+      }
+    ],
+    "meta": {
+      "page": 1,
+      "limit": 10,
+      "total": 25,
+      "totalPages": 3
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+}

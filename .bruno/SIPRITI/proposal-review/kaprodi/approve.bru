@@ -1,0 +1,38 @@
+meta {
+  name: approve
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{host}}/api/proposal-review/:type/:id/approve
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "catatan": "Catatan persetujuan Kaprodi"
+  }
+}
+
+params:path {
+  type: penelitian
+  id: {{proposal_id}}
+}
+
+docs {
+  # Approve Proposal (Kaprodi Context)
+  
+  ## API Endpoint
+  `POST /api/proposal-review/:type/:id/approve`
+  
+  Melakukan persetujuan proposal di stage `kaprodi`.
+  
+  **Auth Required:** ✅ Bearer Token (Kaprodi / Admin)  
+  **Permission Required:** `approve_proposal_kaprodi`
+}

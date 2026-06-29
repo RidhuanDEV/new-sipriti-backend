@@ -1,0 +1,86 @@
+meta {
+  name: update
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{host}}/api/tahun-akademik/:id
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{tahun_akademik_id}}
+}
+
+body:json {
+  {
+    "nama": "2025/2026 Ganjil (Revisi)",
+    "tanggal_selesai": "2026-03-15",
+    "is_active": false
+  }
+}
+
+docs {
+  # Update Tahun Akademik
+  
+  ## API Endpoint
+  `PUT /api/tahun-akademik/:id`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## DTO (Request)
+  
+  ### Path Parameters
+  | Param | Type | Required |
+  |-------|------|----------|
+  | id | UUID | ✅ |
+  
+  ### Body (JSON)
+  ```typescript
+  interface UpdateTahunAkademikDTO {
+    nama?: string;
+    tanggal_mulai?: string;   // YYYY-MM-DD
+    tanggal_selesai?: string; // YYYY-MM-DD
+    is_active?: boolean;
+  }
+  ```
+  
+  | Field | Type | Required |
+  |-------|------|----------|
+  | nama | string | ❌ |
+  | tanggal_mulai | date | ❌ |
+  | tanggal_selesai | date | ❌ |
+  | is_active | boolean | ❌ |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil memperbarui tahun akademik",
+    "data": { ... }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+  | 403 | Akses ditolak |
+  | 404 | Tahun akademik tidak ditemukan |
+}

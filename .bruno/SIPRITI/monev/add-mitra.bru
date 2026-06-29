@@ -1,0 +1,102 @@
+meta {
+  name: add-mitra
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{host}}/api/monev/:proposalId/mitra
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  proposalId: {{proposal_id}}
+}
+
+body:multipart-form {
+  nama: Dr. John Doe
+  institusi: PT. Mitra Teknologi
+  alamat: Jl. Merdeka No. 123
+  negara: Indonesia
+  surel: john@mitrateknologi.com
+  dana: 50000000
+  file: @file(path/to/surat-kesanggupan.pdf)
+}
+
+docs {
+  # Add Mitra
+  
+  ## API Endpoint
+  `POST /api/monev/:proposalId/mitra`
+  
+  **Auth Required:** ✅  
+  **Role Required:** All authenticated users
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | proposalId | UUID | ✅ | ID proposal |
+  
+  ## DTO (Request Body - multipart/form-data)
+  
+  ```typescript
+  interface AddMitraDTO {
+    nama?: string;      // Nama mitra
+    institusi?: string; // Institusi
+    alamat?: string;    // Alamat
+    negara?: string;    // Negara
+    surel?: string;     // Email
+    dana?: number;      // Dana kontribusi
+    file?: File;        // Surat kesanggupan
+  }
+  ```
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | nama | string | ❌ | Nama mitra |
+  | institusi | string | ❌ | Institusi |
+  | alamat | string | ❌ | Alamat |
+  | negara | string | ❌ | Negara |
+  | surel | string | ❌ | Email |
+  | dana | number | ❌ | Dana kontribusi |
+  | file | File | ❌ | Surat kesanggupan |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201)
+  ```json
+  {
+    "success": true,
+    "message": "Mitra berhasil ditambahkan",
+    "data": {
+      "id": "uuid-mitra",
+      "haki_proposal_id": "uuid-proposal",
+      "nama": "Dr. John Doe",
+      "institusi": "PT. Mitra Teknologi",
+      "alamat": "Jl. Merdeka No. 123",
+      "negara": "Indonesia",
+      "surel": "john@mitrateknologi.com",
+      "dana": 50000000,
+      "surat_kesanggupan_url": "/uploads/proposals/surat-kesanggupan.pdf"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 401 | Token tidak valid |
+}

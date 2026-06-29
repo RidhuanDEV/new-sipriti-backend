@@ -1,12 +1,12 @@
 import type { Request } from "express";
 import { HttpError } from "../errors/http-error.js";
-import type { JwtUserPayload } from "../../types/index.js";
+import type { AuthenticatedUserContext } from "../../types/auth.js";
 
-export function requireAuthenticatedUser(req: Request): JwtUserPayload {
+export function requireAuthenticatedUser(req: Request): AuthenticatedUserContext {
   const { user } = req;
 
   if (!user) {
-    throw HttpError.unauthorized("Authentication required");
+    throw HttpError.unauthorized("Harap login terlebih dahulu");
   }
 
   return user;

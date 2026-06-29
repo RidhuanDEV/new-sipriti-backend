@@ -1,0 +1,59 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/products?page=1&limit=10
+  body: none
+  auth: none
+}
+
+params:query {
+  page: 1
+  limit: 10
+  category: elektronik
+  minPrice: 0
+  maxPrice: 10000000
+  search: laptop
+}
+
+docs {
+  # List Products
+  
+  ## API Endpoint
+  `GET /api/products`
+  
+  ---
+  
+  ## Query Parameters
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | page | number | ❌ | Nomor halaman |
+  | limit | number | ❌ | Jumlah item per halaman |
+  | category | enum | ❌ | elektronik \| pakaian \| makanan |
+  | minPrice | number | ❌ | Harga minimum |
+  | maxPrice | number | ❌ | Harga maksimum |
+  | search | string | ❌ | Cari berdasarkan nama |
+  
+  ---
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil daftar produk",
+    "data": [],
+    "meta": {
+      "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 0,
+        "totalPages": 0
+      }
+    }
+  }
+  ```
+}

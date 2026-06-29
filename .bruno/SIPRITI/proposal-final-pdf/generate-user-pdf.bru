@@ -1,0 +1,43 @@
+meta {
+  name: Generate Final PDF (User)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/proposal-final-pdf/user/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-proposal-uuid-here
+}
+
+docs {
+  # GET /api/proposal-final-pdf/user/:id
+
+  Generate dan stream PDF final proposal untuk Ketua Pengusul. Hanya bisa diakses oleh ketua yang memiliki proposal tersebut.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID proposal yang ingin di-generate PDF-nya |
+
+  ## Response Success (200)
+
+  Stream binary PDF:
+  ```
+  Content-Type: application/pdf
+  Content-Disposition: inline; filename="proposal-final-<judul>.pdf"
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 401 | Tidak terautentikasi |
+  | 403 | Anda bukan ketua pengusul proposal ini |
+  | 404 | Proposal tidak ditemukan |
+}

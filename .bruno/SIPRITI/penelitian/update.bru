@@ -1,0 +1,86 @@
+meta {
+  name: update
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{host}}/api/usulan-penelitian/:id
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{proposal_id}}
+}
+
+body:multipart-form {
+  judul: Pengembangan AI untuk Deteksi Penyakit (Revisi)
+  abstrak: Penelitian tentang penerapan AI untuk deteksi dini penyakit - revisi
+  file_proposal: @file(path/to/proposal-v2.pdf)
+}
+
+docs {
+  # Update Usulan Penelitian
+  
+  ## API Endpoint
+  `PUT /api/usulan-penelitian/:id`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** dosen, mahasiswa  
+  **Condition:** Status masih `Draft`
+  
+  ---
+  
+  ## DTO (Request)
+  
+  ### Path Parameters
+  | Param | Type | Required |
+  |-------|------|----------|
+  | id | UUID | ✅ |
+  
+  ### Body (multipart/form-data)
+  ```typescript
+  interface UpdatePenelitianDTO {
+    judul?: string;
+    abstrak?: string;
+    file_proposal?: File;
+    anggota?: string;  // JSON stringified
+  }
+  ```
+  
+  | Field | Type | Required |
+  |-------|------|----------|
+  | judul | string | ❌ |
+  | abstrak | string | ❌ |
+  | file_proposal | File | ❌ |
+  | anggota | JSON | ❌ |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil memperbarui usulan penelitian",
+    "data": { ... }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 400 | Hanya usulan Draft yang dapat diupdate |
+  | 401 | Token tidak valid |
+  | 403 | Anda tidak memiliki akses |
+  | 404 | Usulan tidak ditemukan |
+}

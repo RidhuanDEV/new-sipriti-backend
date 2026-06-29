@@ -1,0 +1,39 @@
+meta {
+  name: pengumuman
+  seq: 16
+}
+
+docs {
+  # Pengumuman API
+  
+  Endpoints untuk manajemen pengumuman.
+  
+  **Base URL:** `/api/pengumuman`
+  
+  ---
+  
+  ## Endpoints
+  
+  | Method | Endpoint | Description | Auth | Role |
+  |--------|----------|-------------|------|------|
+  | GET | `/` | List pengumuman dengan pagination | ✅ | All |
+  | GET | `/:id` | Detail pengumuman by ID | ✅ | All |
+  | POST | `/` | Buat pengumuman baru | ✅ | Admin |
+  | PUT | `/:id` | Update pengumuman | ✅ | Admin |
+  | DELETE | `/:id` | Hapus pengumuman | ✅ | Admin |
+  
+  ---
+  
+  ## Data Model
+  
+  ```typescript
+  interface Pengumuman {
+    id: string;            // UUID
+    judul: string;         // Judul pengumuman
+    isi_pengumuman: string; // Isi/konten pengumuman
+    file_url: string | null; // URL file lampiran
+    createdAt: string;     // ISO timestamp
+    updatedAt: string;     // ISO timestamp
+  }
+  ```
+}

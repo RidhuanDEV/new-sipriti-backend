@@ -1,0 +1,10 @@
+[
+  {
+    "target": "  declare created_at: CreationOptional<Date>;\n  declare updated_at: CreationOptional<Date>;\n\n  declare uploadedByUser?: NonAttribute<User | null>;",
+    "replacement": "  declare created_at: CreationOptional<Date>;\n  declare updated_at: CreationOptional<Date>;\n  declare deletedAt: CreationOptional<Date | null>;\n\n  declare uploadedByUser?: NonAttribute<User | null>;"
+  },
+  {
+    "target": "      created_at: DataTypes.DATE,\n      updated_at: DataTypes.DATE,\n    },\n    {\n      sequelize,\n      modelName: \"OfficialSignature\",\n      tableName: \"official_signatures\",\n      freezeTableName: true,\n      timestamps: true,\n      createdAt: \"created_at\",\n      updatedAt: \"updated_at\",\n      indexes: [",
+    "replacement": "      created_at: DataTypes.DATE,\n      updated_at: DataTypes.DATE,\n      deletedAt: {\n        type: DataTypes.DATE,\n        allowNull: true,\n        field: \"deleted_at\",\n      },\n    },\n    {\n      sequelize,\n      modelName: \"OfficialSignature\",\n      tableName: \"official_signatures\",\n      freezeTableName: true,\n      timestamps: true,\n      paranoid: true,\n      createdAt: \"created_at\",\n      updatedAt: \"updated_at\",\n      deletedAt: \"deleted_at\",\n      indexes: ["
+  }
+]

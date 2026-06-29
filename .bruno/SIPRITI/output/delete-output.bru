@@ -1,0 +1,44 @@
+meta {
+  name: Delete Output
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{host}}/api/outputs/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-output-uuid-here
+}
+
+docs {
+  # DELETE /api/outputs/:id
+
+  Menghapus output. Memerlukan permission `delete_output`.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID output yang ingin dihapus |
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Output berhasil dihapus",
+    "data": null
+  }
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 403 | Tidak memiliki permission delete_output |
+  | 404 | Output tidak ditemukan |
+}

@@ -1,0 +1,95 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/usulan-pengabdian?page=1&limit=10
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  page: 1
+  limit: 10
+}
+
+docs {
+  # List Usulan Pengabdian
+  
+  ## API Endpoint
+  `GET /api/usulan-pengabdian`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Query Parameters)
+  
+  ```typescript
+  interface ListPengabdianQuery {
+    page?: number;           // Default: 1
+    limit?: number;          // Default: 10
+    status?: string;         // Filter status
+    tahun_akademik?: string; // Filter tahun
+  }
+  ```
+  
+  | Param | Type | Required | Default |
+  |-------|------|----------|---------|
+  | page | number | ❌ | 1 |
+  | limit | number | ❌ | 10 |
+  | status | string | ❌ | - |
+  | tahun_akademik | string | ❌ | - |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil daftar usulan pengabdian",
+    "data": [
+      {
+        "id": "uuid",
+        "judul": "Program Pelatihan Kewirausahaan Digital",
+        "abstrak": "Pelatihan untuk...",
+        "status": "Draft",
+        "tipe_usulan": "pengabdian",
+        "peran": "Ketua",
+        "createdAt": "2025-01-08T10:00:00.000Z",
+        "ketua": {
+          "id": "uuid",
+          "name": "Dr. Ahmad Fauzi"
+        },
+        "tahunAkademik": {
+          "id": "uuid",
+          "tahun": "2024/2025"
+        }
+      }
+    ],
+    "meta": {
+      "page": 1,
+      "limit": 10,
+      "total": 15,
+      "totalPages": 2
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+}

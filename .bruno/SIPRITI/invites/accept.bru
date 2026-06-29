@@ -1,0 +1,75 @@
+meta {
+  name: accept
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{host}}/api/invites/:id/accept
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{member_proposal_id}}
+}
+
+docs {
+  # Accept Invite
+  
+  ## API Endpoint
+  `POST /api/invites/:id/accept`
+  
+  **Auth Required:** ✅ Bearer Token
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID MemberProposal |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Undangan berhasil diterima",
+    "data": {
+      "id": "uuid",
+      "status_invite": "accepted",
+      "acceptedAt": "2025-01-08T10:00:00.000Z"
+    }
+  }
+  ```
+
+  ### Success (already accepted)
+  ```json
+  {
+    "success": true,
+    "message": "Undangan sudah diterima sebelumnya",
+    "data": {
+      "id": "uuid",
+      "status_invite": "accepted"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+  | 403 | Undangan bukan untuk Anda |
+  | 404 | Undangan tidak ditemukan |
+}

@@ -1,0 +1,28 @@
+meta {
+  name: by-prodi
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{host}}/api/penelitian/by-prodi?prodi_id={{prodi_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  prodi_id: {{prodi_id}}
+}
+
+docs {
+  # List Usulan Penelitian by Prodi
+  
+  ## API Endpoint
+  `GET /api/penelitian/by-prodi`
+  
+  Endpoint koordinator untuk melihat usulan berdasarkan prodi.
+}

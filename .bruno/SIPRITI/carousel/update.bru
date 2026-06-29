@@ -1,0 +1,91 @@
+meta {
+  name: update
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{host}}/api/carousel/:id
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{carousel_id}}
+}
+
+body:multipart-form {
+  ~image: @file(./new-carousel-image.jpg)
+  ~title: Updated Title
+  ~is_active: true
+  ~page: capaian
+}
+
+docs {
+  # Update Carousel
+  
+  ## API Endpoint
+  `PUT /api/carousel/:id`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## DTO (Request)
+  
+  ### Path Parameters
+  | Param | Type | Required |
+  |-------|------|----------|
+  | id | UUID | ✅ |
+  
+  ### Body (multipart/form-data)
+  ```typescript
+  interface UpdateCarouselDTO {
+    image?: File;         // Optional - Gambar baru
+    title?: string;       // Optional - Judul baru
+    is_active?: boolean;  // Optional - Status aktif
+    page?: string;        // Optional - Halaman target
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | image | File | ❌ | Image files |
+  | title | string | ❌ | Max 255 char |
+  | is_active | boolean | ❌ | - |
+  | page | string | ❌ | "capaian"/"home" |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Carousel berhasil diupdate",
+    "data": {
+      "id": "uuid",
+      "title": "Updated Title",
+      "image_url": "/uploads/carousel/img.jpg",
+      "is_active": true,
+      "page": "capaian"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+  | 403 | Akses ditolak |
+  | 404 | Carousel tidak ditemukan |
+}

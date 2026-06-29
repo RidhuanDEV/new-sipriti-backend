@@ -1,0 +1,24 @@
+meta {
+  name: Restore Panduan
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{host}}/api/panduan/:id/restore
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-panduan-uuid-here
+}
+
+docs {
+  # POST /api/panduan/:id/restore
+
+  Memulihkan panduan yang telah dihapus (soft-delete).
+
+  ## Permission Required
+  - `delete_panduan` atau `manage_panduan`
+}

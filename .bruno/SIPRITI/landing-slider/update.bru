@@ -1,0 +1,26 @@
+meta {
+  name: update
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{host}}/api/landing-slider/:id
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+
+body:multipart-form {
+  title: Slider Updated
+  description: Deskripsi baru
+  btn_text: Lihat Detail
+  btn_link: /pengabdian
+  btn_color: #10b981
+  order_index: 2
+  status: active
+}

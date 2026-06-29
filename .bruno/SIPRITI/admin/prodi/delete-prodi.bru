@@ -1,0 +1,56 @@
+meta {
+  name: Delete Prodi
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{host}}/api/admin/prodi/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-prodi-uuid-here
+}
+
+docs {
+  # DELETE /api/admin/prodi/:id
+  
+  Menghapus program studi.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID prodi yang ingin dihapus |
+  
+  ## Response Success (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Prodi berhasil dihapus"
+  }
+  ```
+  
+  ## Response Error (404)
+  ```json
+  {
+    "success": false,
+    "message": "Prodi tidak ditemukan"
+  }
+  ```
+  
+  ## Response Error (400 - Bad Request)
+  ```json
+  {
+    "success": false,
+    "message": "Tidak dapat menghapus prodi. Terdapat 5 pengguna yang terkait."
+  }
+  ```
+  
+  ## Notes
+  - Prodi tidak dapat dihapus jika masih ada user yang terkait
+  - Pastikan untuk memindahkan user ke prodi lain sebelum menghapus
+}

@@ -1,0 +1,102 @@
+meta {
+  name: add-substansi-luaran
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{host}}/api/monev/:proposalId/substansi-luaran
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  proposalId: {{proposal_id}}
+}
+
+body:multipart-form {
+  nama_makro_riset: Bidang Teknologi Informasi
+  substansi: Pengembangan aplikasi berbasis AI
+  jenis_luaran: Jurnal Nasional
+  target: Terbit di jurnal terakreditasi SINTA 2
+  file: @file(path/to/luaran.pdf)
+}
+
+docs {
+  # Add Substansi & Luaran
+  
+  ## API Endpoint
+  `POST /api/monev/:proposalId/substansi-luaran`
+  
+  **Auth Required:** ✅  
+  **Role Required:** All authenticated users
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | proposalId | UUID | ✅ | ID proposal |
+  
+  ## DTO (Request Body - multipart/form-data)
+  
+  ```typescript
+  interface AddSubstansiLuaranDTO {
+    nama_makro_riset: string; // Required
+    substansi: string;        // Required
+    urutan_tahun?: number;    // Optional
+    kelompok_luaran?: string; // Optional
+    jenis_luaran?: string;    // Optional
+    target?: string;          // Optional
+    keterangan?: string;      // Optional
+    file?: File;              // Optional - File pendukung
+  }
+  ```
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | nama_makro_riset | string | ✅ | Nama makro riset |
+  | substansi | string | ✅ | Substansi |
+  | urutan_tahun | number | ❌ | Urutan tahun |
+  | kelompok_luaran | string | ❌ | Kelompok luaran |
+  | jenis_luaran | string | ❌ | Jenis luaran |
+  | target | string | ❌ | Target luaran |
+  | keterangan | string | ❌ | Keterangan |
+  | file | File | ❌ | File pendukung |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201)
+  ```json
+  {
+    "success": true,
+    "message": "Substansi & luaran berhasil ditambahkan",
+    "data": {
+      "id": "uuid-substansi",
+      "haki_proposal_id": "uuid-proposal",
+      "nama_makro_riset": "Bidang Teknologi Informasi",
+      "substansi": "Pengembangan aplikasi berbasis AI",
+      "jenis_luaran": "Jurnal Nasional",
+      "target": "Terbit di jurnal terakreditasi SINTA 2",
+      "file_url": "/uploads/proposals/luaran.pdf"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 400 | Nama Makro Riset wajib diisi |
+  | 400 | Substansi wajib diisi |
+  | 401 | Token tidak valid |
+}

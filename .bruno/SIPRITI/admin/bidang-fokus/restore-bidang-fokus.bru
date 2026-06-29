@@ -1,0 +1,24 @@
+meta {
+  name: Restore Bidang Fokus
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{host}}/api/admin/bidang-fokus/:id/restore
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-bidang-fokus-uuid-here
+}
+
+docs {
+  # POST /api/admin/bidang-fokus/:id/restore
+
+  Memulihkan bidang fokus yang telah dihapus (soft-delete).
+
+  ## Permission Required
+  - `delete_bidang_fokus`
+}

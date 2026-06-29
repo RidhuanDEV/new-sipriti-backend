@@ -1,0 +1,50 @@
+meta {
+  name: Get All Users With Roles
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/rbac/users
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-CSRF-Token: {{csrfToken}}
+}
+
+docs {
+  # Get All Users With Roles
+  
+  Mengambil semua users beserta roles yang dimiliki.
+  
+  ## Response
+  
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil data users",
+    "data": [
+      {
+        "id": "uuid",
+        "username": "admin",
+        "name": "Administrator",
+        "email": "admin@example.com",
+        "roles": [
+          {
+            "id": "uuid",
+            "name": "admin",
+            "description": "Administrator"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+  
+  ## Permission Required
+  
+  - `assign_roles` atau `manage_users`
+}

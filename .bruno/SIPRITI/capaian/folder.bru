@@ -1,0 +1,27 @@
+meta {
+  name: capaian
+  seq: 4
+}
+
+docs {
+  # Capaian API
+  
+  Endpoints untuk statistik dan capaian (Public).
+  
+  ## Base URL
+  `/api/capaian`
+  
+  ## Endpoints Overview
+  
+  | Method | Endpoint | Auth | Description |
+  |--------|----------|------|-------------|
+  | GET | /publikasi-pivot | ❌ | Pivot table publikasi per tahun |
+  | GET | /stats | ❌ | Semua statistik gabungan |
+  | GET | /stats/dana-hibah | ❌ | Total dana hibah |
+  | GET | /stats/mitra-riset | ❌ | Total mitra kerja riset |
+  | GET | /stats/hki | ❌ | Total HKI |
+  | GET | /stats/publikasi | ❌ | Total publikasi |
+  | GET | /static-content | ❌ | Konten statis capaian |
+  
+  **Note:** Semua endpoint ini **PUBLIC** (tidak perlu auth)
+}

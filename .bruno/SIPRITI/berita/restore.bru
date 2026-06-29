@@ -1,0 +1,24 @@
+meta {
+  name: Restore Berita
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{host}}/api/berita/:id/restore
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-berita-uuid-here
+}
+
+docs {
+  # POST /api/berita/:id/restore
+
+  Memulihkan berita yang telah dihapus (soft-delete).
+
+  ## Permission Required
+  - `delete_berita` atau `manage_berita`
+}

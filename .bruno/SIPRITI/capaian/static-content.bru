@@ -1,0 +1,43 @@
+meta {
+  name: static-content
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{host}}/api/capaian/static-content
+  body: none
+  auth: inherit
+}
+
+docs {
+  # Get Static Content
+  
+  ## API Endpoint
+  `GET /api/capaian/static-content`
+  
+  **Auth Required:** ❌ Public
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil konten statis",
+    "data": {
+      "banner": {
+        "title": "Capaian PRPM",
+        "subtitle": "Prestasi dan Pencapaian",
+        "image_url": "/uploads/banner/capaian.jpg"
+      },
+      "tentang": {
+        "title": "Tentang PRPM",
+        "content": "Deskripsi tentang PRPM..."
+      }
+    }
+  }
+  ```
+}

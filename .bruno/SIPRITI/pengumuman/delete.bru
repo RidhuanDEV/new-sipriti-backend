@@ -1,0 +1,60 @@
+meta {
+  name: delete
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{host}}/api/pengumuman/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{pengumuman_id}}
+}
+
+docs {
+  # Delete Pengumuman
+  
+  ## API Endpoint
+  `DELETE /api/pengumuman/:id`
+  
+  **Auth Required:** ✅  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID pengumuman |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Pengumuman berhasil dihapus",
+    "data": null
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 401 | Token tidak valid |
+  | 403 | Akses ditolak |
+  | 404 | Pengumuman tidak ditemukan |
+}

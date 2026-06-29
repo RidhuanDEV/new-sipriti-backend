@@ -22,7 +22,14 @@ export class RoleRepository {
   }
 
   async create(data: CreateRoleDto, trx?: Transaction): Promise<Role> {
-    return Role.create(data, trx ? { transaction: trx } : undefined);
+    return Role.create(
+      {
+        name: data.name,
+        description: data.description ?? null,
+        isActive: data.is_active ?? true,
+      },
+      trx ? { transaction: trx } : undefined,
+    );
   }
 
   async update(
@@ -37,6 +44,8 @@ export class RoleRepository {
     if (!record) return null;
     const fields: Partial<InferAttributes<Role>> = {};
     if (data.name !== undefined) fields.name = data.name;
+    if (data.description !== undefined) fields.description = data.description;
+    if (data.is_active !== undefined) fields.isActive = data.is_active;
     return record.update(fields, trx ? { transaction: trx } : undefined);
   }
 

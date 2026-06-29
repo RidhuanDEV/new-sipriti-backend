@@ -1,0 +1,91 @@
+meta {
+  name: Assign Roles to User
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/rbac/users/:userId/roles
+  body: json
+  auth: none
+}
+
+params:path {
+  userId: {{userId}}
+}
+
+headers {
+  Content-Type: application/json
+  X-CSRF-Token: {{csrfToken}}
+}
+
+body:json {
+  {
+    "roleIds": [
+      "uuid-role-1",
+      "uuid-role-2"
+    ]
+  }
+}
+
+docs {
+  # Assign Roles to User
+  
+  Mengganti/assign roles untuk user tertentu.
+  Roles sebelumnya akan dihapus dan diganti dengan roles baru.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | userId | UUID | ID user yang akan di-assign roles |
+  
+  ## Request Body
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | roleIds | UUID[] | Yes | Array of role IDs untuk di-assign |
+  
+  ## Response (Success)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengassign roles ke user",
+    "data": {
+      "id": "uuid",
+      "username": "user123",
+      "name": "User Name",
+      "roles": [
+        {
+          "id": "uuid-role-1",
+          "name": "dosen"
+        },
+        {
+          "id": "uuid-role-2",
+          "name": "kaprodi"
+        }
+      ]
+    }
+  }
+  ```
+  
+  ## Error Response
+  
+  ```json
+  {
+    "success": false,
+    "message": "User tidak ditemukan",
+    "error": "Not Found"
+  }
+  ```
+  
+  ## Permission Required
+  
+  - `assign_roles`
+  
+  ## CSRF Protection
+  
+  Request ini membutuhkan CSRF token di header `X-CSRF-Token`.
+  Token dapat diambil dari cookie `XSRF-TOKEN`.
+}

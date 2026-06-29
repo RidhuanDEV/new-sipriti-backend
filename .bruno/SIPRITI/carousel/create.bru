@@ -1,0 +1,81 @@
+meta {
+  name: create
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{host}}/api/carousel
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  image: @file(./carousel-image.jpg)
+  ~title: Banner Title
+  is_active: true
+  page: capaian
+}
+
+docs {
+  # Create Carousel
+  
+  ## API Endpoint
+  `POST /api/carousel`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## DTO (Request Body - multipart/form-data)
+  
+  ```typescript
+  interface CreateCarouselDTO {
+    image: File;          // Required - Gambar carousel
+    title?: string;       // Optional - Judul
+    is_active?: boolean;  // Optional - Default: true
+    page?: string;        // Optional - Default: "capaian"
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | image | File | ✅ | Image files (jpg, png, webp) |
+  | title | string | ❌ | Max 255 karakter |
+  | is_active | boolean | ❌ | true/false |
+  | page | string | ❌ | "capaian"/"home" |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201 Created)
+  ```json
+  {
+    "success": true,
+    "message": "Carousel berhasil dibuat",
+    "data": {
+      "id": "uuid",
+      "title": "Banner Title",
+      "image_url": "/uploads/carousel/img123.jpg",
+      "is_active": true,
+      "page": "capaian"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 400 | Gambar wajib diupload |
+  | 401 | Token tidak valid |
+  | 403 | Akses ditolak |
+}

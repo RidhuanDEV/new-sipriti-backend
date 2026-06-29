@@ -1,0 +1,32 @@
+meta {
+  name: delete
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{host}}/api/products/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: {{product_id}}
+}
+
+docs {
+  # Delete Product
+  
+  ## API Endpoint
+  `DELETE /api/products/:id`
+  
+  ---
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Produk berhasil dihapus"
+  }
+  ```
+}

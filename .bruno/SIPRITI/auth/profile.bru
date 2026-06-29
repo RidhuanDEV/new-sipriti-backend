@@ -1,0 +1,15 @@
+meta {
+  name: profile
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{host}}/api/auth/profile
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

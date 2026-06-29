@@ -1,0 +1,83 @@
+meta {
+  name: search
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{host}}/api/usulan-penelitian/search
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "keyword": "AI",
+    "status": "Disetujui",
+    "tahun_akademik_id": "{{tahun_akademik_id}}"
+  }
+}
+
+docs {
+  # Search Usulan Penelitian
+  
+  ## API Endpoint
+  `POST /api/usulan-penelitian/search`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** admin, dosen, mahasiswa
+  
+  ---
+  
+  ## DTO (Request Body)
+  
+  ```typescript
+  interface SearchPenelitianDTO {
+    keyword?: string;          // Kata kunci pencarian
+    status?: string;           // Filter status
+    tahun_akademik_id?: string; // Filter tahun akademik
+  }
+  ```
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | keyword | string | ❌ | Cari di judul/abstrak |
+  | status | string | ❌ | Draft/Pending/Disetujui/Ditolak |
+  | tahun_akademik_id | UUID | ❌ | Filter tahun |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mencari usulan penelitian",
+    "data": [
+      {
+        "id": "uuid",
+        "judul": "Pengembangan AI",
+        "status": "Disetujui",
+        "ketua": { "name": "Dr. Ahmad" },
+        "tahunAkademik": { "tahun": "2024/2025" }
+      }
+    ],
+    "meta": {
+      "total": 5
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+}

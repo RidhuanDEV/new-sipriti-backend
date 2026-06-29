@@ -1,0 +1,47 @@
+meta {
+  name: search-anggota
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{host}}/api/usulan/search-anggota?keyword=ahmad
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  keyword: ahmad
+}
+
+docs {
+  # Search Anggota
+  
+  ## API Endpoint
+  `GET /api/usulan/search-anggota`
+  
+  **Auth Required:** ✅ Bearer Token
+  
+  ---
+  
+  ## Query Parameters
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | keyword | string | ❌ | Kata kunci pencarian anggota |
+  
+  ---
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mencari anggota",
+    "data": []
+  }
+  ```
+}

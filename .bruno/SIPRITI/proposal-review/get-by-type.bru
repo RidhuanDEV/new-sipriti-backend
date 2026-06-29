@@ -1,0 +1,44 @@
+meta {
+  name: get-by-type
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/api/proposal-review/:type?stage=koordinator
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:query {
+  stage: koordinator
+}
+
+params:path {
+  type: penelitian
+}
+
+docs {
+  # Get Proposals for Review by Type
+  
+  ## API Endpoint
+  `GET /api/proposal-review/:type`
+  
+  Mendapatkan daftar proposal yang siap di-review berdasarkan tipe (`penelitian` atau `pengabdian`).
+  
+  **Auth Required:** ✅ Bearer Token  
+  
+  ### Filter Otomatis Berdasarkan Role (RBAC):
+  Backend otomatis memfilter data yang dikembalikan berdasarkan permission dan prodi user:
+  - **Admin**: melihat semua proposal dalam status review (`Pending`).
+  - **Koordinator**: melihat proposal dari program studi yang sama, khusus yang berada di stage `koordinator`.
+  - **Kaprodi**: melihat proposal dari program studi yang sama, khusus yang berada di stage `kaprodi`.
+  - **Reviewer**: melihat proposal `hibah_internal` yang berada di stage `reviewer` (secara global, tidak dibatasi prodi, sesuai Phase 14).
+  
+  ### Query Parameters
+  - `stage`: filter berdasarkan stage tertentu (opsional). Contoh: `koordinator`, `kaprodi`, `reviewer`, `admin`.
+}

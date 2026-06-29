@@ -1,23 +1,46 @@
 import type { Response } from "express";
 import type { PaginationMeta } from "../types/index.js";
+import type { ApiSuccess } from "../types/api/common.js";
 
-interface SuccessOptions {
-  data?: unknown;
-  meta?: PaginationMeta;
+interface SuccessOptions<TData = unknown, TMeta = PaginationMeta> {
+  data?: TData | null;
+  meta?: TMeta;
+  message?: string;
   statusCode?: number;
 }
 
-export function sendSuccess(res: Response, options: SuccessOptions = {}): void {
-  const { data = null, meta, statusCode = 200 } = options;
-  const body: Record<string, unknown> = { success: true, data };
-  if (meta) {
-    body["meta"] = meta;
+export function sendSuccess<TData = unknown, TMeta = PaginationMeta>(
+  res: Response,
+  options: SuccessOptions<TData, TMeta> = {},
+): void {
+  const {
+    data,
+    meta,
+    message = "Berhasil",
+    statusCode = 200,
+  } = options;
+  const body: ApiSuccess<TData | null, TMeta> = {
+    success: true,
+    message,
+  };
+
+  if (data !== undefined) {
+    body.data = data;
   }
+
+  if (meta !== undefined) {
+    body.meta = meta;
+  }
+
   res.status(statusCode).json(body);
 }
 
-export function sendCreated(res: Response, data: unknown): void {
-  sendSuccess(res, { data, statusCode: 201 });
+export function sendCreated(
+  res: Response,
+  data: unknown,
+  message = "Berhasil dibuat",
+): void {
+  sendSuccess(res, { data, message, statusCode: 201 });
 }
 
 export function sendNoContent(res: Response): void {

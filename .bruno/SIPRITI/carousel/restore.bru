@@ -1,0 +1,24 @@
+meta {
+  name: Restore Carousel
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{host}}/api/carousel/:id/restore
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-carousel-uuid-here
+}
+
+docs {
+  # POST /api/carousel/:id/restore
+
+  Memulihkan item carousel yang telah dihapus (soft-delete).
+
+  ## Permission Required
+  - `delete_carousel` atau `manage_carousel`
+}

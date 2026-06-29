@@ -1,0 +1,48 @@
+meta {
+  name: Delete Monev
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{host}}/api/admin/monev/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-monev-uuid-here
+}
+
+docs {
+  # DELETE /api/admin/monev/:id
+  
+  Menghapus record Monev.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID monev yang akan dihapus |
+  
+  ## Response Success (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Monev berhasil dihapus"
+  }
+  ```
+  
+  ## Response Error (404)
+  ```json
+  {
+    "success": false,
+    "message": "Monev tidak ditemukan"
+  }
+  ```
+  
+  ## Notes
+  - Penghapusan bersifat permanen (hard delete)
+  - File dokumen terkait (berita_acara, form_penilaian) tidak otomatis dihapus
+}

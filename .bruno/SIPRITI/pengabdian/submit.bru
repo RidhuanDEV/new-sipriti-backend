@@ -1,0 +1,75 @@
+meta {
+  name: submit
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{host}}/api/usulan-pengabdian/:id/submit
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{pengabdian_id}}
+}
+
+docs {
+  # Submit Usulan Pengabdian
+  
+  ## API Endpoint
+  `POST /api/usulan-pengabdian/:id/submit`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Roles:** dosen, mahasiswa  
+  **Condition:** Status masih `Draft`
+  
+  ---
+  
+  ## Persyaratan Submit
+  1. Semua anggota Dosen dalam proposal harus sudah melakukan konfirmasi undangan (`status_invite = "accepted"`). Jika masih ada yang `pending`, request submit akan ditolak dengan error validation (400).
+  2. Tahap (`current_stage`) setelah submit otomatis diarahkan berdasarkan `tipe_pendanaan`:
+     - `reguler` -> `current_stage = "koordinator"`
+     - `hibah_internal` -> `current_stage = "kaprodi"`
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID usulan pengabdian |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengajukan usulan pengabdian",
+    "data": {
+      "id": "uuid",
+      "status": "Pending",
+      "submittedAt": "2025-01-08T10:00:00.000Z"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 400 | Usulan sudah disubmit sebelumnya |
+  | 400 | Semua anggota dosen harus menyetujui undangan terlebih dahulu |
+  | 401 | Token tidak valid |
+  | 403 | Anda tidak memiliki akses |
+  | 404 | Usulan tidak ditemukan |
+}

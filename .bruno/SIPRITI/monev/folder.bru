@@ -1,0 +1,37 @@
+meta {
+  name: monev
+  seq: 12
+}
+
+docs {
+  # Monitoring & Evaluasi (MONEV) API
+  
+  Endpoints untuk monitoring dan evaluasi proposal.
+  
+  **Base URL:** `/api/monev`
+  
+  ---
+  
+  ## Endpoints
+  
+  | Method | Endpoint | Description | Auth | Role |
+  |--------|----------|-------------|------|------|
+  | GET | `/` | List semua proposal | ✅ | Admin |
+  | GET | `/:proposalId` | Detail proposal | ✅ | All |
+  | POST | `/:proposalId/anggota` | Tambah anggota | ✅ | All |
+  | POST | `/:proposalId/substansi-luaran` | Tambah substansi & luaran | ✅ | All |
+  | POST | `/:proposalId/rab` | Tambah RAB | ✅ | All |
+  | POST | `/:proposalId/dokumen` | Tambah dokumen | ✅ | All |
+  | POST | `/:proposalId/mitra` | Tambah mitra | ✅ | All |
+  
+  ---
+  
+  ## Related Models
+  
+  - **HakiProposal** - Proposal utama
+  - **MemberProposal** - Anggota proposal
+  - **SubstansiLuaranProposal** - Substansi & luaran
+  - **RABProposal** - Rancangan Anggaran Biaya
+  - **DokumenPendukungProposal** - Dokumen pendukung
+  - **MitraProposal** - Mitra kerja sama
+}

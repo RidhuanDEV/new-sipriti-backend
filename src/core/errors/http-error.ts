@@ -1,35 +1,50 @@
+export type HttpErrorMessage = string | string[];
+
 export class HttpError extends Error {
   public readonly statusCode: number;
+  public readonly code: string;
   public readonly errors: unknown[];
+  public readonly responseMessage: HttpErrorMessage;
 
-  constructor(statusCode: number, message: string, errors: unknown[] = []) {
-    super(message);
+  constructor(
+    statusCode: number,
+    message: HttpErrorMessage,
+    code: string,
+    errors: unknown[] = [],
+  ) {
+    super(Array.isArray(message) ? message.join(", ") : message);
     this.statusCode = statusCode;
+    this.code = code;
     this.errors = errors;
+    this.responseMessage = message;
     Object.setPrototypeOf(this, HttpError.prototype);
   }
 
-  static badRequest(message = "Bad Request", errors: unknown[] = []) {
-    return new HttpError(400, message, errors);
+  static badRequest(
+    message: HttpErrorMessage = "Permintaan tidak valid",
+    errors: unknown[] = [],
+    code = "VALIDATION_ERROR",
+  ) {
+    return new HttpError(400, message, code, errors);
   }
 
-  static unauthorized(message = "Unauthorized") {
-    return new HttpError(401, message);
+  static unauthorized(message = "Harap login terlebih dahulu", code = "UNAUTHORIZED") {
+    return new HttpError(401, message, code);
   }
 
-  static forbidden(message = "Forbidden") {
-    return new HttpError(403, message);
+  static forbidden(message = "Akses ditolak", code = "FORBIDDEN") {
+    return new HttpError(403, message, code);
   }
 
-  static notFound(message = "Not Found") {
-    return new HttpError(404, message);
+  static notFound(message = "Data tidak ditemukan", code = "NOT_FOUND") {
+    return new HttpError(404, message, code);
   }
 
-  static conflict(message = "Conflict") {
-    return new HttpError(409, message);
+  static conflict(message = "Data sudah terdaftar", code = "DUPLICATE_ERROR") {
+    return new HttpError(409, message, code);
   }
 
-  static internal(message = "Internal Server Error") {
-    return new HttpError(500, message);
+  static internal(message = "Terjadi kesalahan pada server", code = "INTERNAL_ERROR") {
+    return new HttpError(500, message, code);
   }
 }

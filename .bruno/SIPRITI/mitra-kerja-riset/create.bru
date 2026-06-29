@@ -1,0 +1,83 @@
+meta {
+  name: create
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{host}}/api/mitra-kerja-riset
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "nama": "PT. Mitra Teknologi Indonesia",
+    "alamat": "Jl. Teknologi No. 1",
+    "kota": "Jakarta",
+    "negara": "Indonesia",
+    "kontak": "021-12345678",
+    "email": "info@mitratech.id"
+  }
+}
+
+docs {
+  # Create Mitra Kerja Riset
+  
+  ## API Endpoint
+  `POST /api/mitra-kerja-riset`
+  
+  **Auth Required:** ✅ Bearer Token  
+  **Role Required:** Admin
+  
+  ---
+  
+  ## DTO (Request Body)
+  
+  ```typescript
+  interface CreateMitraDTO {
+    nama: string;      // Required
+    alamat?: string;
+    kota?: string;
+    negara?: string;
+    kontak?: string;
+    email?: string;
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | nama | string | ✅ | - |
+  | alamat | string | ❌ | - |
+  | kota | string | ❌ | - |
+  | negara | string | ❌ | - |
+  | kontak | string | ❌ | - |
+  | email | string | ❌ | Valid email |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201 Created)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil membuat mitra kerja riset",
+    "data": { ... }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 400 | Nama wajib diisi |
+  | 401 | Token tidak valid |
+  | 403 | Akses ditolak |
+}

@@ -1,0 +1,40 @@
+meta {
+  name: Get Output Options
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/outputs/options
+  body: none
+  auth: inherit
+}
+
+docs {
+  # GET /api/outputs/options
+
+  Mengambil daftar output dalam format dropdown (id + label). Digunakan untuk mengisi field luaran pada form proposal.
+
+  ## Response Success (200)
+
+  ```json
+  {
+    "success": true,
+    "message": "Options output berhasil diambil",
+    "data": [
+      {
+        "value": "uuid-1",
+        "label": "Jurnal Nasional Terakreditasi"
+      },
+      {
+        "value": "uuid-2",
+        "label": "Jurnal Internasional"
+      },
+      {
+        "value": "uuid-3",
+        "label": "Prosiding Nasional"
+      }
+    ]
+  }
+  ```
+}

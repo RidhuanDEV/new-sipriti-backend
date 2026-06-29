@@ -1,0 +1,95 @@
+meta {
+  name: register
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{host}}/api/auth/register
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username": "newuser",
+    "password": "password123",
+    "confirmPassword": "password123",
+    "name": "New User",
+    "role_id": "{{role_id}}"
+  }
+}
+
+docs {
+  # Register
+  
+  ## API Endpoint
+  `POST /api/auth/register`
+  
+  **Auth Required:** No
+  
+  ---
+  
+  ## DTO (Request Body)
+  
+  ```typescript
+  interface RegisterDTO {
+    username: string;        // Required - Username unik
+    password: string;        // Required - Password
+    confirmPassword: string; // Required - Harus sama dengan password
+    name: string;            // Required - Nama lengkap
+    role_id?: string;        // Optional - UUID role
+    role?: string;           // Optional - nama role
+    email?: string;
+    nidn?: string;
+    prodi_id?: string;
+    institusi?: string;
+  }
+  ```
+  
+  | Field | Type | Required | Validation |
+  |-------|------|----------|------------|
+  | username | string | ✅ | Unique, 4-16 karakter, alnum+underscore |
+  | password | string | ✅ | Min 8 karakter |
+  | confirmPassword | string | ✅ | Harus sama dengan password |
+  | name | string | ✅ | Min 2 karakter |
+  | role_id / role | string | ✅* | Salah satu wajib diisi |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (201 Created)
+  ```json
+  {
+    "success": true,
+    "message": "Registrasi berhasil",
+    "data": {
+      "user": {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "username": "newuser",
+        "name": "New User",
+        "role_id": "role-uuid-here"
+      }
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Code | Message |
+  |--------|------|---------|  
+  | 400 | BAD_REQUEST | Password dan konfirmasi password harus sama |
+  | 400 | BAD_REQUEST | Role harus diisi |
+  | 400 | BAD_REQUEST | Username sudah digunakan |
+  
+  ### Error Example
+  ```json
+  {
+    "success": false,
+    "message": "Password dan konfirmasi password harus sama"
+  }
+  ```
+}

@@ -1,0 +1,42 @@
+meta {
+  name: Get Signature File
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{host}}/api/admin/signatures/:id/file
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: your-signature-uuid-here
+}
+
+docs {
+  # GET /api/admin/signatures/:id/file
+
+  Download atau tampilkan file PNG tanda tangan. Memerlukan permission `view_signature`.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | UUID | ID tanda tangan |
+
+  ## Response Success (200)
+
+  Stream binary file PNG:
+  ```
+  Content-Type: image/png
+  Content-Disposition: inline; filename="signature-<id>.png"
+  ```
+
+  ## Error Responses
+
+  | Status | Message |
+  |--------|---------|
+  | 403 | Tidak memiliki permission view_signature |
+  | 404 | Tanda tangan tidak ditemukan |
+}

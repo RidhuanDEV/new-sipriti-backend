@@ -1,0 +1,35 @@
+flowchart LR
+  Visitor["Pengunjung Portal Publik"]
+  Lecturer["Dosen / Peneliti"]
+  Kaprodi["Ketua Program Studi"]
+  KoordPenelitian["Koordinator Penelitian"]
+  KoordPengabdian["Koordinator Pengabdian"]
+  Reviewer["Reviewer / Validator"]
+  Admin["Admin PRPM"]
+  Operator["Operator PRPM"]
+
+  FE["Aplikasi Frontend SIPRITI"]
+  API["Backend API Express TypeScript"]
+  DB[("MySQL new_sipriti_db")]
+  Storage[("Penyimpanan Upload Lokal")]
+  Swagger["Swagger UI dan OpenAPI JSON"]
+  Audit[("Audit Log")]
+
+  Visitor --> FE
+  Lecturer --> FE
+  Kaprodi --> FE
+  KoordPenelitian --> FE
+  KoordPengabdian --> FE
+  Reviewer --> FE
+  Admin --> FE
+  Operator --> FE
+
+  FE -->|"REST JSON, Cookie JWT, CSRF Token"| API
+  API -->|"CRUD dan transaksi"| DB
+  API -->|"Validasi MIME, magic byte, UUID filename"| Storage
+  API -->|"Catatan aktivitas"| Audit
+  API -->|"Spesifikasi API"| Swagger
+
+  DB --> API
+  Storage --> API
+  Swagger --> FE

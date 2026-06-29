@@ -12,7 +12,7 @@ export const sequelize = new Sequelize(env.DATABASE_URL, {
   },
   define: {
     timestamps: true,
-    paranoid: true,
+    paranoid: false,
     underscored: true,
   },
 });

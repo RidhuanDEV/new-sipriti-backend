@@ -1,0 +1,61 @@
+meta {
+  name: mark-read
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{host}}/api/notifications/:id/read
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  id: {{notification_id}}
+}
+
+docs {
+  # Mark Notification as Read
+  
+  ## API Endpoint
+  `PUT /api/notifications/:id/read`
+  
+  **Auth Required:** ✅ Bearer Token
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Param | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | id | UUID | ✅ | ID notifikasi |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Notifikasi berhasil ditandai sebagai dibaca",
+    "data": {
+      "id": "uuid",
+      "status": "read"
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+  | 404 | Notifikasi tidak ditemukan |
+}

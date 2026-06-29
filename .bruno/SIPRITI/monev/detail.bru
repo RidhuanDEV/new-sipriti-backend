@@ -1,0 +1,77 @@
+meta {
+  name: detail
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/monev/:proposalId
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+params:path {
+  proposalId: {{proposal_id}}
+}
+
+docs {
+  # Get Monev Proposal Detail
+  
+  ## API Endpoint
+  `GET /api/monev/:proposalId`
+  
+  **Auth Required:** ✅  
+  **Role Required:** All authenticated users
+  
+  ---
+  
+  ## DTO (Path Parameters)
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | proposalId | UUID | ✅ | ID proposal (HakiProposal) |
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil detail proposal",
+    "data": {
+      "id": "uuid-proposal",
+      "judul": "Proposal Penelitian AI",
+      "file_url": "/uploads/proposals/proposal.pdf",
+      "status_usulan": "Disetujui",
+      "members": [
+        {
+          "id": "uuid-member",
+          "user_id": "uuid-user",
+          "peran": "Ketua",
+          "status_invite": "accepted",
+          "user": { "id": "uuid", "name": "Dr. John", "username": "john" }
+        }
+      ],
+      "substansiLuaran": [...],
+      "rab": [...],
+      "dokumenPendukung": [...],
+      "mitra": [...]
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|--------|
+  | 401 | Token tidak valid |
+  | 404 | Proposal tidak ditemukan |
+}

@@ -1,0 +1,15 @@
+meta {
+  name: get-by-id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/laporan-usulan/:id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

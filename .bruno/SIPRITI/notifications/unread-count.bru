@@ -1,0 +1,53 @@
+meta {
+  name: unread-count
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/notifications/unread-count
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  # Get Unread Count
+  
+  ## API Endpoint
+  `GET /api/notifications/unread-count`
+  
+  **Auth Required:** ✅ Bearer Token
+  
+  ---
+  
+  ## DTO (Request)
+  
+  No request body required.
+  
+  ---
+  
+  ## Response Structure
+  
+  ### Success (200 OK)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mendapatkan jumlah notifikasi belum dibaca",
+    "data": {
+      "count": 5
+    }
+  }
+  ```
+  
+  ---
+  
+  ## Error Responses
+  
+  | Status | Message |
+  |--------|---------|  
+  | 401 | Token tidak valid |
+}
